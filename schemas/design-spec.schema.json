@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Design Specification",
+    "type": "object",
+    "required": [
+        "phase",
+        "architectural_changes",
+        "component_impact",
+        "alternatives_considered"
+    ],
+    "properties": {
+        "phase": {
+            "type": "string",
+            "const": "design"
+        },
+        "architectural_changes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "component",
+                    "change_type",
+                    "description"
+                ],
+                "properties": {
+                    "component": {
+                        "type": "string"
+                    },
+                    "change_type": {
+                        "type": "string",
+                        "enum": [
+                            "NEW",
+                            "MODIFY",
+                            "DELETE",
+                            "REFACTOR"
+                        ]
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "component_impact": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "alternatives_considered": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "pros",
+                    "cons",
+                    "selected"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "pros": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "cons": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "selected": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        }
+    }
+}

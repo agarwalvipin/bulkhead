@@ -1,204 +1,103 @@
-# AI-Assisted SDLC: Flow & Governance
+# AI-Assisted SDLC: Flow & Governance (Hybrid Model)
 
-**Version:** 1.2.0  
+**Version:** 2.0.0 (Hybrid)  
 **Status:** Active  
-**System Authority:** Highest (Overrides ad-hoc decisions)
+**System Authority:** Highest  
 
 ---
 
 ## 1. System Philosophy
 
-- **Decoupling:** This system decouples Analysis (AI), Decision (Human), and Execution (Automation).
-- **State Persistence:** Every step writes a committed artifact. The system is resumable at any point.
-- **Security First:** Security analysis occurs *before* architectural decisions to prevent sunk costs.
-- **Scope Guard:** AI agents may not expand scope beyond defined artifacts and schemas without explicit human approval.
-- **Triage:** Workloads are classified early.
+1.  **The Double-Write Rule:** Every phase MUST produce two artifacts:
+    *   **Human Readable:** `.md` for reasoning and audit.
+    *   **Machine Enforceable:** `.json` for strict validation and automation.
+2.  **The Ledger is Truth:** State is maintained in the `architecture/` directory. If it involves a file change, it’s a commit.
+3.  **Strict Serialization:** Phases cannot be skipped. Phase N requires Phase N-1's artifacts.
+4.  **Separation of Powers:**
+    *   **AI:** Analyst, Designer, Coder.
+    *   **Human:** Strategic Decision Maker (Phase 4).
+    *   **Automation:** Enforcer (CI/CD).
 
 ---
 
-## 2. Master Workflow Diagram
+## 2. Master Workflow (The 8 Phases)
 
 ```mermaid
 flowchart TD
-    %% Styling
-    classDef ai fill:#e3f2fd, stroke: #1565c0,stroke-width: 2px;
-    classDef human fill:#fff9c4,stroke: #fbc02d,stroke-width:2px;
-    classDef auto fill:#e8f5e9,stroke: #2e7d32, stroke-width: 2px,stroke-dasharray: 55;
-
-    subgraph "Phase 1: Analysis & Context"
-        A[Start: Trigger] --> B(Triage Gate):::ai
-        B -->|Major Change| C[00-context<br/>Deep Context Capture]:::ai
-        B -->|Minor Fix| G[05-execution<br/>Fast-Track]:::auto
-        C --> D[01-architect-review]:::ai
-        D -->|Approved| E[02-refactor-analysis]:::ai
-        E --> F[03-security-gate]:::ai
+    subgraph "Phase 0-1: Analysis"
+        P0[Phase 0: Triage] -->|Major| P1[Phase 1: Context]
+        P0 -->|Minor| P7[Phase 7: Fast Track Verification]
     end
 
-    subgraph "Phase 2: Governance"
-        F -->|Risk Report| H{04-strategic-gate<br/>Rebuild vs Refactor}:::human
+    subgraph "Phase 2-3: Engineering"
+        P1 --> P2[Phase 2: Design]
+        P2 --> P3[Phase 3: Security]
     end
 
-    subgraph "Phase 3: Orchestration"
-        H -->|Decision Logged| I[05-execution-orchestrator<br/>Gen JSON Spec]:::auto
-        I --> J[GitHub Project/Issues]:::auto
-        J --> K[Context Slicer<br/>Gen per-ticket context]:::auto
+    subgraph "Phase 4: Governance"
+        P3 --> P4{Phase 4: Decision}
+        P4 -->|REFACTOR/REBUILD| P5[Phase 5: Plan]
+        P4 -->|ABORT| Stop
     end
 
-    subgraph "Phase 4: Delivery Loop"
-        K --> L[TDD/BDD Loop]:::ai
-        L --> M(CI Gates):::auto
-        M -->|Fail| L
-        M -->|Pass| N[Deployment]:::auto
+    subgraph "Phase 5-7: Delivery"
+        P5 --> P6[Phase 6: Execution]
+        P6 --> P7[Phase 7: Verification]
     end
-
-    %% Legend
-    linkStyle default stroke:#333, stroke-width:1px;
 ```
 
 ---
 
-## 3. Protocol & Gate Definitions
+## 3. Protocol Definitions
 
-### Phase 1: Analysis (AI Heavy)
+### Phase 0: Triage (Economic Control)
+*   **Goal:** Classify work to prevent over-engineering simple tasks.
+*   **Artifacts:** `00-triage.md`, `00-triage.json`
+*   **Schema:** `schemas/triage-decision.schema.json`
 
-#### Node B: Triage Gate
-- **Actor:** AI Agent (Router)
-- **Input:** Issue description / User Prompt
-- **Logic:**
-    - If complexity > 3/10 or involves architecture/security → **Major Change**.
-    - If typo, css-tweak, docs → **Minor Fix**.
-- **Override:** Human may force classification via label/command:
-    - `/triage major`
-    - `/triage minor`
-- **Output:** `triage-decision.json`
+### Phase 1: Context (Blast Radius)
+*   **Goal:** Identify dependencies, constraints, and the "Blast Radius".
+*   **Artifacts:** `01-context.md`, `01-context.json`
+*   **Schema:** `schemas/context-spec.schema.json`
 
-#### Node C: Context Capture
-- **Actor:** AI Agent (Researcher)
-- **Action:** Scans codebase, maps dependencies, identifies "Blast Radius".
-- **Output:** `architecture/00-context.md`
+### Phase 2: Design (Architecture)
+*   **Goal:** Propose technical solutions. The "Thinking" phase.
+*   **Artifacts:** `02-design.md`, `02-design.json`
+*   **Schema:** `schemas/design-spec.schema.json`
 
-#### Node F: Security Gate (CRITICAL)
-- **Actor:** AI Agent (SecOps) + Tools (SAST/SCA)
-- **Action:** Performs Threat Modeling on the proposed architecture.
-- **Output:** `architecture/03-security-report.md`
+### Phase 3: Security (Auditor)
+*   **Goal:** Threat modeling the *Design* before it is built.
+*   **Artifacts:** `03-security.md`, `03-security.json`
+*   **Schema:** `schemas/security-report.schema.json`
 
-### Phase 2: Governance (Human Authority)
+### Phase 4: Governance (The Human Firewall)
+*   **Goal:** Strategic Authorization.
+*   **Rule:** The AI **CANNOT** proceed past this point without a Human Signature.
+*   **Artifacts:** `04-decision.md` (Signed), `04-decision.json`
+*   **Schema:** `schemas/decision-record.schema.json`
 
-#### Node H: Strategic Gate (Rebuild vs. Refactor)
-- **Actor:** Human Lead
-- **Role Definition:** Accountable for strategic decisions. Must be listed in `CODEOWNERS`.
-- **Action:** Reviews the cost (Node E) vs. risk (Node F). Makes a binding decision.
-- **Artifact:** `architecture/04-decision-record.md` (See Schema below).
-- **ABORT Behavior:** If ABORT is selected:
-    1. No execution artifacts are created.
-    2. Architecture ledger is closed.
-    3. Issue is closed with rationale.
+### Phase 5: Plan (Orchestration)
+*   **Goal:** Convert the decision into a deterministic task list.
+*   **Artifacts:** `05-plan.md`, `05-plan.json`
+*   **Schema:** `schemas/execution-plan.schema.json`
 
-### Phase 3: Orchestration (Automation)
+### Phase 6: Execution (The Builder)
+*   **Goal:** Code generation based *strictly* on the Plan.
+*   **Artifacts:** `06-report.md` (Log of changes)
 
-#### Node G: Fast-Track Contract
-- **Applicability:** Only for Triage "Minor Fix".
-- **Mandatory:** Diff-only context, Unit tests, SAST-lite, Code-review gate.
-- **Forbidden:** Schema changes, Auth changes, Infrastructure changes.
-
-#### Node I: Execution Orchestrator
-- **Actor:** Automation Script / CI
-- **Input:** `04-decision-record.md`
-- **Action:** Parses the decision and generates a machine-readable project plan.
-- **Failure Handling:**
-    - Partial execution must be logged.
-    - Orchestrator must be idempotent (re-runs must not duplicate issues).
-- **Output:** `execution-plan.json` (See Schema below).
-
-#### Node K: Context Slicer (Enforcement)
-- **Actor:** Automation Script
-- **Action:** Generates strict access rules for the AI coder per ticket.
-- **Output:** `context-spec.json` (See Schema below).
-- **Rule:** CI fails if files outside `read_write` paths are modified.
+### Phase 7: Verification (The Gate)
+*   **Goal:** Prove it works.
+*   **Artifacts:** `07-verify.md`
 
 ---
 
-## 4. Artifact Schemas (The "Handshake")
+## 4. Artifact Schemas (The Handshake)
 
-**Enforcement:** Automation must reject artifacts with unknown or unsupported schema versions.
+All JSON artifacts used in the Double-Write rule must validate against the schemas located in `schemas/`.
 
-### Schema A: Decision Record (`04-decision-record.md`)
-**Why:** Humans must be explicit. AI cannot guess the strategy.
-
-```markdown
-# Strategic Decision: [Feature Name]
-**Date:** YYYY-MM-DD
-**Author:** [Human Name]
-
-## Decision
-[ ] **REFACTOR** (Modify existing code)
-[ ] **REBUILD** (Create new service/module)
-[ ] **ABORT** (Risk too high)
-
-## Rationale
-* Security Score: [High/Med/Low]
-* Tech Debt Impact: [Description]
-
-## Finality
-Once approved, this decision is binding. Changes require a new decision record.
-
-## Approval
-I authorize the AI to proceed with execution based on the plan in 02-refactor-analysis
-```
-
-### Schema B: Execution Plan (`execution-plan.json`)
-**Why:** This JSON drives the GitHub API. It must be strict and traceable.
-
-```json
-{
-  "version": "1.0",
-  "source_artifacts": [
-    "architecture/02-refactor-analysis.md",
-    "architecture/03-security-report.md"
-  ],
-  "strategy": "REFACTOR",
-  "milestone_title": "Auth System Upgrade v2",
-  "epics": [
-    {
-      "id": "EPIC-AUTH-01",
-      "owner": "team-auth",
-      "title": "Migrate User Schema",
-      "description": "Update DB schema to support OAuth2 provider columns.",
-      "tasks": [
-        {
-          "title": "Create Migration Script",
-          "type": "database",
-          "context_files": ["src/db/schema.ts", "migrations/"],
-          "acceptance_criteria": ["Run without errors", "Rollback works"]
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Schema C: Context Spec (`context-spec.json`)
-**Why:** Prevents AI from hallucinating edits outside the blast radius.
-
-```json
-{
-  "ticket_id": "ISSUE-123",
-  "read_only": ["src/utils/", "docs/"],
-  "read_write": ["src/auth/"],
-  "forbidden": ["infra/", "db/migrations/"]
-}
-```
-
----
-
-## 5. Recovery Protocol (Resumability)
-
-**Scenario:** The AI Agent crashes, or the session is lost during a long refactor.
-
-**Recovery Steps:**
-1. **Check the Ledger:** Look at the `architecture/` folder. Find the highest numbered file (e.g., `03-security-report.md`).
-2. **Resume:**
-    - If `04-decision-record.md` is **missing**: Trigger Human Review.
-    - If `04-decision-record.md` is **present**: Trigger Execution Orchestrator.
-
-**Rule:** Never re-run Analysis (Phase 1) if the artifacts already exist. Trust the ledger.
+1.  **Triage:** `triage-decision.schema.json`
+2.  **Context:** `context-spec.schema.json`
+3.  **Design:** `design-spec.schema.json`
+4.  **Security:** `security-report.schema.json`
+5.  **Decision:** `decision-record.schema.json`
+6.  **Plan:** `execution-plan.schema.json`

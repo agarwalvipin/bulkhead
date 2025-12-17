@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Security Report",
+    "type": "object",
+    "required": [
+        "phase",
+        "risk_score",
+        "threat_model",
+        "auth_review"
+    ],
+    "properties": {
+        "phase": {
+            "type": "string",
+            "const": "security"
+        },
+        "risk_score": {
+            "type": "string",
+            "enum": [
+                "LOW",
+                "MEDIUM",
+                "HIGH",
+                "CRITICAL"
+            ]
+        },
+        "threat_model": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "threat",
+                    "mitigation",
+                    "status"
+                ],
+                "properties": {
+                    "threat": {
+                        "type": "string"
+                    },
+                    "mitigation": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "MITIGATED",
+                            "ACCEPTED",
+                            "OPEN"
+                        ]
+                    }
+                }
+            }
+        },
+        "auth_review": {
+            "type": "object",
+            "required": [
+                "new_permissions",
+                "sensitive_data_exposure"
+            ],
+            "properties": {
+                "new_permissions": {
+                    "type": "boolean"
+                },
+                "sensitive_data_exposure": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
