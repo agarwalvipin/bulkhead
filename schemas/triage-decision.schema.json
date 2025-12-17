@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Triage Decision",
+  "type": "object",
+  "required": [
+    "complexity_score",
+    "classification",
+    "reason"
+  ],
+  "properties": {
+    "complexity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "MAJOR",
+        "MINOR"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "override_by_human": {
+      "type": "boolean"
+    }
+  }
+}

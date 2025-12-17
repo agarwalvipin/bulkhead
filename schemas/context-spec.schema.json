@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Context Specification",
+  "type": "object",
+  "required": [
+    "ticket_id",
+    "read_only",
+    "read_write",
+    "forbidden"
+  ],
+  "properties": {
+    "ticket_id": {
+      "type": "string"
+    },
+    "read_only": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "read_write": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
