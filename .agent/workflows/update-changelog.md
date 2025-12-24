@@ -66,15 +66,22 @@ Format:
 - Description of new feature
 ```
 
-### 6. Commit Changes
+### 6. Update README Version Badge
+
+Update the version badge in README.md:
+```bash
+sed -i 's/version-[0-9]*\.[0-9]*\.[0-9]*/version-X.Y.Z/' README.md
+```
+
+### 7. Commit Changes
 
 // turbo
 ```bash
-git add VERSION CHANGELOG.md
+git add VERSION CHANGELOG.md README.md
 git commit -m "chore(release): bump version to X.Y.Z"
 ```
 
-### 7. Optional: Create Git Tag
+### 8. Optional: Create Git Tag
 
 Ask user if they want to tag the release:
 
