@@ -222,7 +222,7 @@
                         <span class="font-bold text-xl tracking-tight text-slate-700">Bulk<span
                                 class="text-orange-500">head</span></span>
                         <span
-                            class="hidden sm:inline-block ml-2 px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full">v2.1.0</span>
+                            class="hidden sm:inline-block ml-2 px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full">v2.0.0</span>
                     </div>
                 </div>
                 <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-500">
@@ -646,78 +646,98 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-14">
                 <h2 class="text-3xl font-bold text-slate-900">Adaptive Rigor Framework</h2>
-                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">Configure governance intensity based on change type while preserving core principles.</p>
+                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">Configure governance intensity based on change type
+                    while preserving core principles.</p>
             </div>
 
             <!-- Rigor Profiles Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <!-- Sandbox -->
-                <div class="group p-6 bg-white rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:shadow-lg transition-all">
+                <div
+                    class="group p-6 bg-white rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:shadow-lg transition-all">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl">🧪</div>
-                        <span class="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full uppercase">Sandbox</span>
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl">🧪
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full uppercase">Sandbox</span>
                     </div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">Sandbox</h3>
-                    <p class="text-sm text-slate-600 mb-4">Rapid prototyping and throwaway spikes. Isolated from production.</p>
+                    <p class="text-sm text-slate-600 mb-4">Rapid prototyping and throwaway spikes. Isolated from
+                        production.</p>
                     <ul class="space-y-2 text-sm">
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-amber-100 rounded-full flex items-center justify-center mr-2 text-xs">⚡</span>
+                            <span
+                                class="w-5 h-5 bg-amber-100 rounded-full flex items-center justify-center mr-2 text-xs">⚡</span>
                             Lightweight JSON artifacts
                         </li>
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-amber-100 rounded-full flex items-center justify-center mr-2 text-xs">⚠️</span>
+                            <span
+                                class="w-5 h-5 bg-amber-100 rounded-full flex items-center justify-center mr-2 text-xs">⚠️</span>
                             Optional human gate
                         </li>
                         <li class="flex items-center text-red-600 font-medium">
-                            <span class="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center mr-2 text-xs">🚫</span>
+                            <span
+                                class="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center mr-2 text-xs">🚫</span>
                             Cannot merge to protected branches
                         </li>
                     </ul>
                 </div>
 
                 <!-- Standard -->
-                <div class="group p-6 bg-white rounded-2xl border-2 border-blue-300 hover:border-blue-500 hover:shadow-lg transition-all ring-4 ring-blue-100">
+                <div
+                    class="group p-6 bg-white rounded-2xl border-2 border-blue-300 hover:border-blue-500 hover:shadow-lg transition-all ring-4 ring-blue-100">
                     <div class="flex items-center justify-between mb-4">
                         <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">📋</div>
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full uppercase">Default</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full uppercase">Default</span>
                     </div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">Standard</h3>
                     <p class="text-sm text-slate-600 mb-4">Feature development and bug fixes. Balanced governance.</p>
                     <ul class="space-y-2 text-sm">
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-xs">✅</span>
+                            <span
+                                class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-xs">✅</span>
                             Full JSON for Phases 0, 4
                         </li>
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-xs">👤</span>
+                            <span
+                                class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-xs">👤</span>
                             Human gate required
                         </li>
                         <li class="flex items-center text-green-600 font-medium">
-                            <span class="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 text-xs">✓</span>
+                            <span
+                                class="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 text-xs">✓</span>
                             Can merge to any branch
                         </li>
                     </ul>
                 </div>
 
                 <!-- Maximum -->
-                <div class="group p-6 bg-white rounded-2xl border-2 border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all">
+                <div
+                    class="group p-6 bg-white rounded-2xl border-2 border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">🔒</div>
-                        <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full uppercase">Maximum</span>
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">🔒
+                        </div>
+                        <span
+                            class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full uppercase">Maximum</span>
                     </div>
                     <h3 class="text-xl font-bold text-slate-800 mb-2">Maximum</h3>
-                    <p class="text-sm text-slate-600 mb-4">Architecture and security-critical changes. Full audit trail.</p>
+                    <p class="text-sm text-slate-600 mb-4">Architecture and security-critical changes. Full audit trail.
+                    </p>
                     <ul class="space-y-2 text-sm">
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">📝</span>
+                            <span
+                                class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">📝</span>
                             Full JSON for all phases
                         </li>
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">👤</span>
+                            <span
+                                class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">👤</span>
                             Strict human signature
                         </li>
                         <li class="flex items-center text-slate-600">
-                            <span class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">📊</span>
+                            <span
+                                class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">📊</span>
                             Detailed audit logging
                         </li>
                     </ul>
@@ -743,10 +763,16 @@ auto_rigor_mapping:
             </div>
 
             <!-- Governance Safeguards -->
-            <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-sm text-yellow-800 flex items-start">
+            <div
+                class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-sm text-yellow-800 flex items-start">
                 <span class="text-yellow-500 mr-3 text-lg">⚠️</span>
                 <div>
-                    <strong>Sandbox Isolation Rule:</strong> Code developed under <code class="bg-yellow-100 px-1 rounded">sandbox</code> rigor cannot merge to protected branches (<code class="bg-yellow-100 px-1 rounded">main</code>, <code class="bg-yellow-100 px-1 rounded">develop</code>) without first running <code class="bg-yellow-100 px-1 rounded">/bulkhead promote</code> to upgrade to <code class="bg-yellow-100 px-1 rounded">standard</code>.
+                    <strong>Sandbox Isolation Rule:</strong> Code developed under <code
+                        class="bg-yellow-100 px-1 rounded">sandbox</code> rigor cannot merge to protected branches
+                    (<code class="bg-yellow-100 px-1 rounded">main</code>, <code
+                        class="bg-yellow-100 px-1 rounded">develop</code>) without first running <code
+                        class="bg-yellow-100 px-1 rounded">/bulkhead promote</code> to upgrade to <code
+                        class="bg-yellow-100 px-1 rounded">standard</code>.
                 </div>
             </div>
         </div>
@@ -805,7 +831,7 @@ auto_rigor_mapping:
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div class="text-center md:text-left">
                     <div class="text-white font-bold text-lg mb-2">Bulkhead Governance</div>
-                    <p class="text-sm">Version 2.1.0 • Hybrid + CI/CD</p>
+                    <p class="text-sm">Version 2.0.0 • Hybrid + CI/CD</p>
                 </div>
                 <div class="flex space-x-6 text-sm">
                     <a href="https://github.com/agarwalvipin/bulkhead"

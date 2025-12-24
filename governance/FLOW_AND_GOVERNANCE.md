@@ -1,6 +1,6 @@
 # AI-Assisted SDLC: Flow & Governance (Hybrid Model)
 
-**Version:** 2.1.0 (Hybrid + CI/CD)
+**Version:** 2.0.0 (Hybrid + CI/CD)
 **Status:** Active
 **System Authority:** Highest
 
@@ -91,7 +91,7 @@ We provide standard tooling to enforce this governance:
 
 ## 5. Adaptive Rigor Framework
 
-**Version:** 2.1.0+
+**Version:** 2.0.0+
 
 This section defines configurable rigor levels for different work contexts while preserving governance integrity.
 
