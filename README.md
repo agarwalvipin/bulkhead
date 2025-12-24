@@ -16,16 +16,16 @@ This repository hosts **Bulkhead**, a mature governance framework designed to en
 - **jq** (for manifest handling in update script).
 
 ### Your First Workflow
-1.  **Initialize**: Copy `templates/00-triage.template.md` to `architecture/00-triage.md`.
+1.  **Initialize**: Copy `.bulkhead/templates/00-triage.template.md` to `.bulkhead/architecture/00-triage.md`.
 2.  **Define**: Describe your change in the Triage document.
 3.  **Validate**: Run `pre-commit run --all-files` to check your JSON.
 4.  **Execute**: Follow the 8-phase workflow below.
 
 ## 📚 Documentation
-- **Core Governance**: [FLOW_AND_GOVERNANCE.md](governance/FLOW_AND_GOVERNANCE.md)
+- **Core Governance**: [FLOW_AND_GOVERNANCE.md](.bulkhead/governance/FLOW_AND_GOVERNANCE.md)
 - **Workflows**: [.agent/workflows/](.agent/workflows/)
-- **Schemas**: [schemas/](schemas/)
-- **Templates**: [templates/](templates/)
+- **Schemas**: [.bulkhead/schemas/](.bulkhead/schemas/)
+- **Templates**: [.bulkhead/templates/](.bulkhead/templates/)
 - **Examples**: [examples/](examples/)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
@@ -83,18 +83,35 @@ We use JSON Schema to strictly validate all governance artifacts.
 - **Local**: Pre-commit hooks ensure validity before commit.
 
 ## 📂 Project Structure
+
+### Source Repository (this repo)
 ```
 .
 ├── .agent/workflows/       # Agent instructions for each phase
-├── architecture/           # The "Ledger" - where your artifacts live
+├── .bulkhead/
+│   ├── architecture/       # Governance artifacts ledger
+│   ├── governance/         # Core rules and philosophy
+│   ├── schemas/            # JSON Schemas for validation
+│   ├── templates/          # Blank templates for new tasks
+│   └── update.sh           # Update script with merge support
 ├── examples/               # Complete worked examples
-├── governance/             # Core rules and philosophy
-├── schemas/                # JSON Schemas for validation
-├── templates/              # Blank templates for new tasks
 ├── VERSION                 # Current framework version
 ├── CHANGELOG.md            # Version history
-├── onboard.sh              # Onboarding script
-└── update.sh               # Update script with merge support
+└── onboard.sh              # Onboarding script
+```
+
+### Onboarded Project Structure
+```
+your-project/
+├── .agent/                 # Workflows (at root - agent convention)
+├── .bulkhead/
+│   ├── architecture/       # Your governance artifacts
+│   ├── governance/         # Philosophy docs
+│   ├── schemas/            # JSON Schemas
+│   ├── templates/          # Phase templates
+│   ├── manifest.json       # Version tracking
+│   └── update.sh           # Update script
+└── .github/workflows/      # CI/CD validation
 ```
 
 ## 📦 Onboarding to an Existing Project
@@ -111,22 +128,24 @@ cd bulkhead
 ```
 
 This will:
-- Copy all governance framework files
-- Create `.bulkhead-manifest.json` with version tracking
-- Set up the update script for future updates
+- Copy governance files into `.bulkhead/` directory
+- Copy `.agent/` workflows to project root
+- Create `.bulkhead/manifest.json` with version tracking and checksums
+- Detect and handle conflicts with existing files
 
 ### Manual Setup
 
 ```bash
-# Copy framework directories
+# Copy .agent to project root
 cp -r .agent /path/to/your/project/
-cp -r schemas /path/to/your/project/
-cp -r templates /path/to/your/project/
-cp -r governance /path/to/your/project/
-cp update.sh /path/to/your/project/
+
+# Create .bulkhead directory and copy contents
+mkdir -p /path/to/your/project/.bulkhead
+cp -r schemas templates governance /path/to/your/project/.bulkhead/
+cp update.sh /path/to/your/project/.bulkhead/
 
 # Create the architecture ledger
-mkdir -p /path/to/your/project/architecture
+mkdir -p /path/to/your/project/.bulkhead/architecture
 ```
 
 📖 See the full [Onboarding Guide](docs/onboarding.md) for details.
@@ -137,14 +156,14 @@ Once onboarded, you can update to the latest version:
 
 ```bash
 # Check for updates
-./update.sh --check
+.bulkhead/update.sh --check
 
 # Apply update (with backup and merge)
-./update.sh
+.bulkhead/update.sh
 ```
 
 The update script will:
-1. **Backup** your current files to `.bulkhead-backup/`
+1. **Backup** your current files to `.bulkhead/backup/`
 2. **Preserve** any local customizations via 3-way merge
 3. **Update** the manifest with the new version
 
