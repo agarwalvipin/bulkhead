@@ -5,6 +5,22 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-12-24
+
+### Added
+- Organized workflows into subdirectories: `core/`, `specialized/`, `integrations/`
+- New `github-project.md` workflow for Epic/Story management
+- New `phase-checkpoint.md` workflow for pre-execution validation
+- `.gitignore` file with Python, Node.js, and Bulkhead-specific patterns
+
+### Changed
+- Consolidated 6 specialized workflows into 2:
+  - `review.md` (merged: architect-review, code-review, security-architect)
+  - `modernization.md` (merged: rebuild-vs-refactor, refactoring-architect, system-modernization)
+- Updated README.md with new workflow structure documentation
+
+---
+
 ## [1.1.0] - 2025-12-24
 
 ### Added

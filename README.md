@@ -1,6 +1,6 @@
 # Bulkhead
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
@@ -23,11 +23,22 @@ This repository hosts **Bulkhead**, a mature governance framework designed to en
 
 ## 📚 Documentation
 - **Core Governance**: [FLOW_AND_GOVERNANCE.md](.bulkhead/governance/FLOW_AND_GOVERNANCE.md)
-- **Workflows**: [.agent/workflows/](.agent/workflows/)
 - **Schemas**: [.bulkhead/schemas/](.bulkhead/schemas/)
 - **Templates**: [.bulkhead/templates/](.bulkhead/templates/)
 - **Examples**: [examples/](examples/)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md)
+
+## 🔧 Workflows
+
+Workflows are organized in `.agent/workflows/`:
+
+| Directory | Purpose | Workflows |
+|-----------|---------|-----------|
+| `core/` | 8-phase SDLC | `phase-0-triage` through `phase-7-verify`, `phase-checkpoint` |
+| `specialized/` | Domain analysis | `review` (architecture/code/security), `modernization` |
+| `integrations/` | External tools | `github-project`, `update-changelog` |
+
+**Usage:** Invoke with slash commands: `/phase-0-triage`, `/review security`, `/modernization`
 
 ## ⚡ 8-Phase Workflow
 
