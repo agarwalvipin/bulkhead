@@ -1,10 +1,12 @@
 #!/bin/bash
 # Bulkhead Governance Framework - Update Script
-# Usage: .bulkhead/update.sh [--check] [--force]
+# Usage: .bulkhead/update.sh [--check] [--force] [--rollback [timestamp]] [--list-backups]
 #
 # Options:
-#   --check   Only check for updates, don't apply
-#   --force   Skip confirmation prompts
+#   --check          Only check for updates, don't apply
+#   --force          Skip confirmation prompts
+#   --rollback       Rollback to previous version (uses latest backup or specify timestamp)
+#   --list-backups   List available backups
 
 set -e
 
@@ -31,11 +33,24 @@ ROOT_COMPONENTS=(".agent")
 # Parse arguments
 CHECK_ONLY=false
 FORCE=false
-for arg in "$@"; do
-    case $arg in
-        --check) CHECK_ONLY=true ;;
-        --force) FORCE=true ;;
-        *) echo "Unknown option: $arg"; exit 1 ;;
+ROLLBACK=false
+ROLLBACK_TIMESTAMP=""
+LIST_BACKUPS=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --check) CHECK_ONLY=true; shift ;;
+        --force) FORCE=true; shift ;;
+        --rollback)
+            ROLLBACK=true
+            if [[ -n "$2" && ! "$2" =~ ^-- ]]; then
+                ROLLBACK_TIMESTAMP="$2"
+                shift
+            fi
+            shift
+            ;;
+        --list-backups) LIST_BACKUPS=true; shift ;;
+        *) echo "Unknown option: $1"; exit 1 ;;
     esac
 done
 
@@ -48,6 +63,127 @@ cleanup() {
     rm -rf "$TEMP_DIR" 2>/dev/null || true
 }
 trap cleanup EXIT
+
+# ============================================
+# LIST BACKUPS
+# ============================================
+if [ "$LIST_BACKUPS" = true ]; then
+    if [ ! -d "$BACKUP_DIR" ]; then
+        log_info "No backups found in $BACKUP_DIR"
+        exit 0
+    fi
+    
+    echo ""
+    log_info "Available backups:"
+    echo "─────────────────────────────────────────"
+    
+    # List backups sorted by date (newest first)
+    for backup in $(ls -1dr "$BACKUP_DIR"/*/ 2>/dev/null | head -10); do
+        timestamp=$(basename "$backup")
+        # Parse timestamp format: YYYYMMDD_HHMMSS
+        if [[ "$timestamp" =~ ^([0-9]{4})([0-9]{2})([0-9]{2})_([0-9]{2})([0-9]{2})([0-9]{2})$ ]]; then
+            formatted_date="${BASH_REMATCH[1]}-${BASH_REMATCH[2]}-${BASH_REMATCH[3]} ${BASH_REMATCH[4]}:${BASH_REMATCH[5]}:${BASH_REMATCH[6]}"
+        else
+            formatted_date="$timestamp"
+        fi
+        
+        # Check if manifest backup exists to get version
+        if [ -f "$backup/manifest.json" ]; then
+            version=$(jq -r '.bulkhead_version // "unknown"' "$backup/manifest.json" 2>/dev/null)
+            echo "  📦 $timestamp  (v$version)  →  $formatted_date"
+        else
+            echo "  📦 $timestamp  →  $formatted_date"
+        fi
+    done
+    
+    echo "─────────────────────────────────────────"
+    echo ""
+    log_info "To rollback: .bulkhead/update.sh --rollback [timestamp]"
+    log_info "If no timestamp specified, uses most recent backup."
+    exit 0
+fi
+
+# ============================================
+# ROLLBACK
+# ============================================
+if [ "$ROLLBACK" = true ]; then
+    if [ ! -d "$BACKUP_DIR" ]; then
+        log_error "No backups found in $BACKUP_DIR. Cannot rollback."
+        exit 1
+    fi
+    
+    # Determine which backup to use
+    if [ -n "$ROLLBACK_TIMESTAMP" ]; then
+        RESTORE_PATH="$BACKUP_DIR/$ROLLBACK_TIMESTAMP"
+        if [ ! -d "$RESTORE_PATH" ]; then
+            log_error "Backup not found: $ROLLBACK_TIMESTAMP"
+            log_info "Run --list-backups to see available backups."
+            exit 1
+        fi
+    else
+        # Use most recent backup
+        RESTORE_PATH=$(ls -1d "$BACKUP_DIR"/*/ 2>/dev/null | sort -r | head -1)
+        if [ -z "$RESTORE_PATH" ]; then
+            log_error "No backups available. Cannot rollback."
+            exit 1
+        fi
+        ROLLBACK_TIMESTAMP=$(basename "$RESTORE_PATH")
+    fi
+    
+    # Get version info from backup
+    if [ -f "$RESTORE_PATH/manifest.json" ]; then
+        RESTORE_VERSION=$(jq -r '.bulkhead_version // "unknown"' "$RESTORE_PATH/manifest.json")
+    else
+        RESTORE_VERSION="unknown"
+    fi
+    
+    log_warning "Rollback target: $ROLLBACK_TIMESTAMP (v$RESTORE_VERSION)"
+    
+    # Confirm rollback
+    if [ "$FORCE" != true ]; then
+        read -p "This will restore Bulkhead to the backup state. Continue? [y/N] " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            log_info "Rollback cancelled."
+            exit 0
+        fi
+    fi
+    
+    log_info "Restoring from backup..."
+    
+    # Restore .bulkhead components
+    for component in "${BULKHEAD_COMPONENTS[@]}"; do
+        if [ -d "$RESTORE_PATH/$component" ]; then
+            rm -rf "$BULKHEAD_DIR/$component"
+            cp -r "$RESTORE_PATH/$component" "$BULKHEAD_DIR/"
+            log_success "Restored .bulkhead/$component"
+        fi
+    done
+    
+    # Restore root components (.agent)
+    for component in "${ROOT_COMPONENTS[@]}"; do
+        if [ -d "$RESTORE_PATH/$component" ]; then
+            rm -rf "$component"
+            cp -r "$RESTORE_PATH/$component" .
+            log_success "Restored $component"
+        fi
+    done
+    
+    # Restore manifest
+    if [ -f "$RESTORE_PATH/manifest.json" ]; then
+        cp "$RESTORE_PATH/manifest.json" "$MANIFEST_FILE"
+        log_success "Restored manifest"
+    fi
+    
+    echo ""
+    log_success "Rollback complete! Restored to: $ROLLBACK_TIMESTAMP (v$RESTORE_VERSION)"
+    log_info "Note: The backup used for rollback has been preserved."
+    exit 0
+fi
+
+# ============================================
+# UPDATE LOGIC (original behavior)
+# ============================================
 
 # Check if we're in an onboarded project
 if [ ! -f "$MANIFEST_FILE" ]; then
