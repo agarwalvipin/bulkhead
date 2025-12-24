@@ -41,12 +41,27 @@ Present the proposed version and ask:
 > - Press Enter to accept
 > - Or specify a different version (e.g., `1.2.0`)
 
-### 4. Update VERSION File
+### 4. Update All Version Locations
 
-If version is being bumped:
+The following files contain version references that must be updated:
+
+| File | Location | Format |
+|------|----------|--------|
+| `VERSION` | Entire file | `X.Y.Z` |
+| `README.md` | Line 3 (badge) | `version-X.Y.Z` |
+| `CHANGELOG.md` | New section header | `## [X.Y.Z] - YYYY-MM-DD` |
+
 ```bash
+# Update VERSION file
 echo "X.Y.Z" > VERSION
+
+# Update README.md badge
+sed -i 's/version-[0-9]*\.[0-9]*\.[0-9]*/version-X.Y.Z/' README.md
 ```
+
+> [!NOTE]
+> `docs/index.html` contains example config snippets with version fields (e.g., `version: "2.0"`).
+> These are **example content**, not framework version references. Do not update them.
 
 ### 5. Update CHANGELOG.md
 
@@ -66,14 +81,8 @@ Format:
 - Description of new feature
 ```
 
-### 6. Update README.md
+### 6. Review README Content
 
-#### 6a. Update Version Badge
-```bash
-sed -i 's/version-[0-9]*\.[0-9]*\.[0-9]*/version-X.Y.Z/' README.md
-```
-
-#### 6b. Review README Content
 Check if any documentation needs updating based on the changes:
 - Project structure diagrams
 - Installation/setup instructions

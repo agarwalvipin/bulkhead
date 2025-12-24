@@ -5,6 +5,17 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2025-12-24
+
+### Changed
+- Flattened workflow structure from subdirectories (`core/`, `integrations/`, `specialized/`) to root `.agent/workflows/`
+- Renamed `review.md` to `code-review.md` for better discoverability
+
+### Fixed
+- Workflows now correctly discovered by Antigravity (subdirectories not supported)
+
+---
+
 ## [2.1.0] - 2025-12-24
 
 ### Added
