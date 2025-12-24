@@ -1,6 +1,6 @@
-# Onboarding SDLC AI to an Existing Project
+# Onboarding Bulkhead to an Existing Project
 
-This guide explains how to integrate the SDLC AI governance framework into your existing codebase.
+This guide explains how to integrate the Bulkhead governance framework into your existing codebase.
 
 ## Prerequisites
 
@@ -16,10 +16,10 @@ Run the onboarding script from this repository:
 
 ```bash
 # Clone this repo (if you haven't)
-git clone https://github.com/agarwalvipin/sdlc_ai.git
+git clone https://github.com/agarwalvipin/bulkhead.git
 
 # Run the onboarding script
-cd sdlc_ai
+cd bulkhead
 ./onboard.sh /path/to/your/project
 ```
 
@@ -34,7 +34,7 @@ If you prefer manual setup:
 ### Step 1: Copy Framework Directories
 
 ```bash
-# From the sdlc_ai repo root
+# From the bulkhead repo root
 cp -r .agent /path/to/your/project/
 cp -r schemas /path/to/your/project/
 cp -r templates /path/to/your/project/
@@ -60,7 +60,7 @@ mkdir -p /path/to/your/project/architecture
 ```bash
 cd /path/to/your/project
 git add .agent schemas templates governance .pre-commit-config.yaml .github
-git commit -m "feat: add SDLC AI governance framework"
+git commit -m "feat: add Bulkhead governance framework"
 ```
 
 ---

@@ -1,8 +1,8 @@
-# SDLC AI
+# Bulkhead
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
 
-This repository hosts the **SDLC AI** system, a mature governance framework designed to enforce security, architectural integrity, and deterministic execution in AI-assisted coding workflows.
+This repository hosts **Bulkhead**, a mature governance framework designed to enforce security, architectural integrity, and deterministic execution in AI-assisted coding workflows.
 
 ## 🚀 Quick Start
 
@@ -94,10 +94,10 @@ We use JSON Schema to strictly validate all governance artifacts.
 
 ```bash
 # Clone this repo
-git clone https://github.com/agarwalvipin/sdlc_ai.git
+git clone https://github.com/agarwalvipin/bulkhead.git
 
 # Run the onboarding script
-cd sdlc_ai
+cd bulkhead
 ./onboard.sh /path/to/your/project
 ```
 

@@ -1,6 +1,6 @@
-# SDLC AI Templates
+# Bulkhead Templates
 
-This directory contains blank templates for all 8 phases of the SDLC AI governance process.
+This directory contains blank templates for all 8 phases of the Bulkhead governance process.
 
 ## Usage
 

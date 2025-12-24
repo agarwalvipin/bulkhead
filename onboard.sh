@@ -1,5 +1,5 @@
 #!/bin/bash
-# SDLC AI Governance Framework - Onboarding Script
+# Bulkhead Governance Framework - Onboarding Script
 # Usage: ./onboard.sh /path/to/your/project
 
 set -e
@@ -19,7 +19,7 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "🚀 Onboarding SDLC AI Governance to: $TARGET_DIR"
+echo "🚀 Onboarding Bulkhead Governance to: $TARGET_DIR"
 
 # Copy .agent directory (workflows and rules)
 echo "📁 Copying .agent/ (workflows & rules)..."
@@ -56,5 +56,5 @@ echo ""
 echo "Next steps:"
 echo "  1. cd $TARGET_DIR"
 echo "  2. git add .agent schemas templates governance .pre-commit-config.yaml .github"
-echo "  3. git commit -m 'feat: add SDLC AI governance framework'"
+echo "  3. git commit -m 'feat: add Bulkhead governance framework'"
 echo "  4. Run /phase-0-triage to start your first governed change"
