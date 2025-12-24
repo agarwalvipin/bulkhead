@@ -5,6 +5,28 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-12-24
+
+### Added
+- **`/bulkhead` orchestrator workflow** - Unified entry point for 8-phase SDLC
+- **`/phase-status` dashboard** - Read-only governance status view
+- **Adaptive Rigor Framework** with three profiles:
+  - `sandbox` - Rapid prototyping (cannot merge to protected branches)
+  - `standard` - Feature development (default)
+  - `maximum` - Architecture/security-critical changes
+- New `config.schema.json` for `.bulkhead/config.yaml` validation
+- New `templates/config.yaml` with documented rigor options
+- Sandbox merge restrictions in `phase-checkpoint.md`
+- Section 5 "Adaptive Rigor Framework" in `FLOW_AND_GOVERNANCE.md`
+- Interactive Adaptive Rigor section in `docs/index.html`
+
+### Changed
+- Enhanced `phase-checkpoint.md` with rigor profile validation
+- Updated `README.md` with orchestrator commands and rigor documentation
+- Updated navigation in `docs/index.html`
+
+---
+
 ## [1.2.0] - 2025-12-24
 
 ### Added

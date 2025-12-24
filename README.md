@@ -1,6 +1,6 @@
 # Bulkhead
 
-![Version](https://img.shields.io/badge/version-1.2.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
@@ -34,11 +34,14 @@ Workflows are organized in `.agent/workflows/`:
 
 | Directory | Purpose | Workflows |
 |-----------|---------|-----------|
-| `core/` | 8-phase SDLC | `phase-0-triage` through `phase-7-verify`, `phase-checkpoint` |
+| `core/` | 8-phase SDLC | `bulkhead` (orchestrator), `phase-status`, `phase-0-triage` through `phase-7-verify`, `phase-checkpoint` |
 | `specialized/` | Domain analysis | `review` (architecture/code/security), `modernization` |
 | `integrations/` | External tools | `github-project`, `update-changelog` |
 
-**Usage:** Invoke with slash commands: `/phase-0-triage`, `/review security`, `/modernization`
+**Usage:** 
+- **Orchestrator:** `/bulkhead start <phase>`, `/bulkhead continue`, `/bulkhead status`
+- **Direct phase:** `/phase-0-triage`, `/phase-status`
+- **Specialized:** `/review security`, `/modernization`
 
 ## ⚡ 8-Phase Workflow
 
@@ -92,6 +95,21 @@ Every phase produces two artifacts:
 We use JSON Schema to strictly validate all governance artifacts.
 - **CI/CD**: GitHub Actions workflow automatically validates all PRs.
 - **Local**: Pre-commit hooks ensure validity before commit.
+
+### Adaptive Rigor Framework
+Configure governance intensity based on change type:
+
+| Profile | Use Case | JSON Artifacts | Human Gate |
+|---------|----------|----------------|------------|
+| `sandbox` | Prototyping | Lightweight | Optional (cannot merge to protected branches) |
+| `standard` | Features | Key phases (0, 4) | Required |
+| `maximum` | Architecture | All phases | Strict |
+
+Configure in `.bulkhead/config.yaml`:
+```yaml
+version: "2.0"
+rigor_profile: standard  # sandbox | standard | maximum
+```
 
 ## 📂 Project Structure
 

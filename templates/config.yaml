@@ -1,0 +1,47 @@
+# Bulkhead Configuration
+# Documentation: governance/FLOW_AND_GOVERNANCE.md
+
+version: "2.0"
+
+# Rigor profile: sandbox | standard | maximum
+# - sandbox:  Rapid prototyping, CANNOT merge to protected branches
+# - standard: Feature development (default)
+# - maximum:  Architecture/security-critical changes
+rigor_profile: standard
+
+# Sandbox restrictions (only apply when rigor_profile: sandbox)
+# sandbox_restrictions:
+#   blocked_branches:
+#     - main
+#     - master
+#     - develop
+#     - release/*
+#   promotion_required: true  # Must run /bulkhead promote before merge
+
+# Strict mode (only apply when rigor_profile: maximum)
+# strict_mode:
+#   require_json: true
+#   require_human_signature: true
+#   require_schema_validation: true
+#   block_on_warnings: false
+
+# Audit logging
+# audit:
+#   detailed_logging: false
+#   log_all_decisions: true
+#   retention_days: 90
+
+# GitHub Project integration
+# integrations:
+#   project_management:
+#     enabled: true
+#     provider: github_projects
+#     project_number: 1
+#     auto_create_epic: true
+#     auto_update_tracker: true
+
+# Auto-map Phase 0 classifications to rigor profiles
+# auto_rigor_mapping:
+#   MINOR: sandbox
+#   MAJOR: standard
+#   CRITICAL: maximum

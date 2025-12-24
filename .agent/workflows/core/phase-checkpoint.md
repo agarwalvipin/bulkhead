@@ -14,6 +14,48 @@ routes_to:
 
 ## Protocol
 
+### 0. Read Rigor Profile
+
+// turbo
+```bash
+# Check config for rigor profile
+if [ -f .bulkhead/config.yaml ]; then
+    RIGOR=$(grep rigor_profile .bulkhead/config.yaml | cut -d: -f2 | tr -d ' "')
+else
+    RIGOR="standard"
+fi
+echo "📋 Rigor Profile: $RIGOR"
+```
+
+**Rigor determines artifact requirements:**
+- `sandbox`: Lightweight JSON allowed, merge restrictions apply
+- `standard`: Full JSON for key phases (0, 4), lightweight for others
+- `maximum`: Full JSON for all phases, no exceptions
+
+---
+
+### 0.1 Sandbox Merge Check
+
+If rigor is `sandbox`, check branch protection:
+
+```bash
+BRANCH=$(git branch --show-current)
+BLOCKED_BRANCHES="main master develop"
+
+if [[ "$RIGOR" == "sandbox" ]]; then
+    for blocked in $BLOCKED_BRANCHES; do
+        if [[ "$BRANCH" == "$blocked" || "$BRANCH" == release/* ]]; then
+            echo "❌ SANDBOX VIOLATION: Cannot merge to $BRANCH"
+            echo "   Run /bulkhead promote to upgrade to standard rigor first"
+            exit 1
+        fi
+    done
+    echo "⚠️  Sandbox mode: Code cannot merge to protected branches"
+fi
+```
+
+---
+
 ### 1. Artifact Validation
 
 Check that all required files exist in `.bulkhead/architecture/`:

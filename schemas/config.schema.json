@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/agarwalvipin/bulkhead/schemas/config.schema.json",
+  "title": "Bulkhead Configuration",
+  "description": "Configuration schema for .bulkhead/config.yaml",
+  "type": "object",
+  "required": ["version"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration schema version",
+      "enum": ["2.0"]
+    },
+    "rigor_profile": {
+      "type": "string",
+      "description": "Rigor level for governance artifacts",
+      "enum": ["sandbox", "standard", "maximum"],
+      "default": "standard"
+    },
+    "strict_mode": {
+      "type": "object",
+      "description": "Additional controls for maximum rigor",
+      "properties": {
+        "require_json": {
+          "type": "boolean",
+          "description": "Require full JSON artifacts (not lightweight)",
+          "default": true
+        },
+        "require_human_signature": {
+          "type": "boolean",
+          "description": "Require human signature in Phase 4",
+          "default": true
+        },
+        "require_schema_validation": {
+          "type": "boolean",
+          "description": "Validate JSON against schemas",
+          "default": true
+        },
+        "block_on_warnings": {
+          "type": "boolean",
+          "description": "Treat warnings as errors",
+          "default": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "sandbox_restrictions": {
+      "type": "object",
+      "description": "Restrictions for sandbox rigor profile",
+      "properties": {
+        "blocked_branches": {
+          "type": "array",
+          "description": "Branches that sandbox code cannot merge to",
+          "items": { "type": "string" },
+          "default": ["main", "master", "develop", "release/*"]
+        },
+        "promotion_required": {
+          "type": "boolean",
+          "description": "Require /bulkhead promote before merge",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit logging configuration",
+      "properties": {
+        "detailed_logging": {
+          "type": "boolean",
+          "description": "Log all phase transitions and decisions",
+          "default": false
+        },
+        "log_all_decisions": {
+          "type": "boolean",
+          "description": "Log rigor level changes",
+          "default": true
+        },
+        "retention_days": {
+          "type": "integer",
+          "description": "Days to retain audit logs",
+          "minimum": 1,
+          "default": 90
+        }
+      },
+      "additionalProperties": false
+    },
+    "integrations": {
+      "type": "object",
+      "description": "External integrations",
+      "properties": {
+        "project_management": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "provider": {
+              "type": "string",
+              "enum": ["github_projects", "jira", "linear"],
+              "default": "github_projects"
+            },
+            "project_number": {
+              "type": "integer",
+              "description": "GitHub Project number"
+            },
+            "auto_create_epic": {
+              "type": "boolean",
+              "default": true
+            },
+            "auto_update_tracker": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "auto_rigor_mapping": {
+      "type": "object",
+      "description": "Map Phase 0 classifications to rigor profiles",
+      "properties": {
+        "MINOR": {
+          "type": "string",
+          "enum": ["sandbox", "standard"],
+          "default": "sandbox"
+        },
+        "MAJOR": {
+          "type": "string",
+          "enum": ["standard", "maximum"],
+          "default": "standard"
+        },
+        "CRITICAL": {
+          "type": "string",
+          "enum": ["maximum"],
+          "default": "maximum"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

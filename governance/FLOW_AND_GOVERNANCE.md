@@ -86,3 +86,65 @@ We provide standard tooling to enforce this governance:
     - **Local**: `pre-commit` hooks.
     - **Remote**: GitHub Actions.
 - **Templates**: Located in `templates/` for quick start.
+
+---
+
+## 5. Adaptive Rigor Framework
+
+**Version:** 2.1.0+
+
+This section defines configurable rigor levels for different work contexts while preserving governance integrity.
+
+### 5.1 Rigor Profiles
+
+| Profile | Use Case | JSON Artifacts | Human Gate | Merge Restrictions |
+|---------|----------|----------------|------------|-------------------|
+| `sandbox` | Prototyping, spikes | Lightweight | Optional | **Cannot merge to protected branches** |
+| `standard` | Feature development | Key phases (0,4) | Required | None |
+| `maximum` | Architecture, security | All phases | Required, strict | None |
+
+### 5.2 Configuration
+
+Rigor is configured via `.bulkhead/config.yaml`:
+
+```yaml
+version: "2.0"
+rigor_profile: standard
+```
+
+**If no config exists, defaults to `standard` rigor.**
+
+### 5.3 The Sandbox Isolation Rule
+
+Code developed under `sandbox` rigor **CANNOT** be merged to protected branches (`main`, `master`, `develop`, `release/*`) without first:
+
+1. Running `/bulkhead promote` to upgrade rigor to `standard`
+2. Generating missing JSON artifacts
+3. Passing Phase 4 human gate (if applicable)
+
+This preserves the **Human Firewall** principle for production code.
+
+### 5.4 Lightweight JSON
+
+Even in `sandbox` mode, the **Double-Write Rule** is preserved via lightweight JSON scaffolding:
+
+```json
+{
+  "schema_version": "1.0",
+  "rigor": "sandbox",
+  "phase": "02",
+  "status": "LIGHTWEIGHT",
+  "note": "Full JSON deferred - see .md for details"
+}
+```
+
+**JSON is never skipped entirely.** The automation toolchain always has a file to validate.
+
+### 5.5 Audit Logging
+
+All rigor level changes are logged to `.bulkhead/audit.log`:
+
+```
+2025-12-24T12:00:00+0530 RIGOR_SET sandbox -> standard (user: vipin)
+2025-12-24T12:30:00+0530 PROMOTE sandbox -> standard (all artifacts generated)
+```

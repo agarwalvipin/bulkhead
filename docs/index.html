@@ -228,6 +228,7 @@
                 <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-500">
                     <a href="#philosophy" class="hover:text-orange-600 transition-colors">Philosophy</a>
                     <a href="#workflow" class="hover:text-orange-600 transition-colors">8-Phase Flow</a>
+                    <a href="#rigor" class="hover:text-orange-600 transition-colors">Adaptive Rigor</a>
                     <a href="#schemas" class="hover:text-orange-600 transition-colors">Schemas</a>
                     <a href="#charts" class="hover:text-orange-600 transition-colors">Analytics</a>
                 </div>
@@ -635,6 +636,117 @@
                     <div class="chart-container">
                         <canvas id="decisionChart"></canvas>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Adaptive Rigor Section -->
+    <section id="rigor" class="py-20 bg-gradient-to-br from-purple-50 via-white to-orange-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="text-3xl font-bold text-slate-900">Adaptive Rigor Framework</h2>
+                <p class="text-slate-500 mt-3 max-w-2xl mx-auto">Configure governance intensity based on change type while preserving core principles.</p>
+            </div>
+
+            <!-- Rigor Profiles Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- Sandbox -->
+                <div class="group p-6 bg-white rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl">🧪</div>
+                        <span class="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-full uppercase">Sandbox</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Sandbox</h3>
+                    <p class="text-sm text-slate-600 mb-4">Rapid prototyping and throwaway spikes. Isolated from production.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-amber-100 rounded-full flex items-center justify-center mr-2 text-xs">⚡</span>
+                            Lightweight JSON artifacts
+                        </li>
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-amber-100 rounded-full flex items-center justify-center mr-2 text-xs">⚠️</span>
+                            Optional human gate
+                        </li>
+                        <li class="flex items-center text-red-600 font-medium">
+                            <span class="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center mr-2 text-xs">🚫</span>
+                            Cannot merge to protected branches
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Standard -->
+                <div class="group p-6 bg-white rounded-2xl border-2 border-blue-300 hover:border-blue-500 hover:shadow-lg transition-all ring-4 ring-blue-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">📋</div>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full uppercase">Default</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Standard</h3>
+                    <p class="text-sm text-slate-600 mb-4">Feature development and bug fixes. Balanced governance.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-xs">✅</span>
+                            Full JSON for Phases 0, 4
+                        </li>
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mr-2 text-xs">👤</span>
+                            Human gate required
+                        </li>
+                        <li class="flex items-center text-green-600 font-medium">
+                            <span class="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mr-2 text-xs">✓</span>
+                            Can merge to any branch
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Maximum -->
+                <div class="group p-6 bg-white rounded-2xl border-2 border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">🔒</div>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-full uppercase">Maximum</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Maximum</h3>
+                    <p class="text-sm text-slate-600 mb-4">Architecture and security-critical changes. Full audit trail.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">📝</span>
+                            Full JSON for all phases
+                        </li>
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">👤</span>
+                            Strict human signature
+                        </li>
+                        <li class="flex items-center text-slate-600">
+                            <span class="w-5 h-5 bg-purple-100 rounded-full flex items-center justify-center mr-2 text-xs">📊</span>
+                            Detailed audit logging
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Config Example -->
+            <div class="bg-slate-900 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <code class="text-green-400 font-mono text-sm">.bulkhead/config.yaml</code>
+                    </div>
+                    <span class="px-2 py-1 bg-slate-700 text-slate-300 text-xs font-medium rounded">YAML</span>
+                </div>
+                <pre class="text-sm font-mono text-blue-300 overflow-x-auto code-scroll">version: "2.0"
+rigor_profile: standard  # sandbox | standard | maximum
+
+# Auto-map Phase 0 classifications
+auto_rigor_mapping:
+  MINOR: sandbox
+  MAJOR: standard
+  CRITICAL: maximum</pre>
+            </div>
+
+            <!-- Governance Safeguards -->
+            <div class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-sm text-yellow-800 flex items-start">
+                <span class="text-yellow-500 mr-3 text-lg">⚠️</span>
+                <div>
+                    <strong>Sandbox Isolation Rule:</strong> Code developed under <code class="bg-yellow-100 px-1 rounded">sandbox</code> rigor cannot merge to protected branches (<code class="bg-yellow-100 px-1 rounded">main</code>, <code class="bg-yellow-100 px-1 rounded">develop</code>) without first running <code class="bg-yellow-100 px-1 rounded">/bulkhead promote</code> to upgrade to <code class="bg-yellow-100 px-1 rounded">standard</code>.
                 </div>
             </div>
         </div>
