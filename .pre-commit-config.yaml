@@ -4,30 +4,30 @@ repos:
     hooks:
       - id: check-jsonschema
         name: Validate Triage (Phase 0)
-        files: ^architecture/00-triage\.json$
-        args: ["--schemafile", "schemas/triage-decision.schema.json"]
+        files: ^\.bulkhead/architecture/00-triage\.json$
+        args: ["--schemafile", ".bulkhead/schemas/triage-decision.schema.json"]
         
       - id: check-jsonschema
         name: Validate Context (Phase 1)
-        files: ^architecture/01-context\.json$
-        args: ["--schemafile", "schemas/context-spec.schema.json"]
+        files: ^\.bulkhead/architecture/01-context\.json$
+        args: ["--schemafile", ".bulkhead/schemas/context-spec.schema.json"]
 
       - id: check-jsonschema
         name: Validate Design (Phase 2)
-        files: ^architecture/02-design\.json$
-        args: ["--schemafile", "schemas/design-spec.schema.json"]
+        files: ^\.bulkhead/architecture/02-design\.json$
+        args: ["--schemafile", ".bulkhead/schemas/design-spec.schema.json"]
 
       - id: check-jsonschema
         name: Validate Security (Phase 3)
-        files: ^architecture/03-security\.json$
-        args: ["--schemafile", "schemas/security-report.schema.json"]
+        files: ^\.bulkhead/architecture/03-security\.json$
+        args: ["--schemafile", ".bulkhead/schemas/security-report.schema.json"]
 
       - id: check-jsonschema
         name: Validate Decision (Phase 4)
-        files: ^architecture/04-decision\.json$
-        args: ["--schemafile", "schemas/decision-record.schema.json"]
+        files: ^\.bulkhead/architecture/04-decision\.json$
+        args: ["--schemafile", ".bulkhead/schemas/decision-record.schema.json"]
 
       - id: check-jsonschema
         name: Validate Plan (Phase 5)
-        files: ^architecture/05-plan\.json$
-        args: ["--schemafile", "schemas/execution-plan.schema.json"]
+        files: ^\.bulkhead/architecture/05-plan\.json$
+        args: ["--schemafile", ".bulkhead/schemas/execution-plan.schema.json"]

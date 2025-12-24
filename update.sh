@@ -1,6 +1,6 @@
 #!/bin/bash
 # Bulkhead Governance Framework - Update Script
-# Usage: ./update.sh [--check] [--force]
+# Usage: .bulkhead/update.sh [--check] [--force]
 #
 # Options:
 #   --check   Only check for updates, don't apply
@@ -15,14 +15,18 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Configuration
-MANIFEST_FILE=".bulkhead-manifest.json"
-BACKUP_DIR=".bulkhead-backup"
+# Configuration - all paths relative to .bulkhead/
+BULKHEAD_DIR=".bulkhead"
+MANIFEST_FILE="$BULKHEAD_DIR/manifest.json"
+BACKUP_DIR="$BULKHEAD_DIR/backup"
 TEMP_DIR="/tmp/bulkhead-update-$$"
 TIMEOUT_SECONDS=30
 
-# Components to update
-COMPONENTS=(".agent" "schemas" "templates" "governance")
+# Components inside .bulkhead/
+BULKHEAD_COMPONENTS=("schemas" "templates" "governance")
+
+# Components at root level
+ROOT_COMPONENTS=(".agent")
 
 # Parse arguments
 CHECK_ONLY=false
@@ -129,7 +133,16 @@ BACKUP_PATH="$BACKUP_DIR/$BACKUP_TIMESTAMP"
 log_info "Creating backup in $BACKUP_PATH..."
 mkdir -p "$BACKUP_PATH"
 
-for component in "${COMPONENTS[@]}"; do
+# Backup .bulkhead components
+for component in "${BULKHEAD_COMPONENTS[@]}"; do
+    if [ -d "$BULKHEAD_DIR/$component" ]; then
+        cp -r "$BULKHEAD_DIR/$component" "$BACKUP_PATH/"
+        log_success "Backed up .bulkhead/$component"
+    fi
+done
+
+# Backup root components
+for component in "${ROOT_COMPONENTS[@]}"; do
     if [ -d "$component" ]; then
         cp -r "$component" "$BACKUP_PATH/"
         log_success "Backed up $component"
@@ -152,8 +165,9 @@ compute_checksum() {
 # Function to check if component was modified
 is_modified() {
     local component="$1"
+    local check_path="$2"
     local stored_checksum=$(jq -r ".checksums[\"$component/\"] // empty" "$MANIFEST_FILE")
-    local current_checksum=$(compute_checksum "$component")
+    local current_checksum=$(compute_checksum "$check_path")
     
     if [ -z "$stored_checksum" ]; then
         # No stored checksum, assume unmodified
@@ -201,29 +215,29 @@ merge_file() {
     fi
 }
 
-# Update each component
+# Update .bulkhead components
 CONFLICTS=()
-for component in "${COMPONENTS[@]}"; do
+for component in "${BULKHEAD_COMPONENTS[@]}"; do
     if [ ! -d "$TEMP_DIR/bulkhead/$component" ]; then
         log_warning "Component $component not found in update, skipping..."
         continue
     fi
     
-    if is_modified "$component"; then
-        log_warning "$component has local modifications, attempting merge..."
+    if is_modified "$component" "$BULKHEAD_DIR/$component"; then
+        log_warning ".bulkhead/$component has local modifications, attempting merge..."
         
         # For directories with modifications, we need to merge file by file
         find "$TEMP_DIR/bulkhead/$component" -type f | while read new_file; do
             relative_path="${new_file#$TEMP_DIR/bulkhead/}"
-            current_file="$relative_path"
+            current_file="$BULKHEAD_DIR/$relative_path"
             backup_file="$BACKUP_PATH/$relative_path"
             
             if [ -f "$current_file" ]; then
                 # File exists in both, attempt merge
                 mkdir -p "$(dirname "$current_file")"
                 if ! merge_file "$backup_file" "$current_file" "$new_file" "$current_file.merged"; then
-                    log_warning "Conflict in $relative_path (saved as $relative_path.merged)"
-                    CONFLICTS+=("$relative_path")
+                    log_warning "Conflict in .bulkhead/$relative_path (saved as .bulkhead/$relative_path.merged)"
+                    CONFLICTS+=(".bulkhead/$relative_path")
                     mv "$current_file.merged" "$current_file"
                 else
                     mv "$current_file.merged" "$current_file"
@@ -235,16 +249,53 @@ for component in "${COMPONENTS[@]}"; do
             fi
         done
         
-        log_success "Merged $component"
+        log_success "Merged .bulkhead/$component"
     else
         # No modifications, safe to overwrite
+        rm -rf "$BULKHEAD_DIR/$component"
+        cp -r "$TEMP_DIR/bulkhead/$component" "$BULKHEAD_DIR/"
+        log_success "Updated .bulkhead/$component"
+    fi
+done
+
+# Update root components (.agent)
+for component in "${ROOT_COMPONENTS[@]}"; do
+    if [ ! -d "$TEMP_DIR/bulkhead/$component" ]; then
+        log_warning "Component $component not found in update, skipping..."
+        continue
+    fi
+    
+    if is_modified "$component" "$component"; then
+        log_warning "$component has local modifications, attempting merge..."
+        # Similar merge logic for root components
+        find "$TEMP_DIR/bulkhead/$component" -type f | while read new_file; do
+            relative_path="${new_file#$TEMP_DIR/bulkhead/}"
+            current_file="$relative_path"
+            backup_file="$BACKUP_PATH/$relative_path"
+            
+            if [ -f "$current_file" ]; then
+                mkdir -p "$(dirname "$current_file")"
+                if ! merge_file "$backup_file" "$current_file" "$new_file" "$current_file.merged"; then
+                    log_warning "Conflict in $relative_path"
+                    CONFLICTS+=("$relative_path")
+                    mv "$current_file.merged" "$current_file"
+                else
+                    mv "$current_file.merged" "$current_file"
+                fi
+            else
+                mkdir -p "$(dirname "$current_file")"
+                cp "$new_file" "$current_file"
+            fi
+        done
+        log_success "Merged $component"
+    else
         rm -rf "$component"
         cp -r "$TEMP_DIR/bulkhead/$component" .
         log_success "Updated $component"
     fi
 done
 
-# Update other files
+# Update other files (pre-commit stays at root)
 for file in ".pre-commit-config.yaml"; do
     if [ -f "$TEMP_DIR/bulkhead/$file" ]; then
         cp "$TEMP_DIR/bulkhead/$file" .
@@ -255,7 +306,13 @@ done
 # Compute new checksums
 log_info "Computing new checksums..."
 NEW_CHECKSUMS="{"
-for component in "${COMPONENTS[@]}"; do
+for component in "${BULKHEAD_COMPONENTS[@]}"; do
+    if [ -d "$BULKHEAD_DIR/$component" ]; then
+        checksum=$(compute_checksum "$BULKHEAD_DIR/$component")
+        NEW_CHECKSUMS="$NEW_CHECKSUMS\"$component/\":\"sha256:$checksum\","
+    fi
+done
+for component in "${ROOT_COMPONENTS[@]}"; do
     if [ -d "$component" ]; then
         checksum=$(compute_checksum "$component")
         NEW_CHECKSUMS="$NEW_CHECKSUMS\"$component/\":\"sha256:$checksum\","

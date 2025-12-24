@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'architecture/**/*.json'
-      - 'schemas/**/*.json'
+      - '.bulkhead/architecture/**/*.json'
+      - '.bulkhead/schemas/**/*.json'
   pull_request:
     branches: [ main ]
     paths:
-      - 'architecture/**/*.json'
-      - 'schemas/**/*.json'
+      - '.bulkhead/architecture/**/*.json'
+      - '.bulkhead/schemas/**/*.json'
 
 jobs:
   validate:
@@ -28,36 +28,36 @@ jobs:
 
       - name: Validate Phase 0 (Triage)
         run: |
-          if [ -f architecture/00-triage.json ]; then
-            ajv validate -s schemas/triage-decision.schema.json -d architecture/00-triage.json
+          if [ -f .bulkhead/architecture/00-triage.json ]; then
+            ajv validate -s .bulkhead/schemas/triage-decision.schema.json -d .bulkhead/architecture/00-triage.json
           fi
 
       - name: Validate Phase 1 (Context)
         run: |
-          if [ -f architecture/01-context.json ]; then
-            ajv validate -s schemas/context-spec.schema.json -d architecture/01-context.json
+          if [ -f .bulkhead/architecture/01-context.json ]; then
+            ajv validate -s .bulkhead/schemas/context-spec.schema.json -d .bulkhead/architecture/01-context.json
           fi
 
       - name: Validate Phase 2 (Design)
         run: |
-          if [ -f architecture/02-design.json ]; then
-            ajv validate -s schemas/design-spec.schema.json -d architecture/02-design.json
+          if [ -f .bulkhead/architecture/02-design.json ]; then
+            ajv validate -s .bulkhead/schemas/design-spec.schema.json -d .bulkhead/architecture/02-design.json
           fi
 
       - name: Validate Phase 3 (Security)
         run: |
-          if [ -f architecture/03-security.json ]; then
-            ajv validate -s schemas/security-report.schema.json -d architecture/03-security.json
+          if [ -f .bulkhead/architecture/03-security.json ]; then
+            ajv validate -s .bulkhead/schemas/security-report.schema.json -d .bulkhead/architecture/03-security.json
           fi
 
       - name: Validate Phase 4 (Decision)
         run: |
-          if [ -f architecture/04-decision.json ]; then
-            ajv validate -s schemas/decision-record.schema.json -d architecture/04-decision.json
+          if [ -f .bulkhead/architecture/04-decision.json ]; then
+            ajv validate -s .bulkhead/schemas/decision-record.schema.json -d .bulkhead/architecture/04-decision.json
           fi
 
       - name: Validate Phase 5 (Plan)
         run: |
-          if [ -f architecture/05-plan.json ]; then
-            ajv validate -s schemas/execution-plan.schema.json -d architecture/05-plan.json
+          if [ -f .bulkhead/architecture/05-plan.json ]; then
+            ajv validate -s .bulkhead/schemas/execution-plan.schema.json -d .bulkhead/architecture/05-plan.json
           fi
