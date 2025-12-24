@@ -1,0 +1,70 @@
+{
+    "phase": "design",
+    "architectural_changes": [
+        {
+            "component": "VERSION",
+            "change_type": "NEW",
+            "description": "Single source of truth for framework semantic version"
+        },
+        {
+            "component": "CHANGELOG.md",
+            "change_type": "NEW",
+            "description": "Track changes between versions for user visibility"
+        },
+        {
+            "component": "update.sh",
+            "change_type": "NEW",
+            "description": "Update script with merge capability and backup"
+        },
+        {
+            "component": "onboard.sh",
+            "change_type": "MODIFY",
+            "description": "Write .bulkhead-manifest.json to target project on install"
+        },
+        {
+            "component": "README.md",
+            "change_type": "MODIFY",
+            "description": "Document versioning scheme and update workflow"
+        }
+    ],
+    "component_impact": [
+        "All future onboarded projects",
+        "Existing projects can adopt by running update.sh"
+    ],
+    "alternatives_considered": [
+        {
+            "name": "VERSION file",
+            "pros": [
+                "Simple",
+                "No dependencies",
+                "Human readable"
+            ],
+            "cons": [
+                "Manual version bump required"
+            ],
+            "selected": true
+        },
+        {
+            "name": "package.json",
+            "pros": [
+                "NPM ecosystem integration",
+                "Automated tooling"
+            ],
+            "cons": [
+                "Adds Node.js as hard dependency"
+            ],
+            "selected": false
+        },
+        {
+            "name": "Git tags only",
+            "pros": [
+                "Native to git",
+                "No extra files"
+            ],
+            "cons": [
+                "Cannot track installed version in target project"
+            ],
+            "selected": false
+        }
+    ]
+}

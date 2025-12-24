@@ -1,0 +1,19 @@
+{
+    "ticket_id": "BULKHEAD-VERSIONING",
+    "read_only": [
+        "schemas/*.json",
+        "governance/FLOW_AND_GOVERNANCE.md",
+        ".agent/workflows/*.md"
+    ],
+    "read_write": [
+        "VERSION",
+        "CHANGELOG.md",
+        "onboard.sh",
+        "update.sh",
+        "README.md"
+    ],
+    "forbidden": [
+        ".git/*",
+        "examples/*"
+    ]
+}

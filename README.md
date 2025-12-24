@@ -1,5 +1,8 @@
 # Bulkhead
 
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 **AI-Assisted Software Development Life Cycle (Governance System)**
 
 This repository hosts **Bulkhead**, a mature governance framework designed to enforce security, architectural integrity, and deterministic execution in AI-assisted coding workflows.
@@ -10,6 +13,7 @@ This repository hosts **Bulkhead**, a mature governance framework designed to en
 - **Antigravity** (Google Deepmind) or compatible AI agent environment.
 - **Node.js 16+** (for schema validation).
 - **Python 3.9+** (if running Python examples).
+- **jq** (for manifest handling in update script).
 
 ### Your First Workflow
 1.  **Initialize**: Copy `templates/00-triage.template.md` to `architecture/00-triage.md`.
@@ -23,6 +27,7 @@ This repository hosts **Bulkhead**, a mature governance framework designed to en
 - **Schemas**: [schemas/](schemas/)
 - **Templates**: [templates/](templates/)
 - **Examples**: [examples/](examples/)
+- **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## ⚡ 8-Phase Workflow
 
@@ -85,7 +90,11 @@ We use JSON Schema to strictly validate all governance artifacts.
 ├── examples/               # Complete worked examples
 ├── governance/             # Core rules and philosophy
 ├── schemas/                # JSON Schemas for validation
-└── templates/              # Blank templates for new tasks
+├── templates/              # Blank templates for new tasks
+├── VERSION                 # Current framework version
+├── CHANGELOG.md            # Version history
+├── onboard.sh              # Onboarding script
+└── update.sh               # Update script with merge support
 ```
 
 ## 📦 Onboarding to an Existing Project
@@ -101,6 +110,11 @@ cd bulkhead
 ./onboard.sh /path/to/your/project
 ```
 
+This will:
+- Copy all governance framework files
+- Create `.bulkhead-manifest.json` with version tracking
+- Set up the update script for future updates
+
 ### Manual Setup
 
 ```bash
@@ -109,6 +123,7 @@ cp -r .agent /path/to/your/project/
 cp -r schemas /path/to/your/project/
 cp -r templates /path/to/your/project/
 cp -r governance /path/to/your/project/
+cp update.sh /path/to/your/project/
 
 # Create the architecture ledger
 mkdir -p /path/to/your/project/architecture
@@ -116,5 +131,25 @@ mkdir -p /path/to/your/project/architecture
 
 📖 See the full [Onboarding Guide](docs/onboarding.md) for details.
 
+## 🔄 Updating Bulkhead
+
+Once onboarded, you can update to the latest version:
+
+```bash
+# Check for updates
+./update.sh --check
+
+# Apply update (with backup and merge)
+./update.sh
+```
+
+The update script will:
+1. **Backup** your current files to `.bulkhead-backup/`
+2. **Preserve** any local customizations via 3-way merge
+3. **Update** the manifest with the new version
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
 ## License
 MIT
+

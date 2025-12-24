@@ -1,0 +1,6 @@
+{
+    "complexity_score": 7,
+    "classification": "MAJOR",
+    "reason": "New update capability with merge strategy affecting multiple files and all onboarded projects",
+    "override_by_human": false
+}
