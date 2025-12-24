@@ -66,12 +66,22 @@ Format:
 - Description of new feature
 ```
 
-### 6. Update README Version Badge
+### 6. Update README.md
 
-Update the version badge in README.md:
+#### 6a. Update Version Badge
 ```bash
 sed -i 's/version-[0-9]*\.[0-9]*\.[0-9]*/version-X.Y.Z/' README.md
 ```
+
+#### 6b. Review README Content
+Check if any documentation needs updating based on the changes:
+- Project structure diagrams
+- Installation/setup instructions
+- Feature descriptions
+- Path references
+- Usage examples
+
+If changes affect documented behavior, update the relevant README sections.
 
 ### 7. Commit Changes
 
