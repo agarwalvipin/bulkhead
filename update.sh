@@ -10,6 +10,16 @@
 
 set -e
 
+# Determine project root (script is in .bulkhead/)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ "$(basename "$SCRIPT_DIR")" == ".bulkhead" ]]; then
+    PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+else
+    # Script might be run from project root directly
+    PROJECT_ROOT="$SCRIPT_DIR"
+fi
+cd "$PROJECT_ROOT"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
