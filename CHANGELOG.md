@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Onboarding script (`onboard.sh`) for new projects
 - Update script (`update.sh`) with merge capability
 - Version tracking via `.bulkhead-manifest.json`
+- Conflict detection for mergeable files during onboarding
+- Backup and pending merge workflow for existing project files
 - Pre-commit hooks for local validation
 - GitHub Actions workflow for CI/CD validation
 - Complete documentation and examples

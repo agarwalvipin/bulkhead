@@ -31,13 +31,55 @@ SOURCE_REPO=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null || echo "ht
 
 echo "🚀 Onboarding Bulkhead Governance v$VERSION to: $TARGET_DIR"
 
-# Components to copy
+# Components to copy (directories - always overwrite)
 COMPONENTS=(".agent" "schemas" "templates" "governance")
+
+# Mergeable files - files that projects commonly customize
+MERGEABLE_FILES=(".pre-commit-config.yaml")
+
+# Track pending merges
+PENDING_MERGES=()
+
+# Backup and pending directories
+BACKUP_DIR="$TARGET_DIR/.bulkhead-backup"
+PENDING_DIR="$TARGET_DIR/.bulkhead-pending"
 
 # Function to compute directory checksum
 compute_checksum() {
     local dir="$1"
     find "$dir" -type f -exec sha256sum {} \; 2>/dev/null | sort | sha256sum | cut -d' ' -f1
+}
+
+# Function to handle mergeable files
+handle_mergeable_file() {
+    local filename="$1"
+    local source_file="$SCRIPT_DIR/$filename"
+    local target_file="$TARGET_DIR/$filename"
+    
+    if [ ! -f "$source_file" ]; then
+        return
+    fi
+    
+    if [ -f "$target_file" ]; then
+        # File exists - backup and create pending
+        echo "⚠️  Conflict detected: $filename"
+        
+        # Create backup directory
+        mkdir -p "$BACKUP_DIR"
+        cp "$target_file" "$BACKUP_DIR/$filename"
+        echo "   → Backed up to: .bulkhead-backup/$filename"
+        
+        # Create pending directory with Bulkhead's version
+        mkdir -p "$PENDING_DIR"
+        cp "$source_file" "$PENDING_DIR/$filename"
+        echo "   → Bulkhead version: .bulkhead-pending/$filename"
+        
+        PENDING_MERGES+=("$filename")
+    else
+        # File doesn't exist - copy normally
+        echo "📁 Copying $filename..."
+        cp "$source_file" "$target_file"
+    fi
 }
 
 # Copy .agent directory (workflows and rules)
@@ -56,14 +98,27 @@ cp -r "$SCRIPT_DIR/templates" "$TARGET_DIR/"
 echo "📁 Copying governance/..."
 cp -r "$SCRIPT_DIR/governance" "$TARGET_DIR/"
 
-# Copy pre-commit config
-echo "📁 Copying .pre-commit-config.yaml..."
-cp "$SCRIPT_DIR/.pre-commit-config.yaml" "$TARGET_DIR/"
+# Handle mergeable files with conflict detection
+echo ""
+echo "📝 Checking for file conflicts..."
+for file in "${MERGEABLE_FILES[@]}"; do
+    handle_mergeable_file "$file"
+done
 
-# Copy GitHub Actions
+# Copy GitHub Actions (merge-aware)
+echo ""
 echo "📁 Copying .github/workflows/..."
 mkdir -p "$TARGET_DIR/.github/workflows"
-cp "$SCRIPT_DIR/.github/workflows/validate-schemas.yml" "$TARGET_DIR/.github/workflows/"
+if [ -f "$TARGET_DIR/.github/workflows/validate-schemas.yml" ]; then
+    echo "⚠️  Conflict detected: .github/workflows/validate-schemas.yml"
+    mkdir -p "$BACKUP_DIR/.github/workflows"
+    cp "$TARGET_DIR/.github/workflows/validate-schemas.yml" "$BACKUP_DIR/.github/workflows/"
+    mkdir -p "$PENDING_DIR/.github/workflows"
+    cp "$SCRIPT_DIR/.github/workflows/validate-schemas.yml" "$PENDING_DIR/.github/workflows/"
+    PENDING_MERGES+=(".github/workflows/validate-schemas.yml")
+else
+    cp "$SCRIPT_DIR/.github/workflows/validate-schemas.yml" "$TARGET_DIR/.github/workflows/"
+fi
 
 # Copy update script
 echo "📁 Copying update.sh..."
@@ -75,6 +130,7 @@ echo "📁 Creating architecture/ ledger..."
 mkdir -p "$TARGET_DIR/architecture"
 
 # Compute checksums for installed components
+echo ""
 echo "📝 Creating manifest..."
 CHECKSUMS="{"
 for component in "${COMPONENTS[@]}"; do
@@ -85,6 +141,13 @@ for component in "${COMPONENTS[@]}"; do
 done
 CHECKSUMS="${CHECKSUMS%,}}"
 
+# Build pending merges JSON array
+PENDING_JSON="["
+for merge in "${PENDING_MERGES[@]}"; do
+    PENDING_JSON="$PENDING_JSON\"$merge\","
+done
+PENDING_JSON="${PENDING_JSON%,}]"
+
 # Create manifest file
 MANIFEST_FILE="$TARGET_DIR/.bulkhead-manifest.json"
 cat > "$MANIFEST_FILE" << EOF
@@ -92,7 +155,9 @@ cat > "$MANIFEST_FILE" << EOF
     "bulkhead_version": "$VERSION",
     "installed_at": "$(date -Iseconds)",
     "source_repo": "$SOURCE_REPO",
-    "checksums": $CHECKSUMS
+    "checksums": $CHECKSUMS,
+    "pending_merges": $PENDING_JSON,
+    "backup_location": ".bulkhead-backup/"
 }
 EOF
 
@@ -101,12 +166,38 @@ echo "✅ Onboarding complete!"
 echo ""
 echo "Installed Bulkhead version: $VERSION"
 echo "Manifest created: .bulkhead-manifest.json"
+
+# Show merge instructions if there are pending merges
+if [ ${#PENDING_MERGES[@]} -gt 0 ]; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "⚠️  MERGE REQUIRED"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "The following files already exist and need manual merging:"
+    echo ""
+    for merge in "${PENDING_MERGES[@]}"; do
+        echo "  📄 $merge"
+        echo "     Your original:     .bulkhead-backup/$merge"
+        echo "     Bulkhead version:  .bulkhead-pending/$merge"
+        echo ""
+    done
+    echo "Please merge Bulkhead's additions into your existing files."
+    echo "After merging, you can delete .bulkhead-backup/ and .bulkhead-pending/"
+    echo ""
+fi
+
 echo ""
 echo "Next steps:"
 echo "  1. cd $TARGET_DIR"
-echo "  2. git add .agent schemas templates governance .pre-commit-config.yaml .github update.sh .bulkhead-manifest.json"
-echo "  3. git commit -m 'feat: add Bulkhead governance framework v$VERSION'"
-echo "  4. Run /phase-0-triage to start your first governed change"
+if [ ${#PENDING_MERGES[@]} -gt 0 ]; then
+    echo "  2. Merge pending files (see above)"
+    echo "  3. git add .agent schemas templates governance .github update.sh .bulkhead-manifest.json"
+else
+    echo "  2. git add .agent schemas templates governance .pre-commit-config.yaml .github update.sh .bulkhead-manifest.json"
+fi
+echo "  4. git commit -m 'feat: add Bulkhead governance framework v$VERSION'"
+echo "  5. Run /phase-0-triage to start your first governed change"
 echo ""
 echo "To update Bulkhead in the future, run:"
 echo "  ./update.sh"
