@@ -100,6 +100,12 @@ done
 echo "📁 Creating .bulkhead/architecture/ ledger..."
 mkdir -p "$BULKHEAD_DIR/architecture"
 
+# Copy default config.yaml if template exists
+if [ -f "$BULKHEAD_DIR/templates/config.yaml" ]; then
+    echo "📁 Creating .bulkhead/config.yaml (default: standard rigor)..."
+    cp "$BULKHEAD_DIR/templates/config.yaml" "$BULKHEAD_DIR/config.yaml"
+fi
+
 # Handle mergeable files with conflict detection
 echo ""
 echo "📝 Checking for file conflicts..."
@@ -198,6 +204,7 @@ echo "   ├── architecture/    → Governance artifacts"
 echo "   ├── governance/      → Philosophy docs"
 echo "   ├── schemas/         → JSON Schemas"
 echo "   ├── templates/       → Phase templates"
+echo "   ├── config.yaml      → Rigor configuration"
 echo "   └── manifest.json    → Version tracking"
 echo ""
 echo "Next steps:"
