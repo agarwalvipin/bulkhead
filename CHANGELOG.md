@@ -5,14 +5,22 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2] - 2025-12-25
+
+### Fixed
+- Documentation inconsistencies for workflow naming convention
+- Updated historical CHANGELOG entries to use current file names
+
+---
+
 ## [2.1.1] - 2025-12-24
 
 ### Changed
 - Flattened workflow structure from subdirectories to flat with category prefixes:
-  - `core-` for orchestration (`bulkhead.md`)
-  - `phase-` for 8-phase SDLC (unchanged)
-  - `spec-` for specialized (`spec-code-review.md`, `spec-modernization.md`)
-  - `int-` for integrations (`int-github-project.md`, `int-update-changelog.md`)
+  - `bulkhead.md` - main orchestrator (no prefix)
+  - `phase-*` for 8-phase SDLC (unchanged)
+  - `spec-*` for specialized (`spec-code-review.md`, `spec-modernization.md`)
+  - `int-*` for integrations (`int-github-project.md`, `int-update-changelog.md`)
 
 ### Fixed
 - Workflows now correctly discovered by Antigravity (subdirectories not supported)
@@ -55,14 +63,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Organized workflows into subdirectories: `core/`, `specialized/`, `integrations/`
-- New `github-project.md` workflow for Epic/Story management
+- New `int-github-project.md` workflow for Epic/Story management
 - New `phase-checkpoint.md` workflow for pre-execution validation
 - `.gitignore` file with Python, Node.js, and Bulkhead-specific patterns
 
 ### Changed
 - Consolidated 6 specialized workflows into 2:
-  - `review.md` (merged: architect-review, code-review, security-architect)
-  - `modernization.md` (merged: rebuild-vs-refactor, refactoring-architect, system-modernization)
+  - `spec-code-review.md` (merged: architect-review, code-review, security-architect)
+  - `spec-modernization.md` (merged: rebuild-vs-refactor, refactoring-architect, system-modernization)
 - Updated README.md with new workflow structure documentation
 
 ---

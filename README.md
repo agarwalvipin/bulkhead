@@ -1,6 +1,6 @@
 # Bulkhead
 
-![Version](https://img.shields.io/badge/version-2.1.1-blue)
+![Version](https://img.shields.io/badge/version-2.1.2-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
@@ -34,9 +34,9 @@ Workflows are organized in `.agent/workflows/`:
 
 | Prefix | Purpose | Workflows |
 |--------|---------|-----------|
-| `core-` | Orchestration | `/bulkhead` (unified entry point) |
+| *(none)* | Orchestration | `/bulkhead` (unified entry point) |
 | `phase-` | 8-phase SDLC | `/phase-0-triage` through `/phase-7-verify`, `/phase-status`, `/phase-checkpoint` |
-| `spec-` | Domain analysis | `/spec-code-review`, `/spec-modernization` |
+| `spec-` | Specialized | `/spec-code-review`, `/spec-modernization` |
 | `int-` | Integrations | `/int-github-project`, `/int-update-changelog` |
 
 **Usage:** 
