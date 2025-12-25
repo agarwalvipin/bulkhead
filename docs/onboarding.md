@@ -94,6 +94,7 @@ cp templates/00-triage.template.md architecture/00-triage.md
 
 | Command | Purpose |
 |---------|---------|
+| `/bulkhead` | Unified orchestrator (start, continue, status) |
 | `/phase-0-triage` | Classify change as MAJOR/MINOR |
 | `/phase-1-context` | Define blast radius |
 | `/phase-2-design` | Propose architecture |
@@ -102,8 +103,12 @@ cp templates/00-triage.template.md architecture/00-triage.md
 | `/phase-5-plan` | Create execution plan |
 | `/phase-6-execute` | Implement the plan |
 | `/phase-7-verify` | Final QA gate |
-| `/code-review` | Review a PR or branch |
-| `/architect-review` | Standalone architecture evaluation |
+| `/phase-status` | View current governance status |
+| `/phase-checkpoint` | Validate artifacts before execution |
+| `/spec-code-review` | Review a PR or branch |
+| `/spec-modernization` | Rebuild vs refactor analysis |
+| `/int-github-project` | GitHub Project/Epic/Story management |
+| `/int-update-changelog` | Update CHANGELOG and bump version |
 
 ---
 

@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.1] - 2025-12-24
 
 ### Changed
-- Flattened workflow structure from subdirectories (`core/`, `integrations/`, `specialized/`) to root `.agent/workflows/`
-- Renamed `review.md` to `code-review.md` for better discoverability
+- Flattened workflow structure from subdirectories to flat with category prefixes:
+  - `core-` for orchestration (`bulkhead.md`)
+  - `phase-` for 8-phase SDLC (unchanged)
+  - `spec-` for specialized (`spec-code-review.md`, `spec-modernization.md`)
+  - `int-` for integrations (`int-github-project.md`, `int-update-changelog.md`)
 
 ### Fixed
 - Workflows now correctly discovered by Antigravity (subdirectories not supported)
@@ -70,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Consolidated `.bulkhead/` directory structure for cleaner organization
 - Conflict detection for mergeable files during onboarding
 - Backup and pending merge workflow (`.bulkhead/backup/`, `.bulkhead/pending/`)
-- `/update-changelog` workflow with automatic version proposal
+- `/int-update-changelog` workflow with automatic version proposal
 
 ### Changed
 - Moved `schemas/`, `templates/`, `governance/`, `architecture/` into `.bulkhead/`

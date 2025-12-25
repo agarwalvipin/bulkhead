@@ -32,16 +32,17 @@ This repository hosts **Bulkhead**, a mature governance framework designed to en
 
 Workflows are organized in `.agent/workflows/`:
 
-| Directory | Purpose | Workflows |
-|-----------|---------|-----------|
-| `core/` | 8-phase SDLC | `bulkhead` (orchestrator), `phase-status`, `phase-0-triage` through `phase-7-verify`, `phase-checkpoint` |
-| `specialized/` | Domain analysis | `review` (architecture/code/security), `modernization` |
-| `integrations/` | External tools | `github-project`, `update-changelog` |
+| Prefix | Purpose | Workflows |
+|--------|---------|-----------|
+| `core-` | Orchestration | `/bulkhead` (unified entry point) |
+| `phase-` | 8-phase SDLC | `/phase-0-triage` through `/phase-7-verify`, `/phase-status`, `/phase-checkpoint` |
+| `spec-` | Domain analysis | `/spec-code-review`, `/spec-modernization` |
+| `int-` | Integrations | `/int-github-project`, `/int-update-changelog` |
 
 **Usage:** 
 - **Orchestrator:** `/bulkhead start <phase>`, `/bulkhead continue`, `/bulkhead status`
 - **Direct phase:** `/phase-0-triage`, `/phase-status`
-- **Specialized:** `/review security`, `/modernization`
+- **Specialized:** `/spec-code-review security`, `/spec-modernization`
 
 ## ⚡ 8-Phase Workflow
 
