@@ -112,9 +112,15 @@ export EPIC_NUMBER=25
 # Create branch from your base branch
 git checkout $BASE_BRANCH
 git pull origin $BASE_BRANCH
-git checkout -b feature/$PHASE_ID-$(echo $PHASE_NAME | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 
-# Example: feature/p1-auth-config-layer
+# Generate a clean slug from the phase name (lowercase, alphanumeric, hyphens only)
+# Example: "Auth + Config Layer" -> "auth-config-layer"
+BRANCH_SLUG=$(echo "$PHASE_NAME" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9]/-/g' -e 's/-\+/-/g' -e 's/^-//' -e 's/-$//')
+
+# Create the specific feature branch
+git checkout -b feature/$PHASE_ID-$BRANCH_SLUG
+
+# Example result: feature/p1-auth-config-layer
 ```
 
 ### 2.3 Update Progress Tracker (MANDATORY)
@@ -309,12 +315,13 @@ PHASE_NAME="Auth + Config Layer"
 EPIC=$(gh issue create --title "Epic: ${PHASE_ID^^} - $PHASE_NAME" --label "epic,phase-$PHASE_ID" --json number -q '.number')
 
 # 2. Create branch
-git checkout $BASE_BRANCH && git pull && git checkout -b feature/$PHASE_ID
+BRANCH_SLUG=$(echo "$PHASE_NAME" | tr '[:upper:]' '[:lower:]' | sed -e 's/[^a-z0-9]/-/g' -e 's/-\+/-/g')
+git checkout $BASE_BRANCH && git pull && git checkout -b feature/$PHASE_ID-$BRANCH_SLUG
 
 # 3. Create stories (customize per phase)
 # ... see Phase 3 above ...
 
-echo "✅ Phase $PHASE_ID setup complete. Epic: #$EPIC, Branch: feature/$PHASE_ID"
+echo "✅ Phase $PHASE_ID setup complete. Epic: #$EPIC, Branch: feature/$PHASE_ID-$BRANCH_SLUG"
 ```
 
 ### Commit Message Format

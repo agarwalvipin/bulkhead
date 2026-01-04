@@ -1,0 +1,62 @@
+{
+    "$id": "https://sdlc.ai/schemas/verification-report.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Verification Report",
+    "description": "Output of Phase 7 verification process.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "phase",
+        "status",
+        "verified_by",
+        "evidence"
+    ],
+    "properties": {
+        "phase": {
+            "type": "string",
+            "const": "verification"
+        },
+        "status": {
+            "type": "string",
+            "enum": ["PASSED", "FAILED"],
+            "description": "Overall verification result."
+        },
+        "verified_by": {
+            "type": "string",
+            "description": "Agent or user who performed verification."
+        },
+        "date": {
+            "type": "string",
+            "format": "date"
+        },
+        "evidence": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["check", "result"],
+                "properties": {
+                    "check": {
+                        "type": "string",
+                        "description": "Name of the verification check."
+                    },
+                    "result": {
+                        "type": "string",
+                        "enum": ["PASSED", "FAILED", "SKIPPED"]
+                    },
+                    "details": {
+                        "type": "string",
+                        "description": "Additional details or error messages."
+                    }
+                }
+            }
+        },
+        "issues_found": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of issues found during verification."
+        }
+    }
+}

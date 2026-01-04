@@ -5,6 +5,30 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-01-04
+
+### Added
+- **`uninstall.sh`** - Clean removal of Bulkhead from target projects
+  - `--force` flag to skip confirmation
+  - `--keep-architecture` to preserve user artifacts
+- **Migration system** in `update.sh` for handling file moves/deletes between versions
+- **New schemas**: `verification-report.schema.json`, `execution-report.schema.json`, `modernization-plan.schema.json`
+- **`/bulkhead-promote` workflow** - Upgrade from sandbox to standard rigor
+
+### Changed
+- **Restructured source repository**: `workflows/` and `rules/` now at root level
+  - `onboard.sh` copies these to `.agent/` in target projects
+  - Cleaner separation between source repo and target project structure
+- Updated all phase workflows (0-7) to use `.bulkhead/architecture/` paths
+- Fixed `ai-governance-rules.md`: Phase 4 → Phase 6 for coding
+- Updated `README.md` with new project structure documentation
+
+### Fixed
+- Workflow paths now correctly reference `.bulkhead/architecture/` for target projects
+- AI Governance Rule incorrectly stated coding starts at Phase 4 (now Phase 6)
+
+---
+
 ## [2.1.2] - 2025-12-25
 
 ### Fixed

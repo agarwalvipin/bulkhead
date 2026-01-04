@@ -116,4 +116,5 @@ If no config exists, defaults to `standard` rigor.
 This workflow integrates with:
 - `/phase-checkpoint` for validation
 - `/phase-status` for dashboard
-- `/github-project` for issue tracking (if enabled)
+- `/int-github-project` for issue tracking (if enabled)
+- `/bulkhead-promote` for upgrading from sandbox to standard rigor

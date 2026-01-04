@@ -23,7 +23,11 @@ cd bulkhead
 ./onboard.sh /path/to/your/project
 ```
 
-This copies all necessary files to your project.
+This copies all necessary files to your project and prompts you to configure:
+
+1. **Project Management Mode**: Choose between Implicit (artifacts only) or External (GitHub/Jira).
+2. **Rigor Profile**: Standard, Sandbox, or Maximum.
+
 
 ---
 
@@ -35,10 +39,18 @@ If you prefer manual setup:
 
 ```bash
 # From the bulkhead repo root
-cp -r .agent /path/to/your/project/
-cp -r schemas /path/to/your/project/
-cp -r templates /path/to/your/project/
-cp -r governance /path/to/your/project/
+mkdir -p /path/to/your/project/.agent
+mkdir -p /path/to/your/project/.bulkhead
+
+# Agent workflows and rules
+cp -r workflows /path/to/your/project/.agent/
+cp -r rules /path/to/your/project/.agent/
+
+# Bulkhead components
+cp -r schemas /path/to/your/project/.bulkhead/
+cp -r templates /path/to/your/project/.bulkhead/
+cp -r governance /path/to/your/project/.bulkhead/
+mkdir -p /path/to/your/project/.bulkhead/architecture
 ```
 
 ### Step 2: Copy CI/CD Configuration
@@ -49,17 +61,19 @@ mkdir -p /path/to/your/project/.github/workflows
 cp .github/workflows/validate-schemas.yml /path/to/your/project/.github/workflows/
 ```
 
-### Step 3: Create the Architecture Ledger
+### Step 3: Copy Scripts
 
 ```bash
-mkdir -p /path/to/your/project/architecture
+cp update.sh /path/to/your/project/.bulkhead/
+cp uninstall.sh /path/to/your/project/.bulkhead/
+chmod +x /path/to/your/project/.bulkhead/*.sh
 ```
 
 ### Step 4: Commit the Framework
 
 ```bash
 cd /path/to/your/project
-git add .agent schemas templates governance .pre-commit-config.yaml .github
+git add .agent .bulkhead .pre-commit-config.yaml .github
 git commit -m "feat: add Bulkhead governance framework"
 ```
 
@@ -71,10 +85,10 @@ git commit -m "feat: add Bulkhead governance framework"
 |-----------|---------|
 | `.agent/rules/` | Rules the AI follows (always active) |
 | `.agent/workflows/` | Slash commands (`/phase-0-triage`, etc.) |
-| `schemas/` | JSON Schema validation for artifacts |
-| `templates/` | Blank templates for each phase |
-| `governance/` | Core philosophy documentation |
-| `architecture/` | Where your governance artifacts live |
+| `.bulkhead/schemas/` | JSON Schema validation for artifacts |
+| `.bulkhead/templates/` | Blank templates for each phase |
+| `.bulkhead/governance/` | Core philosophy documentation |
+| `.bulkhead/architecture/` | Where your governance artifacts live |
 
 ---
 
@@ -84,7 +98,7 @@ git commit -m "feat: add Bulkhead governance framework"
 
 ```bash
 # Copy the triage template
-cp templates/00-triage.template.md architecture/00-triage.md
+cp .bulkhead/templates/00-triage.template.md .bulkhead/architecture/00-triage.md
 
 # Ask Antigravity to classify the change
 /phase-0-triage
@@ -105,6 +119,7 @@ cp templates/00-triage.template.md architecture/00-triage.md
 | `/phase-7-verify` | Final QA gate |
 | `/phase-status` | View current governance status |
 | `/phase-checkpoint` | Validate artifacts before execution |
+| `/bulkhead-promote` | Upgrade from sandbox to standard rigor |
 | `/spec-code-review` | Review a PR or branch |
 | `/spec-modernization` | Rebuild vs refactor analysis |
 | `/int-github-project` | GitHub Project/Epic/Story management |
@@ -120,8 +135,23 @@ Edit `.agent/rules/*.md` to customize AI behavior for your project.
 
 ### Extend Schemas
 
-Add new properties to `schemas/*.json` if you need additional fields.
+Add new properties to `.bulkhead/schemas/*.json` if you need additional fields.
 
 ### Project-Specific Templates
 
-Customize `templates/*.md` with your project's conventions.
+Customize `.bulkhead/templates/*.md` with your project's conventions.
+
+---
+
+## Uninstalling
+
+To remove Bulkhead from your project:
+
+```bash
+.bulkhead/uninstall.sh
+```
+
+Options:
+- `--force` - Skip confirmation
+- `--keep-architecture` - Preserve your governance artifacts
+

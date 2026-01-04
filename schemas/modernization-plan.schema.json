@@ -1,0 +1,118 @@
+{
+    "$id": "https://sdlc.ai/schemas/modernization-plan.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Modernization Plan",
+    "description": "Output of the /spec-modernization workflow.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "version",
+        "decision",
+        "decision_date",
+        "rationale",
+        "assessment"
+    ],
+    "properties": {
+        "version": {
+            "type": "string"
+        },
+        "decision": {
+            "type": "string",
+            "enum": [
+                "REFACTOR",
+                "REBUILD",
+                "ABORT"
+            ],
+            "description": "Strategic decision for the codebase."
+        },
+        "decision_date": {
+            "type": "string",
+            "format": "date"
+        },
+        "rationale": {
+            "type": "string",
+            "description": "Reasoning behind the decision."
+        },
+        "assessment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "code_quality",
+                "test_coverage",
+                "documentation",
+                "dependency_health",
+                "architecture_clarity"
+            ],
+            "properties": {
+                "code_quality": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                },
+                "test_coverage": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                },
+                "documentation": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                },
+                "dependency_health": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                },
+                "architecture_clarity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                }
+            }
+        },
+        "strategy": {
+            "type": "string",
+            "enum": [
+                "strangler_fig",
+                "abstraction_layer",
+                "cleanup_in_place",
+                "branch_by_abstraction",
+                "parallel_run"
+            ],
+            "description": "Selected modernization strategy."
+        },
+        "phases": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "id",
+                    "title"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "duration_weeks": {
+                        "type": "integer"
+                    },
+                    "tasks": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "rollback_strategy": {
+            "type": "string",
+            "description": "How to revert if modernization fails."
+        }
+    }
+}

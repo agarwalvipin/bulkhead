@@ -29,9 +29,9 @@ Analyze the user request to determine the scope and risk.
   - *Action*: Proceed to Phase 1 (Context).
 
 ### 3. Execution (Double-Write)
-Generate the following artifacts in `architecture/`:
+Generate the following artifacts in `.bulkhead/architecture/`:
 
-#### A. Human-Readable: `architecture/00-triage.md`
+#### A. Human-Readable: `.bulkhead/architecture/00-triage.md`
 ```markdown
 # Phase 0: Triage
 
@@ -45,7 +45,7 @@ Generate the following artifacts in `architecture/`:
 - **Rationale**: [Why this classification?]
 ```
 
-#### B. Machine-Enforceable: `architecture/00-triage.json`
+#### B. Machine-Enforceable: `.bulkhead/architecture/00-triage.json`
 *Must validate against `schemas/triage-decision.schema.json`*
 ```json
 {
@@ -57,5 +57,5 @@ Generate the following artifacts in `architecture/`:
 ```
 
 ## Routing
-- **If MINOR**: Initialize `architecture/05-plan.json` with a simple verification task and proceed to **Phase 7**.
+- **If MINOR**: Initialize `.bulkhead/architecture/05-plan.json` with a simple verification task and proceed to **Phase 7**.
 - **If MAJOR**: Proceed to **Phase 1**.

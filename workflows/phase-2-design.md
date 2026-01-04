@@ -14,9 +14,9 @@ description: Phase 2 Design (Architectural Analysis).
 - **Select Winner**: Choose the best approach based on project goals.
 
 ### 2. Execution (Double-Write)
-Generate the following artifacts in `architecture/`:
+Generate the following artifacts in `.bulkhead/architecture/`:
 
-#### A. Human-Readable: `architecture/02-design.md`
+#### A. Human-Readable: `.bulkhead/architecture/02-design.md`
 ```markdown
 # Phase 2: Design
 
@@ -36,7 +36,7 @@ graph TD
     A[User] --> B[API]
 ```
 
-#### B. Machine-Enforceable: `architecture/02-design.json`
+#### B. Machine-Enforceable: `.bulkhead/architecture/02-design.json`
 *Must validate against `schemas/design-spec.schema.json`*
 ```json
 {
@@ -61,4 +61,36 @@ graph TD
 ```
 
 ## Routing
-Proceed to **Phase 3: Security**.
+
+> **⚠️ RE-APPROVAL REQUIRED ON EVERY ITERATION**
+> 
+> If this phase is being re-run (e.g., after a failed Phase 7 verification or architectural revision), 
+> **previous approvals are NOT valid**. You MUST obtain fresh user approval.
+
+### User Approval Gate
+
+Before proceeding to Phase 3, present the design to the user and ask:
+
+```
+📐 Phase 2: Design Review
+
+The following architectural approach has been defined:
+- Selected Approach: [Option Name]
+- Components Affected: [List]
+- Alternatives Considered: [Count]
+
+This is iteration #[N] of the design phase.
+[If N > 1: Previous approval has been invalidated due to re-iteration.]
+
+Do you approve this design? (Y/N/Request Changes)
+```
+
+| User Response | Action |
+|---------------|--------|
+| **Y (Approve)** | Proceed to **Phase 3: Security** |
+| **N (Reject)** | Revise design based on feedback, re-run Phase 2 |
+| **Request Changes** | Incorporate feedback, update artifacts, ask for approval again |
+
+---
+
+**IMPORTANT**: Never assume a previous design approval carries over. Each iteration is a fresh review.

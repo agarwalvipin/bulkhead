@@ -37,8 +37,9 @@ TIMEOUT_SECONDS=30
 # Components inside .bulkhead/
 BULKHEAD_COMPONENTS=("schemas" "templates" "governance")
 
-# Components at root level
-ROOT_COMPONENTS=(".agent")
+# Agent components (source: workflows/, rules/ → target: .agent/)
+AGENT_SOURCE_COMPONENTS=("workflows" "rules")
+AGENT_TARGET_DIR=".agent"
 
 # Parse arguments
 CHECK_ONLY=false
@@ -170,14 +171,12 @@ if [ "$ROLLBACK" = true ]; then
         fi
     done
     
-    # Restore root components (.agent)
-    for component in "${ROOT_COMPONENTS[@]}"; do
-        if [ -d "$RESTORE_PATH/$component" ]; then
-            rm -rf "$component"
-            cp -r "$RESTORE_PATH/$component" .
-            log_success "Restored $component"
-        fi
-    done
+    # Restore agent components (workflows, rules -> .agent/)
+    if [ -d "$RESTORE_PATH/$AGENT_TARGET_DIR" ]; then
+        rm -rf "$AGENT_TARGET_DIR"
+        cp -r "$RESTORE_PATH/$AGENT_TARGET_DIR" .
+        log_success "Restored $AGENT_TARGET_DIR"
+    fi
     
     # Restore manifest
     if [ -f "$RESTORE_PATH/manifest.json" ]; then
@@ -273,6 +272,84 @@ if [ "$FORCE" != true ]; then
     fi
 fi
 
+# ============================================
+# MIGRATION SYSTEM
+# ============================================
+# Apply version-specific migrations for file moves/deletes
+
+apply_migrations() {
+    local from_version="$1"
+    local to_version="$2"
+    local migrations_dir="$TEMP_DIR/bulkhead/migrations"
+    
+    if [ ! -d "$migrations_dir" ]; then
+        log_info "No migrations directory found, skipping migrations."
+        return 0
+    fi
+    
+    log_info "Checking for migrations from $from_version to $to_version..."
+    
+    # Find all migration files and sort by version
+    for migration_file in $(ls -1 "$migrations_dir"/*.json 2>/dev/null | sort -V); do
+        if [ ! -f "$migration_file" ]; then
+            continue
+        fi
+        
+        migration_version=$(jq -r '.version' "$migration_file" 2>/dev/null)
+        if [ -z "$migration_version" ] || [ "$migration_version" = "null" ]; then
+            log_warning "Invalid migration file: $migration_file (no version)"
+            continue
+        fi
+        
+        # Check if migration applies (version > from_version AND version <= to_version)
+        # Using sort -V for version comparison
+        if [[ "$(printf '%s\n%s' "$from_version" "$migration_version" | sort -V | head -1)" = "$from_version" ]] && \
+           [[ "$from_version" != "$migration_version" ]] && \
+           [[ "$(printf '%s\n%s' "$migration_version" "$to_version" | sort -V | head -1)" = "$migration_version" ]]; then
+            
+            log_info "Applying migration: $migration_version"
+            
+            # Read and apply operations
+            operations=$(jq -r '.operations[]' "$migration_file" 2>/dev/null)
+            
+            jq -c '.operations[]' "$migration_file" 2>/dev/null | while read -r op; do
+                action=$(echo "$op" | jq -r '.action')
+                
+                case "$action" in
+                    "delete")
+                        path=$(echo "$op" | jq -r '.path')
+                        if [ -f "$path" ] || [ -d "$path" ]; then
+                            rm -rf "$path"
+                            log_success "  Deleted: $path"
+                        else
+                            log_info "  Skip delete (not found): $path"
+                        fi
+                        ;;
+                    "move"|"rename")
+                        from_path=$(echo "$op" | jq -r '.from')
+                        to_path=$(echo "$op" | jq -r '.to')
+                        if [ -f "$from_path" ] || [ -d "$from_path" ]; then
+                            mkdir -p "$(dirname "$to_path")"
+                            mv "$from_path" "$to_path"
+                            log_success "  Moved: $from_path -> $to_path"
+                        else
+                            log_info "  Skip move (not found): $from_path"
+                        fi
+                        ;;
+                    *)
+                        log_warning "  Unknown migration action: $action"
+                        ;;
+                esac
+            done
+        fi
+    done
+    
+    log_success "Migrations complete."
+}
+
+# Apply migrations before backup (so backup reflects pre-migration state)
+apply_migrations "$CURRENT_VERSION" "$LATEST_VERSION"
+
 # Create backup
 BACKUP_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 BACKUP_PATH="$BACKUP_DIR/$BACKUP_TIMESTAMP"
@@ -287,13 +364,11 @@ for component in "${BULKHEAD_COMPONENTS[@]}"; do
     fi
 done
 
-# Backup root components
-for component in "${ROOT_COMPONENTS[@]}"; do
-    if [ -d "$component" ]; then
-        cp -r "$component" "$BACKUP_PATH/"
-        log_success "Backed up $component"
-    fi
-done
+# Backup agent components
+if [ -d "$AGENT_TARGET_DIR" ]; then
+    cp -r "$AGENT_TARGET_DIR" "$BACKUP_PATH/"
+    log_success "Backed up $AGENT_TARGET_DIR"
+fi
 
 # Copy manifest to backup
 cp "$MANIFEST_FILE" "$BACKUP_PATH/"
@@ -404,26 +479,27 @@ for component in "${BULKHEAD_COMPONENTS[@]}"; do
     fi
 done
 
-# Update root components (.agent)
-for component in "${ROOT_COMPONENTS[@]}"; do
+# Update agent components (source: workflows/, rules/ -> target: .agent/)
+for component in "${AGENT_SOURCE_COMPONENTS[@]}"; do
     if [ ! -d "$TEMP_DIR/bulkhead/$component" ]; then
         log_warning "Component $component not found in update, skipping..."
         continue
     fi
     
-    if is_modified "$component" "$component"; then
-        log_warning "$component has local modifications, attempting merge..."
-        # Similar merge logic for root components
+    TARGET_COMPONENT="$AGENT_TARGET_DIR/$component"
+    if is_modified "$AGENT_TARGET_DIR" "$AGENT_TARGET_DIR"; then
+        log_warning "$AGENT_TARGET_DIR has local modifications, attempting merge..."
+        # Merge logic for agent components
         find "$TEMP_DIR/bulkhead/$component" -type f | while read new_file; do
-            relative_path="${new_file#$TEMP_DIR/bulkhead/}"
-            current_file="$relative_path"
-            backup_file="$BACKUP_PATH/$relative_path"
+            relative_path="${new_file#$TEMP_DIR/bulkhead/$component/}"
+            current_file="$TARGET_COMPONENT/$relative_path"
+            backup_file="$BACKUP_PATH/$AGENT_TARGET_DIR/$component/$relative_path"
             
             if [ -f "$current_file" ]; then
                 mkdir -p "$(dirname "$current_file")"
                 if ! merge_file "$backup_file" "$current_file" "$new_file" "$current_file.merged"; then
-                    log_warning "Conflict in $relative_path"
-                    CONFLICTS+=("$relative_path")
+                    log_warning "Conflict in $TARGET_COMPONENT/$relative_path"
+                    CONFLICTS+=("$TARGET_COMPONENT/$relative_path")
                     mv "$current_file.merged" "$current_file"
                 else
                     mv "$current_file.merged" "$current_file"
@@ -433,11 +509,12 @@ for component in "${ROOT_COMPONENTS[@]}"; do
                 cp "$new_file" "$current_file"
             fi
         done
-        log_success "Merged $component"
+        log_success "Merged $TARGET_COMPONENT"
     else
-        rm -rf "$component"
-        cp -r "$TEMP_DIR/bulkhead/$component" .
-        log_success "Updated $component"
+        rm -rf "$TARGET_COMPONENT"
+        mkdir -p "$AGENT_TARGET_DIR"
+        cp -r "$TEMP_DIR/bulkhead/$component" "$TARGET_COMPONENT"
+        log_success "Updated $TARGET_COMPONENT"
     fi
 done
 
@@ -458,10 +535,11 @@ for component in "${BULKHEAD_COMPONENTS[@]}"; do
         NEW_CHECKSUMS="$NEW_CHECKSUMS\"$component/\":\"sha256:$checksum\","
     fi
 done
-for component in "${ROOT_COMPONENTS[@]}"; do
-    if [ -d "$component" ]; then
-        checksum=$(compute_checksum "$component")
-        NEW_CHECKSUMS="$NEW_CHECKSUMS\"$component/\":\"sha256:$checksum\","
+for component in "${AGENT_SOURCE_COMPONENTS[@]}"; do
+    TARGET_COMPONENT="$AGENT_TARGET_DIR/$component"
+    if [ -d "$TARGET_COMPONENT" ]; then
+        checksum=$(compute_checksum "$TARGET_COMPONENT")
+        NEW_CHECKSUMS="$NEW_CHECKSUMS\"$AGENT_TARGET_DIR/$component/\":\"sha256:$checksum\","
     fi
 done
 NEW_CHECKSUMS="${NEW_CHECKSUMS%,}}"

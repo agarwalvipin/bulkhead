@@ -4,17 +4,25 @@
   "title": "Bulkhead Configuration",
   "description": "Configuration schema for .bulkhead/config.yaml",
   "type": "object",
-  "required": ["version"],
+  "required": [
+    "version"
+  ],
   "properties": {
     "version": {
       "type": "string",
       "description": "Configuration schema version",
-      "enum": ["2.0"]
+      "enum": [
+        "2.0"
+      ]
     },
     "rigor_profile": {
       "type": "string",
       "description": "Rigor level for governance artifacts",
-      "enum": ["sandbox", "standard", "maximum"],
+      "enum": [
+        "sandbox",
+        "standard",
+        "maximum"
+      ],
       "default": "standard"
     },
     "strict_mode": {
@@ -51,8 +59,15 @@
         "blocked_branches": {
           "type": "array",
           "description": "Branches that sandbox code cannot merge to",
-          "items": { "type": "string" },
-          "default": ["main", "master", "develop", "release/*"]
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "main",
+            "master",
+            "develop",
+            "release/*"
+          ]
         },
         "promotion_required": {
           "type": "boolean",
@@ -92,18 +107,35 @@
         "project_management": {
           "type": "object",
           "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "implicit",
+                "github",
+                "jira",
+                "linear"
+              ],
+              "description": "Project management strategy. 'implicit' uses Bulkhead artifacts only.",
+              "default": "implicit"
+            },
             "enabled": {
               "type": "boolean",
+              "description": "Deprecated: Use 'mode' instead",
               "default": false
             },
             "provider": {
               "type": "string",
-              "enum": ["github_projects", "jira", "linear"],
+              "description": "Deprecated: Use 'mode' instead",
+              "enum": [
+                "github_projects",
+                "jira",
+                "linear"
+              ],
               "default": "github_projects"
             },
             "project_number": {
               "type": "integer",
-              "description": "GitHub Project number"
+              "description": "GitHub Project number (for mode: github)"
             },
             "auto_create_epic": {
               "type": "boolean",
@@ -125,17 +157,25 @@
       "properties": {
         "MINOR": {
           "type": "string",
-          "enum": ["sandbox", "standard"],
+          "enum": [
+            "sandbox",
+            "standard"
+          ],
           "default": "sandbox"
         },
         "MAJOR": {
           "type": "string",
-          "enum": ["standard", "maximum"],
+          "enum": [
+            "standard",
+            "maximum"
+          ],
           "default": "standard"
         },
         "CRITICAL": {
           "type": "string",
-          "enum": ["maximum"],
+          "enum": [
+            "maximum"
+          ],
           "default": "maximum"
         }
       },

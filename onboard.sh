@@ -86,9 +86,11 @@ handle_mergeable_file() {
     fi
 }
 
-# Copy .agent directory (stays at root - agent convention)
-echo "📁 Copying .agent/ (workflows & rules)..."
-cp -r "$SCRIPT_DIR/.agent" "$TARGET_DIR/"
+# Create .agent directory and copy workflows/rules into it
+echo "📁 Creating .agent/ (workflows & rules)..."
+mkdir -p "$TARGET_DIR/.agent"
+cp -r "$SCRIPT_DIR/workflows" "$TARGET_DIR/.agent/"
+cp -r "$SCRIPT_DIR/rules" "$TARGET_DIR/.agent/"
 
 # Copy components into .bulkhead/
 for component in "${COMPONENTS[@]}"; do
@@ -100,10 +102,36 @@ done
 echo "📁 Creating .bulkhead/architecture/ ledger..."
 mkdir -p "$BULKHEAD_DIR/architecture"
 
+# Prompt for Project Management Configuration
+echo ""
+echo "📋 Project Management Configuration"
+echo "How do you want to track progress?"
+echo "  1) Implicit (Bulkhead artifacts only - simplest, default)"
+echo "  2) GitHub Projects (sync epics/tasks to GitHub Issues)"
+echo "  3) Jira (future support)"
+echo "  4) Linear (future support)"
+read -p "Select mode [1/2/3/4]: " PM_CHOICE
+
+case $PM_CHOICE in
+    2) PM_MODE="github" ;;
+    3) PM_MODE="jira" ;;
+    4) PM_MODE="linear" ;;
+    *) PM_MODE="implicit" ;;
+esac
+echo "Selected mode: $PM_MODE"
+
 # Copy default config.yaml if template exists
 if [ -f "$BULKHEAD_DIR/templates/config.yaml" ]; then
     echo "📁 Creating .bulkhead/config.yaml (default: standard rigor)..."
     cp "$BULKHEAD_DIR/templates/config.yaml" "$BULKHEAD_DIR/config.yaml"
+    
+    # Apply selected PM mode
+    if [ "$PM_MODE" != "implicit" ]; then
+        # Use sed to replace the default mode
+        # We use a temp file to ensure compatibility across sed versions
+        sed "s/mode: implicit/mode: $PM_MODE/" "$BULKHEAD_DIR/config.yaml" > "$BULKHEAD_DIR/config.yaml.tmp" && mv "$BULKHEAD_DIR/config.yaml.tmp" "$BULKHEAD_DIR/config.yaml"
+        echo "   → Configured for: $PM_MODE"
+    fi
 fi
 
 # Handle mergeable files with conflict detection
@@ -132,6 +160,11 @@ fi
 echo "📁 Copying .bulkhead/update.sh..."
 cp "$SCRIPT_DIR/update.sh" "$BULKHEAD_DIR/"
 chmod +x "$BULKHEAD_DIR/update.sh"
+
+# Copy uninstall script into .bulkhead/
+echo "📁 Copying .bulkhead/uninstall.sh..."
+cp "$SCRIPT_DIR/uninstall.sh" "$BULKHEAD_DIR/"
+chmod +x "$BULKHEAD_DIR/uninstall.sh"
 
 # Compute checksums for installed components
 echo ""

@@ -14,9 +14,9 @@ Convert the architecture into granular tasks.
 - **Order**: Dependencies first (e.g., Database migrations before API endpoints).
 
 ### 2. Execution (Double-Write)
-Generate the following artifacts in `architecture/`:
+Generate the following artifacts in `.bulkhead/architecture/`:
 
-#### A. Human-Readable: `architecture/05-plan.md`
+#### A. Human-Readable: `.bulkhead/architecture/05-plan.md`
 ```markdown
 # Phase 5: Execution Plan
 
@@ -30,7 +30,7 @@ Generate the following artifacts in `architecture/`:
 - [ ] Implement `POST /login`
 ```
 
-#### B. Machine-Enforceable: `architecture/05-plan.json`
+#### B. Machine-Enforceable: `.bulkhead/architecture/05-plan.json`
 *Must validate against `schemas/execution-plan.schema.json`*
 ```json
 {
@@ -55,4 +55,28 @@ Generate the following artifacts in `architecture/`:
 ```
 
 ## Routing
-Proceed to **Phase 6: Execution**.
+
+Upon successful completion of Phase 5, present the following options to the user:
+
+---
+
+### ⚡ Phase 5 Complete: Next Steps
+
+**Choose your next action:**
+
+| Option | Action | Description |
+|--------|--------|-------------|
+| **A** | `/phase-6-execute` | Proceed directly to Phase 6: Execution |
+| **B** | `/int-github-project` | Create Epics and Stories on GitHub first |
+
+> **💡 Recommendation:** If you want to track progress with GitHub Issues and Projects, choose **Option B** to create:
+> - Epic issues for each milestone
+> - Story issues for each task in the plan
+> - Proper labels and project board setup
+
+**Ask the user:** "Would you like to create GitHub Epics and Stories before proceeding to execution? (A: Skip to Phase 6 / B: Set up GitHub tracking)"
+
+---
+
+If user selects **A**: Proceed to **Phase 6: Execution**.
+If user selects **B**: Run `/int-github-project` workflow.

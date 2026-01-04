@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallel Work Management - Bulkhead Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sticky top-0 z-50 glass-card border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-8 w-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                    BH</div>
+                <span class="font-bold text-lg">Bulkhead <span class="text-orange-400">Guides</span></span>
+            </div>
+            <a href="../workflow-scenarios.html"
+                class="text-sm font-medium text-slate-400 hover:text-orange-400 transition-colors">← Back to
+                Scenarios</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <article class="glass-card rounded-2xl p-8 md:p-12">
+            <div class="flex items-center gap-3 mb-6">
+                <span
+                    class="px-3 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-bold rounded-full border border-indigo-500/30">SCENARIO
+                    5</span>
+                <h1 class="text-3xl font-extrabold text-white">Parallel Work Management</h1>
+            </div>
+            <p class="text-slate-400 text-lg mb-8">Orchestrating multiple teams and features simultaneously without
+                collisions.</p>
+
+            <hr class="border-slate-700/50 my-8">
+
+            <section class="mb-12">
+                <h2 class="text-xl font-bold text-indigo-400 mb-6">Isolation Strategy</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-5 border-l-4 border-orange-500 bg-slate-900/50">
+                        <h3 class="font-bold text-white mb-2">Feature Teams</h3>
+                        <p class="text-sm text-slate-400 mb-2">Run isolated Epics.</p>
+                        <code
+                            class="text-xs bg-slate-800 px-2 py-1 rounded text-orange-400">/phase-epic-orchestrator epic E1.1</code>
+                    </div>
+                    <div class="p-5 border-l-4 border-red-500 bg-slate-900/50">
+                        <h3 class="font-bold text-white mb-2">Security Audit</h3>
+                        <p class="text-sm text-slate-400 mb-2">Runs orthogonal to features.</p>
+                        <code class="text-xs bg-slate-800 px-2 py-1 rounded text-red-400">/security-architect</code>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2 class="text-xl font-bold text-white mb-4">Collision Avoidance</h2>
+                <ul class="space-y-3">
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs font-bold">
+                            ✓</div>
+                        <div>
+                            <strong class="text-slate-200">Namespaced Artifacts</strong>
+                            <p class="text-sm text-slate-400">Artifacts live in separate folders (`phases/P1/E1.1/`) so
+                                they never conflict.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs font-bold">
+                            ✓</div>
+                        <div>
+                            <strong class="text-slate-200">Dependency Guard</strong>
+                            <p class="text-sm text-slate-400"><code>01-context.json</code> declares dependencies
+                                upfront.</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </article>
+    </main>
+</body>
+
+</html>

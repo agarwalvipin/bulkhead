@@ -22,9 +22,9 @@ Classify files into permission tiers:
 - **Forbidden**: Sensitive files (secrets, unrelated logic) that are off-limits.
 
 ### 3. Execution (Double-Write)
-Generate the following artifacts in `architecture/`:
+Generate the following artifacts in `.bulkhead/architecture/`:
 
-#### A. Human-Readable: `architecture/01-context.md`
+#### A. Human-Readable: `.bulkhead/architecture/01-context.md`
 ```markdown
 # Phase 1: Context
 
@@ -42,7 +42,7 @@ Generate the following artifacts in `architecture/`:
 - Cannot change database connection logic.
 ```
 
-#### B. Machine-Enforceable: `architecture/01-context.json`
+#### B. Machine-Enforceable: `.bulkhead/architecture/01-context.json`
 *Must validate against `schemas/context-spec.schema.json`*
 ```json
 {

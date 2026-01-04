@@ -1,6 +1,6 @@
 # Bulkhead
 
-![Version](https://img.shields.io/badge/version-2.1.2-blue)
+![Version](https://img.shields.io/badge/version-2.2.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
@@ -117,30 +117,38 @@ rigor_profile: standard  # sandbox | standard | maximum
 ### Source Repository (this repo)
 ```
 .
-├── .agent/workflows/       # Agent instructions for each phase
-├── .bulkhead/
-│   ├── architecture/       # Governance artifacts ledger
-│   ├── governance/         # Core rules and philosophy
-│   ├── schemas/            # JSON Schemas for validation
-│   ├── templates/          # Blank templates for new tasks
-│   └── update.sh           # Update script with merge support
+├── workflows/              # Workflow definitions (copied to .agent/ in targets)
+├── rules/                  # Governance rules (copied to .agent/ in targets)
+├── schemas/                # JSON Schemas for validation
+├── templates/              # Blank templates for new tasks
+├── governance/             # Core rules and philosophy
+├── migrations/             # Version migration scripts
+├── architecture/           # Example governance artifacts
 ├── examples/               # Complete worked examples
+├── docs/                   # Documentation and guides
 ├── VERSION                 # Current framework version
 ├── CHANGELOG.md            # Version history
-└── onboard.sh              # Onboarding script
+├── onboard.sh              # Onboarding script
+├── update.sh               # Update script with merge support
+└── uninstall.sh            # Uninstall script
 ```
 
 ### Onboarded Project Structure
 ```
 your-project/
-├── .agent/                 # Workflows (at root - agent convention)
+├── .agent/                 # Workflows & rules (Antigravity convention)
+│   ├── workflows/          # Phase workflows
+│   └── rules/              # Governance rules
 ├── .bulkhead/
 │   ├── architecture/       # Your governance artifacts
 │   ├── governance/         # Philosophy docs
 │   ├── schemas/            # JSON Schemas
 │   ├── templates/          # Phase templates
+│   ├── migrations/         # Version migrations
 │   ├── manifest.json       # Version tracking
-│   └── update.sh           # Update script
+│   ├── config.yaml         # Rigor configuration
+│   ├── update.sh           # Update script
+│   └── uninstall.sh        # Uninstall script
 └── .github/workflows/      # CI/CD validation
 ```
 

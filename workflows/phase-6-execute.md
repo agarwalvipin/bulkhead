@@ -9,8 +9,8 @@ description: Phase 6 Execution (Coding).
 ## Protocol
 
 ### 1. Initialization
-- Reading `architecture/05-plan.json`.
-- Restricting context to `architecture/01-context.json` (Read-Write files).
+- Reading `.bulkhead/architecture/05-plan.json`.
+- Restricting context to `.bulkhead/architecture/01-context.json` (Read-Write files).
 
 ### 2. Execution Loop
 For each task in `05-plan.json`:
@@ -28,7 +28,7 @@ For each task in `05-plan.json`:
 ### 4. Reporting
 Generate the following artifact manually or automatically:
 
-#### A. Execution Report: `architecture/06-report.md`
+#### A. Execution Report: `.bulkhead/architecture/06-report.md`
 ```markdown
 # Phase 6: Execution Report
 

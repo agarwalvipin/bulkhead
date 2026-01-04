@@ -1,0 +1,88 @@
+{
+    "$id": "https://sdlc.ai/schemas/execution-report.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Execution Report",
+    "description": "Output of Phase 6 code execution process.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "phase",
+        "status",
+        "tasks_completed"
+    ],
+    "properties": {
+        "phase": {
+            "type": "string",
+            "const": "execution"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "COMPLETE",
+                "PARTIAL",
+                "BLOCKED"
+            ],
+            "description": "Overall execution status."
+        },
+        "tasks_completed": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "task_id",
+                    "status"
+                ],
+                "properties": {
+                    "task_id": {
+                        "type": "string",
+                        "description": "Task identifier from plan."
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "DONE",
+                            "FAILED",
+                            "SKIPPED"
+                        ]
+                    },
+                    "commit": {
+                        "type": "string",
+                        "description": "Git commit hash."
+                    },
+                    "notes": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "blockers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "issue",
+                    "type"
+                ],
+                "properties": {
+                    "issue": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "CONTEXT_ERROR",
+                            "DESIGN_FLAW",
+                            "IMPLEMENTATION_ERROR"
+                        ]
+                    },
+                    "resolution": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Blockers encountered during execution."
+        }
+    }
+}

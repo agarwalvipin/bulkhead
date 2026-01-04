@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulkhead Workflow Scenarios - Interactive Guide</title>
+    <meta name="description"
+        content="Interactive visual guide showing real-world workflow scenarios using Bulkhead governance system.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --accent-orange: #f97316;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-red: #ef4444;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .tab-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2) 0%, rgba(251, 146, 60, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tab-button:hover::before {
+            opacity: 1;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active::before {
+            opacity: 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cy-container {
+            width: 100%;
+            height: 550px;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .scenario-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.1);
+        }
+
+        .gradient-border {
+            position: relative;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, #f97316, #3b82f6, #8b5cf6);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+
+<body class="text-slate-200">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <div
+                            class="h-10 w-10 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-orange-500/30">
+                            BH
+                        </div>
+                        <div>
+                            <span class="font-bold text-xl tracking-tight">Bulk<span
+                                    class="text-orange-400">head</span></span>
+                            <span
+                                class="hidden sm:inline-block ml-2 px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs font-semibold rounded-full border border-orange-500/30">v2.2</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html"
+                        class="text-sm font-medium text-slate-400 hover:text-orange-400 transition-colors">←
+                        Dashboard</a>
+                    <a href="https://github.com/agarwalvipin/bulkhead" target="_blank"
+                        class="hidden sm:flex items-center space-x-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-colors border border-slate-700">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-16 pb-12 overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-900/20 via-transparent to-transparent">
+        </div>
+        <div class="absolute top-20 left-1/4 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-40 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div
+                class="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-slate-800/80 text-slate-300 text-xs font-semibold tracking-wide uppercase mb-6 border border-slate-700">
+                <span class="w-2 h-2 bg-green-400 rounded-full pulse-dot"></span>
+                <span>Interactive Flow Diagrams</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                <span class="text-white">Workflow</span>
+                <span
+                    class="bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500 bg-clip-text text-transparent glow-text">
+                    Scenarios</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-slate-400 leading-relaxed">
+                Explore real-world governance patterns. <span class="text-slate-300 font-medium">Pan, zoom, and
+                    hover</span> to discover workflow connections.
+            </p>
+
+            <!-- Stats Row -->
+            <div class="flex flex-wrap justify-center gap-4 mt-10">
+                <div class="stat-card px-6 py-3 rounded-xl">
+                    <div class="text-2xl font-bold text-orange-400">8</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wider">Scenarios</div>
+                </div>
+                <div class="stat-card px-6 py-3 rounded-xl">
+                    <div class="text-2xl font-bold text-blue-400">18</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wider">Workflows</div>
+                </div>
+                <div class="stat-card px-6 py-3 rounded-xl">
+                    <div class="text-2xl font-bold text-green-400">∞</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wider">Combinations</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scenario Tabs -->
+    <section class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Tab Navigation -->
+            <div class="glass-card rounded-2xl p-2 mb-6">
+                <div class="flex flex-wrap gap-2">
+                    <button class="tab-button active px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(0)">
+                        <span class="hidden sm:inline">📋 </span>New Feature
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(1)">
+                        <span class="hidden sm:inline">🔄 </span>Modernization
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(2)">
+                        <span class="hidden sm:inline">🔒 </span>Security-First
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(3)">
+                        <span class="hidden sm:inline">🔁 </span>Continuous
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(4)">
+                        <span class="hidden sm:inline">⚡ </span>Parallel
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(5)">
+                        <span class="hidden sm:inline">🚨 </span>Emergency
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(6)">
+                        <span class="hidden sm:inline">🎯 </span>Refactoring
+                    </button>
+                    <button class="tab-button px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-300"
+                        onclick="showTab(7)">
+                        <span class="hidden sm:inline">🏗️ </span>Large Codebase
+                    </button>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="glass-card rounded-xl p-4 mb-6">
+                <div class="flex flex-wrap gap-3 items-center justify-center">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #10b981; color: #10b981;"></div>
+                        <span class="text-slate-400">Start/End</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #22c55e; color: #22c55e;"></div>
+                        <span class="text-slate-400">Workflows</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #3b82f6; color: #3b82f6;"></div>
+                        <span class="text-slate-400">Phases</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #f59e0b; color: #f59e0b;"></div>
+                        <span class="text-slate-400">Decisions</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #8b5cf6; color: #8b5cf6;"></div>
+                        <span class="text-slate-400">Execution</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: #ef4444; color: #ef4444;"></div>
+                        <span class="text-slate-400">Security</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tab-content">
+                <!-- Scenario 1 -->
+                <div class="tab-content active" id="tab-0">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full border border-blue-500/30">SCENARIO
+                                        1</span>
+                                    <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">Full
+                                        SDLC</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">New Feature Development</h2>
+                                <p class="text-slate-400 max-w-xl">Complete 8-phase governance from request to
+                                    deployment with all checkpoints.</p>
+                            </div>
+                        </div>
+                        <div id="cy-0" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 1 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-orange-400">Step-by-Step Guide</h3>
+                            <a href="guides/guide-new-feature.html"
+                                class="px-3 py-1 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 text-xs font-bold rounded-full border border-orange-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex gap-4">
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center font-bold">
+                                    1</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-200">Governance Gates (Phases 0-4)</h4>
+                                    <p class="text-sm text-slate-400 mb-2">Establish economic viability, scope, design,
+                                        and security before writing code.</p>
+                                    <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead start</code>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center font-bold">
+                                    2</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-200">Planning & Tracking</h4>
+                                    <p class="text-sm text-slate-400 mb-2">Break down tasks and create GitHub artifacts.
+                                    </p>
+                                    <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/phase-5-plan</code>
+                                    <span class="text-slate-600">→</span> <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/int-github-project</code>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div
+                                    class="flex-shrink-0 w-8 h-8 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center font-bold">
+                                    3</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-200">Execution & Verify</h4>
+                                    <p class="text-sm text-slate-400 mb-2">Implement code and verify against acceptance
+                                        criteria.</p>
+                                    <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/phase-6-execute</code>
+                                    <span class="text-slate-600">→</span> <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/phase-7-verify</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div class="tab-content" id="tab-1">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full border border-purple-500/30">SCENARIO
+                                        2</span>
+                                    <span
+                                        class="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs rounded-full">Decision
+                                        Flow</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Legacy Modernization</h2>
+                                <p class="text-slate-400 max-w-xl">Evaluate, decide refactor vs rebuild, then execute
+                                    with phased governance.</p>
+                            </div>
+                        </div>
+                        <div id="cy-1" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 2 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-orange-400">Legacy Modernization Flow</h3>
+                            <a href="guides/guide-modernization.html"
+                                class="px-3 py-1 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 text-xs font-bold rounded-full border border-orange-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                                <h4 class="font-bold text-purple-400 mb-2">1. Analysis</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
+                                    <li>Run <code class="text-orange-400">/spec-modernization</code> to assess system
+                                        state</li>
+                                    <li>Perform <code class="text-orange-400">/rebuild-vs-refactor</code> analysis</li>
+                                    <li>Compare metrics (tech debt, logic knowledge)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                                <h4 class="font-bold text-green-400 mb-2">2. Execution</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
+                                    <li><strong>Refactor:</strong> Use <code
+                                            class="text-orange-400">/refactoring-architect</code> to plan phased
+                                        extraction</li>
+                                    <li><strong>Rebuild:</strong> Start fresh SDLC with <code
+                                            class="text-orange-400">/bulkhead start</code></li>
+                                    <li><strong>Target:</strong> Clean, tested, modern architecture</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 3 -->
+                <div class="tab-content" id="tab-2">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-red-500/20 text-red-400 text-xs font-bold rounded-full border border-red-500/30">SCENARIO
+                                        3</span>
+                                    <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs rounded-full">INFRA
+                                        Rules</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Security-First Infrastructure
+                                </h2>
+                                <p class="text-slate-400 max-w-xl">Infrastructure changes with mandatory security
+                                    reviews and INFRA governance.</p>
+                            </div>
+                        </div>
+                        <div id="cy-2" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 3 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8 border border-red-500/20">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-red-400 flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                Security-First Protocol
+                            </h3>
+                            <a href="guides/guide-security-infra.html"
+                                class="px-3 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold rounded-full border border-red-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-red-500/10 p-4 rounded-xl border border-red-500/20">
+                                <h4 class="font-bold text-red-300 mb-2">Infrastructure Overrides (INFRA-1 to 5)</h4>
+                                <p class="text-sm text-slate-400 mb-3">Any infrastructure change triggers strict
+                                    validation:</p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                                    <div class="bg-slate-900/50 p-2 rounded text-slate-300">INFRA-1: No Defaults</div>
+                                    <div class="bg-slate-900/50 p-2 rounded text-slate-300">INFRA-2: Threat Model</div>
+                                    <div class="bg-slate-900/50 p-2 rounded text-slate-300">INFRA-3: Decision Record
+                                    </div>
+                                    <div class="bg-slate-900/50 p-2 rounded text-slate-300">INFRA-5: No Fast-Track</div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-200">Workflow</h4>
+                                <p class="text-sm text-slate-400">
+                                    <code class="text-orange-400">/phase-3-security</code> <span
+                                        class="text-slate-500">→</span>
+                                    <code class="text-orange-400">/security-architect</code> <span
+                                        class="text-slate-500">→</span>
+                                    <code class="text-orange-400">/phase-4-decision</code> (Requires Human Sign-off)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 4 -->
+                <div class="tab-content" id="tab-3">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-full border border-green-500/30">SCENARIO
+                                        4</span>
+                                    <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded-full">Daily
+                                        Flow</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Continuous Development</h2>
+                                <p class="text-slate-400 max-w-xl">Daily developer workflow with status checks,
+                                    resumption, and PR management.</p>
+                            </div>
+                        </div>
+                        <div id="cy-3" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 4 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-blue-400">Daily Developer Workflow</h3>
+                            <a href="guides/guide-continuous-dev.html"
+                                class="px-3 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full border border-blue-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                                <div class="text-lg font-bold text-white mb-1">Morning</div>
+                                <code
+                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/phase-status</code>
+                                <p class="text-xs text-slate-400">Check dashboard. Resume blocked tasks or start new
+                                    work.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                                <div class="text-lg font-bold text-white mb-1">Coding</div>
+                                <code
+                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/bulkhead continue</code>
+                                <p class="text-xs text-slate-400">Resume context. Auto-switch branch and phase.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                                <div class="text-lg font-bold text-white mb-1">Review</div>
+                                <code
+                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/int-pr-manager</code>
+                                <p class="text-xs text-slate-400">Create PRs, handle merges, and update logs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 5 -->
+                <div class="tab-content" id="tab-4">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-bold rounded-full border border-indigo-500/30">SCENARIO
+                                        5</span>
+                                    <span
+                                        class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded-full">Multi-Team</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Parallel Work Management</h2>
+                                <p class="text-slate-400 max-w-xl">Multiple teams working simultaneously with GitHub
+                                    Project integration.</p>
+                            </div>
+                        </div>
+                        <div id="cy-4" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 5 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-indigo-400">Parallel Work Management</h3>
+                            <a href="guides/guide-parallel-work.html"
+                                class="px-3 py-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-xs font-bold rounded-full border border-indigo-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <div class="space-y-4">
+                            <p class="text-slate-400 text-sm">Orchestating multiple teams working on features and audits
+                                simultaneously.</p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="border-l-2 border-orange-500 pl-4">
+                                    <h4 class="font-bold text-white">Feature Teams</h4>
+                                    <p class="text-xs text-slate-400 mb-2">Each feature runs isolated SDLC.</p>
+                                    <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/int-github-project</code>
+                                    <span class="text-xs text-slate-500 block mt-1">Tracks separate epics &
+                                        branches</span>
+                                </div>
+                                <div class="border-l-2 border-red-500 pl-4">
+                                    <h4 class="font-bold text-white">Security Team</h4>
+                                    <p class="text-xs text-slate-400 mb-2">Audit runs in parallel.</p>
+                                    <code
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/security-architect</code>
+                                    <span class="text-xs text-slate-500 block mt-1">Injects issues into backlog</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-indigo-500/10 p-3 rounded-lg border border-indigo-500/20 text-sm text-indigo-200">
+                                <strong>Merge Strategy:</strong> Use <code class="text-orange-400">/code-review</code>
+                                to detect conflicts early. Automated changelog handling ensures clean release history.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 6 -->
+                <div class="tab-content" id="tab-5">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-red-500/20 text-red-400 text-xs font-bold rounded-full border border-red-500/30">SCENARIO
+                                        6</span>
+                                    <span
+                                        class="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs rounded-full">Fast-Track</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Emergency Response</h2>
+                                <p class="text-slate-400 max-w-xl">Production hotfix with condensed phases while
+                                    respecting security rules.</p>
+                            </div>
+                        </div>
+                        <div id="cy-5" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 6 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8 border border-red-500/30">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-xl font-bold text-red-500">Emergency Hotfix protocol</h3>
+                                <span
+                                    class="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded uppercase">P0
+                                    Critical</span>
+                            </div>
+                            <a href="guides/guide-emergency-hotfix.html"
+                                class="px-3 py-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold rounded-full border border-red-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex gap-4 items-start">
+                                <div
+                                    class="w-1.5 h-full bg-slate-700 rounded-full overflow-hidden self-stretch relative">
+                                    <div class="absolute top-0 left-0 w-full h-1/2 bg-red-500"></div>
+                                </div>
+                                <div class="space-y-4 flex-1">
+                                    <div>
+                                        <h4 class="font-bold text-slate-200">1. Fast-Track Triage</h4>
+                                        <p class="text-sm text-slate-400">Assess severity. If P0, enter emergency mode.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-200">2. Condensed Governance</h4>
+                                        <p class="text-sm text-slate-400 mb-1">Combine Phases 0-2 into single context
+                                            pass.</p>
+                                        <div class="text-xs bg-red-900/30 p-2 rounded text-red-200">
+                                            ⚠️ <strong>Constraint:</strong> If Infrastructure change involved, standard
+                                            security review (P3) is MANDATORY. No fast-track for INFRA.
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-200">3. Rapid Execution & Deploy</h4>
+                                        <p class="text-sm text-slate-400">Implement fix → Verify → Express PR → Deploy →
+                                            Post-mortem.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 7 -->
+                <div class="tab-content" id="tab-6">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full border border-purple-500/30">SCENARIO
+                                        7</span>
+                                    <span
+                                        class="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs rounded-full">Analysis</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Refactoring Decision</h2>
+                                <p class="text-slate-400 max-w-xl">Data-driven refactor vs rebuild analysis with phased
+                                    execution planning.</p>
+                            </div>
+                        </div>
+                        <div id="cy-6" class="cy-container"></div>
+                    </div>
+
+                    <!-- Detailed Guide: Scenario 7 -->
+                    <div class="mt-6 glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-amber-400">Refactoring Decision Matrix</h3>
+                            <a href="guides/guide-refactoring-decision.html"
+                                class="px-3 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full border border-amber-500/30 transition-colors uppercase flex items-center gap-1">View
+                                Full Guide <span class="text-sm">→</span></a>
+                        </div>
+                        <p class="text-slate-400 text-sm mb-6">Data-driven approach to architectural changes. No
+                            guessing.</p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-slate-900/50 p-4 rounded-xl text-center">
+                                <div class="text-2xl font-bold text-white mb-1">Metrics</div>
+                                <div class="text-xs text-slate-500">Tech Debt • Test Coverage • Complexity</div>
+                            </div>
+                            <div class="bg-slate-900/50 p-4 rounded-xl text-center">
+                                <div class="text-2xl font-bold text-white mb-1">Cost</div>
+                                <div class="text-xs text-slate-500">Refactor Effort vs Rebuild Capital</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-200 text-sm">The Process</h4>
+                            <ol class="list-decimal list-inside text-sm text-slate-400 space-y-1">
+                                <li>Run <code class="text-orange-400">/rebuild-vs-refactor</code> to generate scorecard.
+                                </li>
+                                <li><strong>Refactor Path:</strong> Use <code
+                                        class="text-orange-400">/refactoring-architect</code> to plan component
+                                    extraction.</li>
+                                <li><strong>Rebuild Path:</strong> Treat as Greenfields project with <code
+                                        class="text-orange-400">/bulkhead</code>.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scenario 8 -->
+                <div class="tab-content" id="tab-7">
+                    <div class="scenario-card glass-card rounded-2xl p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span
+                                        class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs font-bold rounded-full border border-orange-500/30">SCENARIO
+                                        8</span>
+                                    <span
+                                        class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">Enterprise</span>
+                                </div>
+                                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Large Codebase Development
+                                </h2>
+                                <p class="text-slate-400 max-w-xl">Multi-phase modernization with nested epics, each
+                                    running full SDLC.</p>
+                            </div>
+                            <a href="refactoring-guide.html"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 rounded-lg text-sm font-semibold transition-colors border border-orange-500/30">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Full Guide
+                            </a>
+                        </div>
+                        <div id="cy-7" class="cy-container"></div>
+
+                        <!-- Detailed Guide: Scenario 8 -->
+                        <div class="mt-6 glass-card rounded-2xl p-6 md:p-8 border-t-4 border-orange-500">
+                            <h3 class="text-xl font-bold text-white mb-4">Large Codebase Orchestration</h3>
+                            <div class="flex gap-4 mb-6">
+                                <div class="flex-1 bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
+                                    <h4 class="text-sm font-bold text-orange-400 uppercase tracking-wide mb-2">Hierarchy
+                                    </h4>
+                                    <ul class="text-sm text-slate-300 space-y-2">
+                                        <li>🏢 <strong>Project</strong> (Modernization)</li>
+                                        <li class="pl-4">📂 <strong>Phase P1</strong> (Infrastructure)</li>
+                                        <li class="pl-8 text-slate-400">📄 Epic 1.1 (Database)</li>
+                                        <li class="pl-8 text-slate-400">📄 Epic 1.2 (api)</li>
+                                        <li class="pl-4">📂 <strong>Phase P2</strong> (Core)</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-1 space-y-3">
+                                    <button
+                                        class="w-full text-left bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors border border-slate-700 block">
+                                        <div class="text-xs text-slate-500 uppercase">Step 1</div>
+                                        <div class="font-bold text-white">/spec-modernization</div>
+                                        <div class="text-xs text-slate-400">Define the master plan</div>
+                                    </button>
+                                    <button
+                                        class="w-full text-left bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors border border-slate-700 block">
+                                        <div class="text-xs text-slate-500 uppercase">Step 2</div>
+                                        <div class="font-bold text-white">/phase-epic-orchestrator</div>
+                                        <div class="text-xs text-slate-400">Manage phases & gates</div>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-sm text-slate-400">
+                                Detailed instruction in <a href="refactoring-guide.html"
+                                    class="text-orange-400 hover:underline">Large Codebase Refactoring Guide</a>.
+                            </p>
+                        </div>
+
+                        <!-- Artifact Flow Preview -->
+                        <div class="mt-6 p-4 bg-slate-900/50 rounded-xl border border-slate-700/50">
+                            <h4 class="text-sm font-semibold text-slate-300 mb-3">📦 Artifact Chain</h4>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <code class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded">00-triage.json</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded">01-context.json</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded">02-design.json</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-red-500/20 text-red-400 rounded">03-security.json</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-amber-500/20 text-amber-400 rounded">04-decision.md</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded">05-plan.json</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded">06-report.md</code>
+                                <span class="text-slate-600">→</span>
+                                <code class="px-2 py-1 bg-green-500/20 text-green-400 rounded">07-verify.json</code>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-3">Each epic generates these artifacts. Status tracked
+                                in <code class="text-orange-400">project-progress.json</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-white mb-8 text-center">Workflow Quick Reference</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-card p-5 rounded-xl border-l-4 border-l-blue-500">
+                    <h3 class="font-bold text-white mb-3 flex items-center gap-2">
+                        <span class="text-blue-400">●</span> Core Workflows
+                    </h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/bulkhead</code>
+                            Orchestrator</li>
+                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/phase-status</code>
+                            Dashboard</li>
+                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/phase-checkpoint</code>
+                            Validate</li>
+                    </ul>
+                </div>
+                <div class="glass-card p-5 rounded-xl border-l-4 border-l-green-500">
+                    <h3 class="font-bold text-white mb-3 flex items-center gap-2">
+                        <span class="text-green-400">●</span> Integrations
+                    </h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><code
+                                class="text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">/int-github-project</code>
+                        </li>
+                        <li><code class="text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">/int-pr-manager</code>
+                        </li>
+                        <li><code
+                                class="text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">/int-update-changelog</code>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card p-5 rounded-xl border-l-4 border-l-purple-500">
+                    <h3 class="font-bold text-white mb-3 flex items-center gap-2">
+                        <span class="text-purple-400">●</span> Specialized
+                    </h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><code
+                                class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">/spec-code-review</code>
+                        </li>
+                        <li><code
+                                class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">/spec-modernization</code>
+                        </li>
+                        <li><code
+                                class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">/phase-epic-orchestrator</code>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center space-x-2 mb-3">
+                <div
+                    class="h-8 w-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                    BH
+                </div>
+                <span class="font-bold text-lg text-white">Bulkhead <span class="text-orange-400">v2.2</span></span>
+            </div>
+            <p class="text-sm text-slate-500">AI Governance Framework</p>
+        </div>
+    </footer>
+
+    <script src="scenarios-data.js"></script>
+
+</body>
+
+</html>

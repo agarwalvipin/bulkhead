@@ -21,9 +21,9 @@ Analyze the `02-design.md` against the STRIDE model:
 Assign a risk level (LOW, MEDIUM, HIGH, CRITICAL) based on likelihood and impact.
 
 ### 3. Execution (Double-Write)
-Generate the following artifacts in `architecture/`:
+Generate the following artifacts in `.bulkhead/architecture/`:
 
-#### A. Human-Readable: `architecture/03-security.md`
+#### A. Human-Readable: `.bulkhead/architecture/03-security.md`
 ```markdown
 # Phase 3: Security Report
 
@@ -41,7 +41,7 @@ Generate the following artifacts in `architecture/`:
 - [x] Auth checks on all endpoints
 ```
 
-#### B. Machine-Enforceable: `architecture/03-security.json`
+#### B. Machine-Enforceable: `.bulkhead/architecture/03-security.json`
 *Must validate against `schemas/security-report.schema.json`*
 ```json
 {
@@ -62,4 +62,37 @@ Generate the following artifacts in `architecture/`:
 ```
 
 ## Routing
-Proceed to **Phase 4: Decision**.
+
+> **⚠️ RE-APPROVAL REQUIRED ON EVERY ITERATION**
+> 
+> If this phase is being re-run (e.g., after a failed Phase 7 verification or security revision), 
+> **previous approvals are NOT valid**. You MUST obtain fresh user approval.
+
+### User Approval Gate
+
+Before proceeding to Phase 4, present the security assessment to the user and ask:
+
+```
+🔒 Phase 3: Security Review
+
+Threat Model Analysis Complete:
+- Risk Score: [LOW/MEDIUM/HIGH/CRITICAL]
+- Threats Identified: [Count]
+- Mitigations Defined: [Count]
+- Unmitigated Risks: [Count]
+
+This is iteration #[N] of the security phase.
+[If N > 1: Previous approval has been invalidated due to re-iteration.]
+
+Do you approve this security assessment? (Y/N/Request Changes)
+```
+
+| User Response | Action |
+|---------------|--------|
+| **Y (Approve)** | Proceed to **Phase 4: Decision** |
+| **N (Reject)** | Revise security plan based on feedback, re-run Phase 3 |
+| **Request Changes** | Incorporate feedback, update artifacts, ask for approval again |
+
+---
+
+**IMPORTANT**: Never assume a previous security approval carries over. Each iteration is a fresh review.

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Feature Development - Bulkhead Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sticky top-0 z-50 glass-card border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-8 w-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                    BH</div>
+                <span class="font-bold text-lg">Bulkhead <span class="text-orange-400">Guides</span></span>
+            </div>
+            <a href="../workflow-scenarios.html"
+                class="text-sm font-medium text-slate-400 hover:text-orange-400 transition-colors">← Back to
+                Scenarios</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <article class="glass-card rounded-2xl p-8 md:p-12">
+            <div class="flex items-center gap-3 mb-6">
+                <span
+                    class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full border border-blue-500/30">SCENARIO
+                    1</span>
+                <h1 class="text-3xl font-extrabold text-white">New Feature Development</h1>
+            </div>
+            <p class="text-slate-400 text-lg mb-8">Complete 8-phase governance flow for standard feature development.
+            </p>
+
+            <hr class="border-slate-700/50 my-8">
+
+            <section class="mb-12">
+                <h2 class="text-xl font-bold text-orange-400 mb-4">Quick Start</h2>
+                <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50">
+                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># 1. Start Standard Flow</span>
+<span class="text-orange-400">/bulkhead start</span>
+
+<span class="text-slate-500"># 2. Planning</span>
+<span class="text-orange-400">/phase-epic-orchestrator start P1</span>
+<span class="text-orange-400">/int-github-project create-epic "New Feature"</span>
+
+<span class="text-slate-500"># 3. Execution</span>
+<span class="text-orange-400">/phase-6-execute</span></code></pre>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2 class="text-xl font-bold text-orange-400 mb-6">Workflow Steps</h2>
+
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 w-8 h-8 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center font-bold">
+                            1</div>
+                        <div>
+                            <h3 class="font-bold text-slate-200">Governance Gates (Phases 0-4)</h3>
+                            <p class="text-sm text-slate-400 mb-2">Establish viability and safety before coding.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
+                                <li><strong>Triage:</strong> Worth the cost? (<code
+                                        class="text-orange-400">/phase-0-triage</code>)</li>
+                                <li><strong>Context:</strong> Blast radius? (<code
+                                        class="text-orange-400">/phase-1-context</code>)</li>
+                                <li><strong>Design:</strong> Architecture? (<code
+                                        class="text-orange-400">/phase-2-design</code>)</li>
+                                <li><strong>Security:</strong> Threats? (<code
+                                        class="text-orange-400">/phase-3-security</code>)</li>
+                                <li><strong>Decision:</strong> Go/No-Go? (<code
+                                        class="text-orange-400">/phase-4-decision</code>)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 w-8 h-8 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center font-bold">
+                            2</div>
+                        <div>
+                            <h3 class="font-bold text-slate-200">Planning & Tracking</h3>
+                            <p class="text-sm text-slate-400 mb-2">Break down tasks and checkpoint.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
+                                <li>Generate tasks (<code class="text-orange-400">/phase-5-plan</code>)</li>
+                                <li>Sync to GitHub (<code class="text-orange-400">/int-github-project</code>)</li>
+                                <li>Verify artifacts (<code class="text-orange-400">/phase-checkpoint</code>)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 w-8 h-8 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center font-bold">
+                            3</div>
+                        <div>
+                            <h3 class="font-bold text-slate-200">Execution & Verification</h3>
+                            <p class="text-sm text-slate-400 mb-2">Code, test, and merge.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
+                                <li>Implement feature (<code class="text-orange-400">/phase-6-execute</code>)</li>
+                                <li>Run tests (<code class="text-orange-400">/phase-7-verify</code>)</li>
+                                <li>Create PR (<code class="text-orange-400">/int-pr-manager</code>)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-orange-400 mb-4">Artifact Checklist</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs uppercase bg-slate-900/50 text-slate-400">
+                            <tr>
+                                <th class="px-4 py-3">Phase</th>
+                                <th class="px-4 py-3">Artifact</th>
+                                <th class="px-4 py-3">Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/50">
+                            <tr>
+                                <td class="px-4 py-3">0</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">00-triage.json</td>
+                                <td class="px-4 py-3">Triage Bot</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">1</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">01-context.json</td>
+                                <td class="px-4 py-3">Architect</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">2</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">02-design.json</td>
+                                <td class="px-4 py-3">Architect</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">3</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">03-security.json</td>
+                                <td class="px-4 py-3">Security Lead</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">4</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">04-decision.md</td>
+                                <td class="px-4 py-3">Product Owner</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">5</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">05-plan.json</td>
+                                <td class="px-4 py-3">Project Manager</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">6</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">06-report.md</td>
+                                <td class="px-4 py-3">Developer</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">7</td>
+                                <td class="px-4 py-3 font-mono text-orange-400">07-verify.json</td>
+                                <td class="px-4 py-3">CI/CD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </article>
+    </main>
+</body>
+
+</html>

@@ -21,9 +21,9 @@ The User must explicitly approve the plan.
 - **Sign**: Provide an explicit "signature" string (e.g., "APPROVED-v1").
 
 ### 3. Execution (Double-Write)
-Generate the following artifacts in `architecture/`:
+Generate the following artifacts in `.bulkhead/architecture/`:
 
-#### A. Human-Readable: `architecture/04-decision.md`
+#### A. Human-Readable: `.bulkhead/architecture/04-decision.md`
 ```markdown
 # Phase 4: Decision Record
 
@@ -39,7 +39,7 @@ The design uses standard libraries and mitigates all identified risks.
 - Must add a rate limiter as discussed.
 ```
 
-#### B. Machine-Enforceable: `architecture/04-decision.json`
+#### B. Machine-Enforceable: `.bulkhead/architecture/04-decision.json`
 *Must validate against `schemas/decision-record.schema.json`*
 ```json
 {

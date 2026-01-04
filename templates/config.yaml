@@ -34,11 +34,15 @@ rigor_profile: standard
 # GitHub Project integration
 # integrations:
 #   project_management:
-#     enabled: true
-#     provider: github_projects
-#     project_number: 1
-#     auto_create_epic: true
-#     auto_update_tracker: true
+#     # Mode: implicit | github | jira | linear
+#     # - implicit: Use Bulkhead artifacts as source of truth (default)
+#     # - github:   Sync status/tasks with GitHub Projects
+#     mode: implicit
+#     
+#     # For mode: github
+#     # project_number: 1
+#     # auto_create_epic: true
+#     # auto_update_tracker: true
 
 # Auto-map Phase 0 classifications to rigor profiles
 # auto_rigor_mapping:
