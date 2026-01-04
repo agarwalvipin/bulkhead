@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '.bulkhead/architecture/**/*.json'
-      - '.bulkhead/schemas/**/*.json'
+      - 'examples/python-fastapi-jwt/architecture/**/*.json'
+      - 'schemas/**/*.json'
   pull_request:
     branches: [ main ]
     paths:
-      - '.bulkhead/architecture/**/*.json'
-      - '.bulkhead/schemas/**/*.json'
+      - 'examples/python-fastapi-jwt/architecture/**/*.json'
+      - 'schemas/**/*.json'
 
 jobs:
   validate:
@@ -28,36 +28,24 @@ jobs:
 
       - name: Validate Phase 0 (Triage)
         run: |
-          if [ -f .bulkhead/architecture/00-triage.json ]; then
-            ajv validate -s .bulkhead/schemas/triage-decision.schema.json -d .bulkhead/architecture/00-triage.json
-          fi
+          ajv validate -s schemas/triage-decision.schema.json -d examples/python-fastapi-jwt/architecture/00-triage.json
 
       - name: Validate Phase 1 (Context)
         run: |
-          if [ -f .bulkhead/architecture/01-context.json ]; then
-            ajv validate -s .bulkhead/schemas/context-spec.schema.json -d .bulkhead/architecture/01-context.json
-          fi
+          ajv validate -s schemas/context-spec.schema.json -d examples/python-fastapi-jwt/architecture/01-context.json
 
       - name: Validate Phase 2 (Design)
         run: |
-          if [ -f .bulkhead/architecture/02-design.json ]; then
-            ajv validate -s .bulkhead/schemas/design-spec.schema.json -d .bulkhead/architecture/02-design.json
-          fi
+          ajv validate -s schemas/design-spec.schema.json -d examples/python-fastapi-jwt/architecture/02-design.json
 
       - name: Validate Phase 3 (Security)
         run: |
-          if [ -f .bulkhead/architecture/03-security.json ]; then
-            ajv validate -s .bulkhead/schemas/security-report.schema.json -d .bulkhead/architecture/03-security.json
-          fi
+          ajv validate -s schemas/security-report.schema.json -d examples/python-fastapi-jwt/architecture/03-security.json
 
       - name: Validate Phase 4 (Decision)
         run: |
-          if [ -f .bulkhead/architecture/04-decision.json ]; then
-            ajv validate -s .bulkhead/schemas/decision-record.schema.json -d .bulkhead/architecture/04-decision.json
-          fi
+          ajv validate -s schemas/decision-record.schema.json -d examples/python-fastapi-jwt/architecture/04-decision.json
 
       - name: Validate Phase 5 (Plan)
         run: |
-          if [ -f .bulkhead/architecture/05-plan.json ]; then
-            ajv validate -s .bulkhead/schemas/execution-plan.schema.json -d .bulkhead/architecture/05-plan.json
-          fi
+          ajv validate -s schemas/execution-plan.schema.json -d examples/python-fastapi-jwt/architecture/05-plan.json
