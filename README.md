@@ -139,9 +139,9 @@ Triage → Execute → Verify
 The framework adapts to your needs—you only do the governance that matches the risk.
 
 ## 📚 Documentation
+- **Getting Started Tutorial**: [docs/tutorials/01-getting-started.md](docs/tutorials/01-getting-started.md) 🌟
 - **Core Governance**: [FLOW_AND_GOVERNANCE.md](governance/FLOW_AND_GOVERNANCE.md)
 - **Onboarding Guide**: [docs/onboarding.md](docs/onboarding.md)
-- **Workflow Scenarios**: [docs/workflow-scenarios.md](docs/workflow-scenarios.md)
 - **Schemas**: [schemas/](schemas/)
 - **Templates**: [templates/](templates/)
 - **Changelog**: [CHANGELOG.md](CHANGELOG.md)

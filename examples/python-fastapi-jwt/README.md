@@ -1,5 +1,7 @@
 # Example: Add JWT Authentication (Python/FastAPI)
 
+> 📖 **Tutorial Available**: For a step-by-step guide explaining this example, see [Your First Bulkhead Change](../../docs/tutorials/01-getting-started.md).
+
 This directory contains a complete set of governance artifacts for a realistic feature request: **Adding JWT Authentication to a FastAPI service**.
 
 ## Scenario
