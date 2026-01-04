@@ -5,20 +5,14 @@ Comprehensive flow for analyzing, refactoring, or rebuilding legacy systems.
 ---
 
 ## Quick Start
+
 ```bash
-# 1. Analyze existing system
-/spec-modernization
-
-# 2. Decide path
-/rebuild-vs-refactor
-
-# 3. Execute choice
-# Path A: Rebuild
-/bulkhead start
-
-# Path B: Refactor
-/refactoring-architect
+# Start the modernization workflow
+/bulkhead
 ```
+
+If your project is not initialized, you will see the **Start Menu**.
+Select **[2] Plan large modernization project**.
 
 ---
 
@@ -26,39 +20,38 @@ Comprehensive flow for analyzing, refactoring, or rebuilding legacy systems.
 
 ### Phase 1: Analysis
 Before making any changes, understand the current state.
-1. **Spec Modernization**: Run `/spec-modernization` to scan the codebase.
-   - Generates: `modernization-plan.json`
-2. **Decision Matrix**: Run `/rebuild-vs-refactor`.
-   - Input: Metrics (Tech Debt, Complexity, Test Coverage)
-   - Output: Scorecard (Rebuild vs Refactor)
+
+1. **Modernization Analysis**: The workflow scans the codebase and generates `modernization-plan.json`
+2. **Decision Matrix**: Evaluates rebuild vs refactor based on tech debt and complexity.
 
 ### Phase 2: Execution Paths
 
-#### Path A: Rebuild (Greenfields)
+#### Path A: Rebuild (Greenfield)
 Treat the modernization as a new project.
-- **Command**: `/bulkhead start`
-- **Process**: Follow standard SDLC (Scenario 1).
-- **Goal**: Full replacement of legacy component.
+
+1. Run `/bulkhead`
+2. Select **[1] Start new SDLC workflow**
+3. Follow the standard 8-phase SDLC for full replacement of legacy components.
 
 #### Path B: Phased Refactoring (Strangler Fig)
 Incrementally replace parts of the system.
-- **Command**: `/refactoring-architect`
-- **Process**:
-    1. Identify seams/boundaries.
-    2. Extract component to separate module/service.
-    3. create `01-context.json` for the new module.
-    4. Execute standard SDLC for the new module.
-    5. Route traffic to new module.
-    6. Delete old code.
+
+1. Run `/bulkhead`
+2. If an Epic is active, you will see the **Large Project Menu**:
+   - Select **[2] Continue current epic**
+   - Or **[3] Start next epic**
 
 ### Phase 3: Validation
 Ensure parity between old and new systems.
-- **Parity Testing**: Run old and new paths in parallel (shadow mode).
-- **Cutover**: Switch primary traffic.
+
+- **Parity Testing**: Run old and new paths in parallel (shadow mode)
+- **Cutover**: Switch primary traffic
 
 ---
 
 ## Key Artifacts
-- `modernization-plan.json`: The master map of what needs changing.
-- `rebuild-scorecard.md`: The justification for the chosen approach.
-- `refactoring-plan.md`: Step-by-step extraction guide (if refactoring).
+| Artifact | Purpose |
+|----------|---------|
+| `modernization-plan.json` | Master map of what needs changing |
+| `rebuild-scorecard.md` | Justification for chosen approach |
+| `refactoring-plan.md` | Step-by-step extraction guide (if refactoring) |

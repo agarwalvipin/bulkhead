@@ -65,15 +65,11 @@
             <section class="mb-12">
                 <h2 class="text-xl font-bold text-red-400 mb-4">Quick Start</h2>
                 <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50">
-                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># 1. Start Security Phase</span>
-<span class="text-orange-400">/phase-3-security</span>
-
-<span class="text-slate-500"># 2. Run Threat Model</span>
-<span class="text-orange-400">/security-architect</span>
-
-<span class="text-slate-500"># 3. Get Approval</span>
-<span class="text-orange-400">/phase-4-decision</span></code></pre>
+                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># Start governance workflow</span>
+<span class="text-orange-400">/bulkhead</span></code></pre>
                 </div>
+                <p class="text-slate-400 mt-4 text-sm">Select <strong>[1] Start new SDLC workflow</strong> and mark
+                    Triage classification as <strong>MAJOR</strong> or <strong>CRITICAL</strong>.</p>
             </section>
 
             <section class="mb-12">
@@ -100,37 +96,50 @@
 
             <section>
                 <h2 class="text-xl font-bold text-red-400 mb-4">Workflow Steps</h2>
-                <div class="space-y-4">
+                <div class="space-y-6">
                     <div class="flex gap-4">
                         <div class="w-24 font-mono text-sm text-slate-500 pt-1">Step 1</div>
                         <div>
                             <h4 class="font-bold text-slate-200">Design Review</h4>
-                            <p class="text-sm text-slate-400">Architects review <code>02-design.json</code> for
-                                hardcoded secrets and defaults.</p>
+                            <p class="text-sm text-slate-400">Input: <code class="text-orange-400">02-design.json</code>
+                                (IaC definitions).</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 mt-1">
+                                <li>Run <code class="text-orange-400">/bulkhead</code> and select Utilities.</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="flex gap-4">
                         <div class="w-24 font-mono text-sm text-slate-500 pt-1">Step 2</div>
                         <div>
                             <h4 class="font-bold text-slate-200">Threat Modeling</h4>
-                            <p class="text-sm text-slate-400">Generate <code>03-security.json</code> using STRIDE
-                                methodology via <code>/security-architect</code>.</p>
+                            <p class="text-sm text-slate-400">Analyze attack surface.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 mt-1">
+                                <li><strong>Output:</strong> <code class="text-orange-400">03-security.json</code></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="flex gap-4">
                         <div class="w-24 font-mono text-sm text-slate-500 pt-1">Step 3</div>
                         <div>
                             <h4 class="font-bold text-slate-200">Governance Gate</h4>
-                            <p class="text-sm text-slate-400">Requires dual approval (Security + Infra) in
-                                <code>04-decision-record.md</code>.</p>
+                            <p class="text-sm text-slate-400">Human approval required.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 mt-1">
+                                <li>If Risk is HIGH, work stops until mitigation.</li>
+                                <li><strong>Sign-off:</strong> Manually sign <code
+                                        class="text-orange-400">04-decision.md</code></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="flex gap-4">
                         <div class="w-24 font-mono text-sm text-slate-500 pt-1">Step 4</div>
                         <div>
                             <h4 class="font-bold text-slate-200">Provisioning</h4>
-                            <p class="text-sm text-slate-400">Apply changes only after approval. No manual console
-                                clicks.</p>
+                            <p class="text-sm text-slate-400">Automated execution.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 mt-1">
+                                <li>Run <code class="text-orange-400">/bulkhead</code> and select <strong>[1]
+                                        Continue</strong></li>
+                                <li><strong>Manual changes forbidden.</strong></li>
+                            </ul>
                         </div>
                     </div>
                 </div>

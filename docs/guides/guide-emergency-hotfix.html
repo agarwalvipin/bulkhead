@@ -72,31 +72,30 @@
             <section class="mb-12">
                 <h2 class="text-xl font-bold text-red-400 mb-4">Quick Start</h2>
                 <div class="bg-black/40 rounded-xl p-5 border border-red-500/30">
-                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># 1. Triage (Force P0)</span>
-<span class="text-orange-400">/phase-0-triage --critical</span>
-
-<span class="text-slate-500"># 2. Fast-Track Context</span>
-<span class="text-orange-400">/phase-1-context --fast-track</span>
-
-<span class="text-slate-500"># 3. Execution</span>
-<span class="text-orange-400">/phase-6-execute</span></code></pre>
+                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># Start hotfix workflow</span>
+<span class="text-orange-400">/bulkhead</span></code></pre>
                 </div>
+                <p class="text-slate-400 mt-4 text-sm">Select <strong>[1] Start new SDLC workflow</strong> then mark
+                    classification as <strong>CRITICAL</strong>.</p>
             </section>
 
             <section class="mb-12">
                 <h2 class="text-xl font-bold text-white mb-6">Condensed Workflow</h2>
                 <div class="space-y-4">
                     <div class="flex gap-4 p-4 bg-slate-900/80 rounded-lg border-l-4 border-red-500">
-                        <div class="font-bold text-red-500">1. Fast-Track</div>
-                        <p class="text-sm text-slate-400">Phases 0-2 compressed into single context pass.</p>
+                        <div class="font-bold text-red-500">1. Triage (P0)</div>
+                        <p class="text-sm text-slate-400">Start with <code class="text-orange-400">/bulkhead</code> and
+                            select CRITICAL classification to unlock Fast-Track.</p>
                     </div>
                     <div class="flex gap-4 p-4 bg-slate-900/80 rounded-lg border-l-4 border-orange-500">
-                        <div class="font-bold text-orange-500">2. Minimal Fix</div>
-                        <p class="text-sm text-slate-400">Implement fix only. No refactoring.</p>
+                        <div class="font-bold text-orange-500">2. Implementation</div>
+                        <p class="text-sm text-slate-400">Run <code class="text-orange-400">/bulkhead continue</code> to
+                            jump execution. Minimal fix only.</p>
                     </div>
                     <div class="flex gap-4 p-4 bg-slate-900/80 rounded-lg border-l-4 border-green-500">
-                        <div class="font-bold text-green-500">3. Verification</div>
-                        <p class="text-sm text-slate-400">Automated tests MUST pass. Manual testing abbreviated.</p>
+                        <div class="font-bold text-green-500">3. Deploy & Post-Mortem</div>
+                        <p class="text-sm text-slate-400">Use Post-Completion Menu to create PR and then capture
+                            learnings.</p>
                     </div>
                 </div>
             </section>

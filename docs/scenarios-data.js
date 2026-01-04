@@ -7,103 +7,103 @@ let tooltip = null;
 // Node descriptions for tooltips (using ACTUAL workflows)
 const nodeDescriptions = {
     'bulkhead': {
-        title: '/bulkhead',
-        desc: 'Main orchestrator - Entry point for all work',
+        title: 'Smart Orchestrator',
+        desc: 'Main entry point - Automatically detects project state and routes to the correct workflow',
         artifacts: ['current_phase', 'audit.log']
     },
     'p0': {
-        title: '/phase-0-triage',
-        desc: 'Economic Control - Classify as MINOR/MAJOR/CRITICAL',
+        title: 'Phase 0: Triage',
+        desc: 'Economic Control - Classify change as MINOR/MAJOR/CRITICAL',
         artifacts: ['00-triage.md', '00-triage.json']
     },
     'p1': {
-        title: '/phase-1-context',
+        title: 'Phase 1: Context',
         desc: 'Blast Radius - Document scope and impact',
         artifacts: ['01-context.md', '01-context.json']
     },
     'p2': {
-        title: '/phase-2-design',
+        title: 'Phase 2: Design',
         desc: 'Architectural Analysis - Design the solution',
         artifacts: ['02-design.md', '02-design.json']
     },
     'p3': {
-        title: '/phase-3-security',
+        title: 'Phase 3: Security',
         desc: 'Threat Modeling - Security risk analysis',
         artifacts: ['03-security.md', '03-security.json']
     },
     'p4': {
-        title: '/phase-4-decision',
+        title: 'Phase 4: Decision',
         desc: 'Human Gate - Strategic authorization required',
         artifacts: ['04-decision-record.md']
     },
     'p5': {
-        title: '/phase-5-plan',
+        title: 'Phase 5: Plan',
         desc: 'Orchestration - Detailed task planning',
         artifacts: ['05-plan.md', '05-plan.json']
     },
     'p6': {
-        title: '/phase-6-execute',
+        title: 'Phase 6: Execute',
         desc: 'Code Implementation',
         artifacts: ['06-report.md']
     },
     'p7': {
-        title: '/phase-7-verify',
+        title: 'Phase 7: Verify',
         desc: 'Quality Gate - Test and validate',
         artifacts: ['07-verify.md']
     },
     'review-arch': {
-        title: '/review architecture',
-        desc: 'Evaluate architectural options (mode of /spec-code-review)',
+        title: 'Architecture Review',
+        desc: 'Evaluate architectural options and trade-offs',
         purpose: 'Architecture validation'
     },
     'review-code': {
-        title: '/review code',
-        desc: 'Review PR for correctness and style (mode of /spec-code-review)',
+        title: 'Safe Code Review',
+        desc: 'Review implementation for correctness and security',
         purpose: 'Code quality'
     },
     'review-sec': {
-        title: '/review security',
-        desc: 'Security audit and threat modeling (mode of /spec-code-review)',
+        title: 'Security Audit',
+        desc: 'Deep security analysis and threat modeling',
         purpose: 'Security validation'
     },
     'checkpoint': {
-        title: '/phase-checkpoint',
-        desc: 'Validates all required artifacts exist',
+        title: 'Phase Checkpoint',
+        desc: 'Automated gate validation for artifacts',
         purpose: 'Artifact validation'
     },
     'status': {
-        title: '/phase-status',
-        desc: 'Dashboard showing current phase and progress',
+        title: 'Phase Dashboard',
+        desc: 'Status visualization for current SDLC phase',
         purpose: 'Status monitoring'
     },
     'spec-mod': {
-        title: '/spec-modernization',
+        title: 'Modernization Analysis',
         desc: 'Evaluate legacy system, decide refactor vs rebuild',
         artifacts: ['modernization-plan.md', 'modernization-plan.json']
     },
     'epic-orch': {
-        title: '/phase-epic-orchestrator',
-        desc: 'Large codebase with multiple epics per phase',
+        title: 'Epic Orchestration',
+        desc: 'Management for multi-epic phased projects',
         artifacts: ['project-progress.json']
     },
     'pr-mgr': {
-        title: '/int-pr-manager',
-        desc: 'Prompt user for PR creation and merge',
-        purpose: 'PR management with confirmation'
+        title: 'Delivery Manager',
+        desc: 'Automated PR creation and merge management',
+        purpose: 'Delivery automation'
     },
     'github': {
-        title: '/int-github-project',
-        desc: 'GitHub Project, Epic, and Issue management',
+        title: 'Project Tracking',
+        desc: 'Integrated GitHub Project and Issue management',
         purpose: 'Project tracking'
     },
     'changelog': {
-        title: '/int-update-changelog',
-        desc: 'Update CHANGELOG.md and commit',
+        title: 'Release Documentation',
+        desc: 'Update CHANGELOG.md and manage versioning',
         purpose: 'Documentation'
     },
     'refactor-exec': {
-        title: '/spec-refactoring-executor',
-        desc: 'Execute phased refactor plan with progress tracking',
+        title: 'Refactor Executor',
+        desc: 'Automated phased extraction for legacy systems',
         artifacts: ['refactor-progress.json']
     }
 };
@@ -266,21 +266,21 @@ const scenarios = [
     {
         nodes: [
             { data: { id: 'start', label: 'Feature\nRequest', type: 'start', bgColor: '#10b981', borderColor: '#059669' } },
-            { data: { id: 'bulkhead', label: '/bulkhead\nstart 0', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'p0', label: 'Phase 0\nTriage', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'classify', label: 'MINOR?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'p1', label: 'Phase 1\nContext', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'p2', label: 'Phase 2\nDesign', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'review-arch', label: '/review\narchitecture', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'p3', label: 'Phase 3\nSecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'review-sec', label: '/review\nsecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'p4', label: 'Phase 4\nDecision', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'checkpoint', label: '/phase-\ncheckpoint', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'p5', label: 'Phase 5\nPlan', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'p6', label: 'Phase 6\nExecute', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'p7', label: 'Phase 7\nVerify', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'review-code', label: '/review\ncode', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'pr-mgr', label: '/int-pr-\nmanager', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'bulkhead', label: 'Start\nSDLC', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'p0', label: 'Phase 0:\nTriage', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'classify', label: 'SCORE\n< 5?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'p1', label: 'Phase 1:\nContext', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'p2', label: 'Phase 2:\nDesign', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'review-arch', label: 'Architecture\nReview', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'p3', label: 'Phase 3:\nSecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'review-sec', label: 'Security\nAudit', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'p4', label: 'Phase 4:\nDecision', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'checkpoint', label: 'Phase\nCheckpoint', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'p5', label: 'Phase 5:\nPlan', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'p6', label: 'Phase 6:\nExecute', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'p7', label: 'Phase 7:\nVerify', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'review-code', label: 'Safe\nCode Review', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'pr-mgr', label: 'Delivery\nManager', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'done', label: 'Merged', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } }
         ],
         edges: [
@@ -308,14 +308,14 @@ const scenarios = [
     {
         nodes: [
             { data: { id: 'start', label: 'Legacy\nSystem', type: 'start', bgColor: '#10b981', borderColor: '#059669' } },
-            { data: { id: 'status', label: '/phase-\nstatus', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'spec-mod', label: '/spec-\nmodernization', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'status', label: 'Project\nDashboard', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'spec-mod', label: 'Modernization\nAnalysis', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'assess', label: 'Assessment\n& Analysis', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 'decision', label: 'Refactor or\nRebuild?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
             { data: { id: 'refactor', label: 'REFACTOR', type: 'phase', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
             { data: { id: 'rebuild', label: 'REBUILD', type: 'phase', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'ref-exec', label: '/spec-refact\nexecutor', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'bulkhead', label: '/bulkhead\nRebuild SDLC', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'ref-exec', label: 'Refactor\nExecutor', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'bulkhead', label: 'Rebuild\nSDLC', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'done', label: 'Modernized', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } }
         ],
         edges: [
@@ -336,17 +336,17 @@ const scenarios = [
     {
         nodes: [
             { data: { id: 'start', label: 'Infra\nChange', type: 'start', bgColor: '#10b981', borderColor: '#059669' } },
-            { data: { id: 'p0', label: 'Phase 0\nTriage', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'p1', label: 'Phase 1\nBlast Radius', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'p2', label: 'Phase 2\nDesign', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'p0', label: 'Phase 0:\nTriage', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'p1', label: 'Phase 1:\nBlast Radius', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'p2', label: 'Phase 2:\nDesign', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 'infra1', label: 'INFRA-1\nExplicit?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'p3', label: 'Phase 3\nSecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'review-sec', label: '/review\nsecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'p3', label: 'Phase 3:\nSecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'review-sec', label: 'Security\nAudit', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
             { data: { id: 'infra5', label: 'INFRA-5\nNetwork?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
             { data: { id: 'deep', label: 'Deep\nReview', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
             { data: { id: 'infra4', label: 'INFRA-4\nSecrets?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'p4', label: 'Phase 4\nHuman Gate', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'proceed', label: 'Phase 5-7\nExecution', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'p4', label: 'Phase 4:\nHuman Gate', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'proceed', label: 'Phase 5-7\nDelivery', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
             { data: { id: 'done', label: 'Deployed', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 'stop', label: 'Blocked', type: 'end', bgColor: '#ef4444', borderColor: '#dc2626' } }
         ],
@@ -374,16 +374,16 @@ const scenarios = [
     {
         nodes: [
             { data: { id: 'start', label: 'Developer\nReady', type: 'start', bgColor: '#10b981', borderColor: '#059669' } },
-            { data: { id: 'status', label: '/phase-\nstatus', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'status', label: 'Check\nStatus', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'check', label: 'Current\nPhase?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'new', label: '/bulkhead\nstart 0', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'continue', label: '/bulkhead\ncontinue', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'checkpoint', label: '/phase-\ncheckpoint', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'github', label: '/int-github\nproject', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'execute', label: 'Phase 6\nCode', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'verify', label: 'Phase 7\nVerify', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'review', label: '/review\ncode', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'pr', label: '/int-pr-\nmanager', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'new', label: 'Start\nNew', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'continue', label: 'Continue\nWork', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'checkpoint', label: 'Phase\nCheckpoint', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'github', label: 'Project\nTracking', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'execute', label: 'Phase 6:\nExecute', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'verify', label: 'Phase 7:\nVerify', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'review', label: 'Safe\nCode Review', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'pr', label: 'Delivery\nManager', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'merge', label: 'Merged', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } }
         ],
         edges: [
@@ -410,10 +410,10 @@ const scenarios = [
             { data: { id: 't1', label: 'Team A\nFeature', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 't2', label: 'Team B\nFeature', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 't3', label: 'Team C\nAudit', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'b1', label: '/bulkhead\nFeature A', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'b2', label: '/bulkhead\nFeature B', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'sec', label: '/review\nsecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'github', label: '/int-github\nproject', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'b1', label: 'Feature A\nSDLC', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'b2', label: 'Feature B\nSDLC', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'sec', label: 'Security\nAudit', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'github', label: 'Project\nTracking', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'pr1', label: 'PR A', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
             { data: { id: 'pr2', label: 'PR B', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
             { data: { id: 'release', label: 'Release', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } }
@@ -440,15 +440,15 @@ const scenarios = [
         nodes: [
             { data: { id: 'start', label: 'Production\nIssue', type: 'start', bgColor: '#ef4444', borderColor: '#dc2626' } },
             { data: { id: 'severity', label: 'Severity?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'std', label: '/bulkhead\nStandard', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'std', label: 'Standard\nFlow', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'fast', label: 'Condensed\nP0+P1+P2', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 'infra', label: 'Infra\nChange?', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'infra5', label: 'INFRA-5\nNo Fast-Track', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'infra5', label: 'INFRA-5\nSafety Check', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
             { data: { id: 'sec-fast', label: 'Fast\nSecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'sec-full', label: '/review\nsecurity', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
-            { data: { id: 'p4', label: 'Phase 4\nGate', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'sec-full', label: 'Deep\nAudit', type: 'security', bgColor: '#ef4444', borderColor: '#dc2626' } },
+            { data: { id: 'p4', label: 'Phase 4:\nGate', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
             { data: { id: 'impl', label: 'Quick\nImpl', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'verify', label: 'Phase 7\nVerify', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'verify', label: 'Phase 7:\nVerify', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
             { data: { id: 'deploy', label: 'Hotfix\nDeployed', type: 'end', bgColor: '#10b981', borderColor: '#059669' } },
             { data: { id: 'stop', label: 'Blocked', type: 'end', bgColor: '#ef4444', borderColor: '#dc2626' } }
         ],
@@ -475,14 +475,14 @@ const scenarios = [
     {
         nodes: [
             { data: { id: 'start', label: 'Legacy\nIssues', type: 'start', bgColor: '#10b981', borderColor: '#059669' } },
-            { data: { id: 'spec-mod', label: '/spec-\nmodernization', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'stage1', label: 'Stage 1\nAssessment', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'spec-mod', label: 'Modernization\nAnalysis', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'stage1', label: 'Stage 1:\nAssessment', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
             { data: { id: 'metrics', label: 'Calculate\nMetrics', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'decision', label: 'Stage 2\nDecision', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'ref', label: 'Stage 3a\nRefactor Plan', type: 'phase', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'reb', label: 'Stage 3b\nRebuild Plan', type: 'phase', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'ref-exec', label: '/spec-refact\nexecutor', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'bulkhead', label: '/bulkhead\nNew System', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'decision', label: 'Stage 2:\nDecision', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'ref', label: 'Stage 3a:\nRefactor Plan', type: 'phase', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'reb', label: 'Stage 3b:\nRebuild Plan', type: 'phase', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'ref-exec', label: 'Refactor\nExecutor', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'bulkhead', label: 'New System\nSDLC', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
             { data: { id: 'done', label: 'Complete', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } }
         ],
         edges: [
@@ -503,16 +503,16 @@ const scenarios = [
     {
         nodes: [
             { data: { id: 'start', label: 'Large\nCodebase', type: 'start', bgColor: '#10b981', borderColor: '#059669' } },
-            { data: { id: 'spec-mod', label: '/spec-\nmodernization', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'plan', label: 'Create\nPlan', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'epic-orch', label: '/phase-epic\norchestrator', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
-            { data: { id: 'p1', label: 'Phase P1\nInfra', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'e1', label: 'Epic 1.1\nSDLC 0-7', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'e2', label: 'Epic 1.2\nSDLC 0-7', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'gate1', label: 'P1\nGate', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
-            { data: { id: 'p2', label: 'Phase P2\nCore', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
-            { data: { id: 'e3', label: 'Epic 2.1\nSDLC 0-7', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
-            { data: { id: 'gate2', label: 'P2\nGate', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'spec-mod', label: 'Modernization\nAnalysis', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'plan', label: 'Create\nRoadmap', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'epic-orch', label: 'Epic\nOrchestrator', type: 'workflow', bgColor: '#22c55e', borderColor: '#16a34a' } },
+            { data: { id: 'p1', label: 'Phase P1:\nInfra', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'e1', label: 'Epic 1.1:\nSDLC 0-7', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'e2', label: 'Epic 1.2:\nSDLC 0-7', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'gate1', label: 'Gate P1:\nDecision', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
+            { data: { id: 'p2', label: 'Phase P2:\nCore', type: 'phase', bgColor: '#3b82f6', borderColor: '#2563eb' } },
+            { data: { id: 'e3', label: 'Epic 2.1:\nSDLC 0-7', type: 'execution', bgColor: '#8b5cf6', borderColor: '#7c3aed' } },
+            { data: { id: 'gate2', label: 'Gate P2:\nDecision', type: 'decision', bgColor: '#f59e0b', borderColor: '#d97706' } },
             { data: { id: 'done', label: 'Project\nComplete', type: 'end', bgColor: '#3b82f6', borderColor: '#2563eb' } }
         ],
         edges: [

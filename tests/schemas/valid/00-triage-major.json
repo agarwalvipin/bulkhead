@@ -1,0 +1,5 @@
+{
+    "complexity_score": 8,
+    "classification": "MAJOR",
+    "reason": "Affects core authentication logic."
+}

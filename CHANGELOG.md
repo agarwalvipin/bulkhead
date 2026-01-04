@@ -5,6 +5,29 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-01-04
+
+### Added
+- **Automated Test Suite** (`tests/`)
+  - Implemented `pytest` + `jsonschema` validation suite
+  - Added comprehensive valid/invalid test data for all 5 key phases
+  - Added `run_tests.sh` helper script
+  - Added GitHub Actions workflow (`.github/workflows/tests.yml`) for automated testing
+- **Tutorials**
+  - New step-by-step guide: `docs/tutorials/01-getting-started.md`
+  - Cross-referenced tutorials in main README and example projects
+- **Enhanced Documentation**
+  - **Comparison Table** in README showing Bulkhead vs Traditional SDLC vs Unstructured AI
+  - **"See It In Action"** section highlighting example projects
+  - **Expanded FAQ** addressing naming confusion (Resilience4j), CI/CD integration, and ROI
+  - **"Testing"** section in README
+
+### Changed
+- Improved README positioning to clearly distinguish from resilience engineering patterns
+- Updated `examples/python-fastapi-jwt/README.md` to link to the new tutorial
+
+---
+
 ## [2.3.0] - 2026-01-04
 
 ### Added

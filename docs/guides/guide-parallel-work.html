@@ -60,18 +60,33 @@
             <hr class="border-slate-700/50 my-8">
 
             <section class="mb-12">
+                <h2 class="text-xl font-bold text-indigo-400 mb-4">Quick Start</h2>
+                <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50">
+                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># Each team uses the same entry point</span>
+<span class="text-orange-400">/bulkhead</span></code></pre>
+                </div>
+                <p class="text-slate-400 mt-4 text-sm">The orchestrator detects your specific branch/state and isolates
+                    your work automatically.</p>
+            </section>
+
+            <section class="mb-12">
                 <h2 class="text-xl font-bold text-indigo-400 mb-6">Isolation Strategy</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="p-5 border-l-4 border-orange-500 bg-slate-900/50">
                         <h3 class="font-bold text-white mb-2">Feature Teams</h3>
                         <p class="text-sm text-slate-400 mb-2">Run isolated Epics.</p>
-                        <code
-                            class="text-xs bg-slate-800 px-2 py-1 rounded text-orange-400">/phase-epic-orchestrator epic E1.1</code>
+                        <ul class="list-disc list-inside text-xs text-slate-500 space-y-1">
+                            <li>Each Epic runs in its own branch <code class="text-orange-400">feature/pX-epic</code>
+                            </li>
+                            <li>Run <code class="text-orange-400">/bulkhead</code> to manage YOUR epic</li>
+                        </ul>
                     </div>
                     <div class="p-5 border-l-4 border-red-500 bg-slate-900/50">
                         <h3 class="font-bold text-white mb-2">Security Audit</h3>
                         <p class="text-sm text-slate-400 mb-2">Runs orthogonal to features.</p>
-                        <code class="text-xs bg-slate-800 px-2 py-1 rounded text-red-400">/security-architect</code>
+                        <code class="text-xs bg-slate-800 px-2 py-1 rounded text-red-400">/bulkhead</code> &gt; Start
+                        Project &gt; Audit
+                        <p class="text-xs text-slate-500 mt-2">Injects blocking issues into all Epics.</p>
                     </div>
                 </div>
             </section>
@@ -97,6 +112,16 @@
                             <strong class="text-slate-200">Dependency Guard</strong>
                             <p class="text-sm text-slate-400"><code>01-context.json</code> declares dependencies
                                 upfront.</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div
+                            class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 text-xs font-bold">
+                            ✓</div>
+                        <div>
+                            <strong class="text-slate-200">Merge Strategy</strong>
+                            <p class="text-sm text-slate-400">Run <code class="text-orange-400">/bulkhead</code> &gt;
+                                Post-Completion &gt; Update Changelog to handle concurrent entries.</p>
                         </div>
                     </li>
                 </ul>
