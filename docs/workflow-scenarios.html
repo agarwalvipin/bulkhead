@@ -212,7 +212,7 @@
                             <span class="font-bold text-xl tracking-tight">Bulk<span
                                     class="text-orange-400">head</span></span>
                             <span
-                                class="hidden sm:inline-block ml-2 px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs font-semibold rounded-full border border-orange-500/30">v2.2</span>
+                                class="hidden sm:inline-block ml-2 px-2 py-0.5 bg-orange-500/20 text-orange-400 text-xs font-semibold rounded-full border border-orange-500/30">v2.3.0</span>
                         </div>
                     </a>
                 </div>
@@ -266,7 +266,7 @@
                 </div>
                 <div class="stat-card px-6 py-3 rounded-xl">
                     <div class="text-2xl font-bold text-blue-400">18</div>
-                    <div class="text-xs text-slate-500 uppercase tracking-wider">Workflows</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-wider">Flows</div>
                 </div>
                 <div class="stat-card px-6 py-3 rounded-xl">
                     <div class="text-2xl font-bold text-green-400">∞</div>
@@ -388,7 +388,8 @@
                                     <p class="text-sm text-slate-400 mb-2">Establish economic viability, scope, design,
                                         and security before writing code.</p>
                                     <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead start</code>
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead</code>
+                                    <span class="text-xs text-slate-500">→ Select [1] Start new SDLC</span>
                                 </div>
                             </div>
                             <div class="flex gap-4">
@@ -400,9 +401,8 @@
                                     <p class="text-sm text-slate-400 mb-2">Break down tasks and create GitHub artifacts.
                                     </p>
                                     <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/phase-5-plan</code>
-                                    <span class="text-slate-600">→</span> <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/int-github-project</code>
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead continue</code>
+                                    <span class="text-xs text-slate-500">→ Select Phase 5: Plan</span>
                                 </div>
                             </div>
                             <div class="flex gap-4">
@@ -412,11 +412,10 @@
                                 <div>
                                     <h4 class="font-bold text-slate-200">Execution & Verify</h4>
                                     <p class="text-sm text-slate-400 mb-2">Implement code and verify against acceptance
-                                        criteria.</p>
+                                        criteria via integrated flows.</p>
                                     <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/phase-6-execute</code>
-                                    <span class="text-slate-600">→</span> <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/phase-7-verify</code>
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead continue</code>
+                                    <span class="text-xs text-slate-500">→ Select Phase 6 or 7</span>
                                 </div>
                             </div>
                         </div>
@@ -456,20 +455,19 @@
                             <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
                                 <h4 class="font-bold text-purple-400 mb-2">1. Analysis</h4>
                                 <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
-                                    <li>Run <code class="text-orange-400">/spec-modernization</code> to assess system
-                                        state</li>
-                                    <li>Perform <code class="text-orange-400">/rebuild-vs-refactor</code> analysis</li>
+                                    <li>Run <code class="text-orange-400">/bulkhead</code> and select <strong>Plan
+                                            modernization</strong></li>
+                                    <li>Perform integrated <strong>Modernization Analysis</strong></li>
                                     <li>Compare metrics (tech debt, logic knowledge)</li>
                                 </ul>
                             </div>
                             <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">
                                 <h4 class="font-bold text-green-400 mb-2">2. Execution</h4>
                                 <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
-                                    <li><strong>Refactor:</strong> Use <code
-                                            class="text-orange-400">/refactoring-architect</code> to plan phased
-                                        extraction</li>
+                                    <li><strong>Refactor:</strong> Use descriptive analysis to plan phased extraction
+                                    </li>
                                     <li><strong>Rebuild:</strong> Start fresh SDLC with <code
-                                            class="text-orange-400">/bulkhead start</code></li>
+                                            class="text-orange-400">/bulkhead</code> start menu</li>
                                     <li><strong>Target:</strong> Clean, tested, modern architecture</li>
                                 </ul>
                             </div>
@@ -526,13 +524,11 @@
                                 </div>
                             </div>
                             <div>
-                                <h4 class="font-bold text-slate-200">Workflow</h4>
+                                <h4 class="font-bold text-slate-200">Execution Path</h4>
                                 <p class="text-sm text-slate-400">
-                                    <code class="text-orange-400">/phase-3-security</code> <span
-                                        class="text-slate-500">→</span>
-                                    <code class="text-orange-400">/security-architect</code> <span
-                                        class="text-slate-500">→</span>
-                                    <code class="text-orange-400">/phase-4-decision</code> (Requires Human Sign-off)
+                                    Standard <strong>Phase 3: Security</strong> <span class="text-slate-500">→</span>
+                                    Integrated <strong>Security Audit</strong> <span class="text-slate-500">→</span>
+                                    <strong>Phase 4: Decision</strong> (Requires Human Sign-off)
                                 </p>
                             </div>
                         </div>
@@ -553,7 +549,7 @@
                                 </div>
                                 <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Continuous Development</h2>
                                 <p class="text-slate-400 max-w-xl">Daily developer workflow with status checks,
-                                    resumption, and PR management.</p>
+                                    resumption, and delivery automation.</p>
                             </div>
                         </div>
                         <div id="cy-3" class="cy-container"></div>
@@ -571,21 +567,23 @@
                             <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
                                 <div class="text-lg font-bold text-white mb-1">Morning</div>
                                 <code
-                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/phase-status</code>
-                                <p class="text-xs text-slate-400">Check dashboard. Resume blocked tasks or start new
-                                    work.</p>
+                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/bulkhead status</code>
+                                <p class="text-xs text-slate-400">Check dashboard. View active epics and current phase.
+                                </p>
                             </div>
                             <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
                                 <div class="text-lg font-bold text-white mb-1">Coding</div>
                                 <code
                                     class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/bulkhead continue</code>
-                                <p class="text-xs text-slate-400">Resume context. Auto-switch branch and phase.</p>
+                                <p class="text-xs text-slate-400">Restore context. Auto-switch branch and phase logic.
+                                </p>
                             </div>
                             <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
-                                <div class="text-lg font-bold text-white mb-1">Review</div>
+                                <div class="text-lg font-bold text-white mb-1">Delivery</div>
                                 <code
-                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/int-pr-manager</code>
-                                <p class="text-xs text-slate-400">Create PRs, handle merges, and update logs.</p>
+                                    class="block text-xs bg-slate-900 p-2 rounded text-orange-400 mb-2">/bulkhead</code>
+                                <p class="text-xs text-slate-400">Select Post-Completion menu to manage PRs and logs.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -604,8 +602,8 @@
                                         class="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded-full">Multi-Team</span>
                                 </div>
                                 <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Parallel Work Management</h2>
-                                <p class="text-slate-400 max-w-xl">Multiple teams working simultaneously with GitHub
-                                    Project integration.</p>
+                                <p class="text-slate-400 max-w-xl">Multiple teams working simultaneously with integrated
+                                    project tracking.</p>
                             </div>
                         </div>
                         <div id="cy-4" class="cy-container"></div>
@@ -616,7 +614,7 @@
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-bold text-indigo-400">Parallel Work Management</h3>
                             <a href="guides/guide-parallel-work.html"
-                                class="px-3 py-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 text-xs font-bold rounded-full border border-indigo-500/30 transition-colors uppercase flex items-center gap-1">View
+                                class="px-3 py-1 bg-indigo-500/10 hover:bg-orange-500/20 text-indigo-400 text-xs font-bold rounded-full border border-indigo-500/30 transition-colors uppercase flex items-center gap-1">View
                                 Full Guide <span class="text-sm">→</span></a>
                         </div>
                         <div class="space-y-4">
@@ -626,25 +624,26 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="border-l-2 border-orange-500 pl-4">
                                     <h4 class="font-bold text-white">Feature Teams</h4>
-                                    <p class="text-xs text-slate-400 mb-2">Each feature runs isolated SDLC.</p>
+                                    <p class="text-xs text-slate-400 mb-2">Internal SDLC per branch.</p>
                                     <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/int-github-project</code>
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead continue</code>
                                     <span class="text-xs text-slate-500 block mt-1">Tracks separate epics &
-                                        branches</span>
+                                        branches via Project Board</span>
                                 </div>
                                 <div class="border-l-2 border-red-500 pl-4">
                                     <h4 class="font-bold text-white">Security Team</h4>
-                                    <p class="text-xs text-slate-400 mb-2">Audit runs in parallel.</p>
+                                    <p class="text-xs text-slate-400 mb-2">Audits run in parallel.</p>
                                     <code
-                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/security-architect</code>
-                                    <span class="text-xs text-slate-500 block mt-1">Injects issues into backlog</span>
+                                        class="text-xs bg-slate-900 px-2 py-1 rounded text-orange-400">/bulkhead</code>
+                                    <span class="text-xs text-slate-500 block mt-1">Select Security Audit from Utility
+                                        menu</span>
                                 </div>
                             </div>
 
                             <div
                                 class="bg-indigo-500/10 p-3 rounded-lg border border-indigo-500/20 text-sm text-indigo-200">
-                                <strong>Merge Strategy:</strong> Use <code class="text-orange-400">/code-review</code>
-                                to detect conflicts early. Automated changelog handling ensures clean release history.
+                                <strong>Merge Strategy:</strong> Use integrated <strong>Code Review</strong>
+                                to detect conflicts early. Automated delivery workflows ensure clean release history.
                             </div>
                         </div>
                     </div>
@@ -691,23 +690,24 @@
                                 </div>
                                 <div class="space-y-4 flex-1">
                                     <div>
-                                        <h4 class="font-bold text-slate-200">1. Fast-Track Triage</h4>
-                                        <p class="text-sm text-slate-400">Assess severity. If P0, enter emergency mode.
+                                        <h4 class="font-bold text-slate-200">1. Fast-Track Entry</h4>
+                                        <p class="text-sm text-slate-400">Run <code
+                                                class="text-orange-400">/bulkhead</code> and select **CRITICAL**
+                                            classification to unlock condensed logic.
                                         </p>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-slate-200">2. Condensed Governance</h4>
-                                        <p class="text-sm text-slate-400 mb-1">Combine Phases 0-2 into single context
-                                            pass.</p>
+                                        <h4 class="font-bold text-slate-200">2. Governance Safety</h4>
+                                        <p class="text-sm text-slate-400 mb-1">Phases 0-2 combined into single pass.</p>
                                         <div class="text-xs bg-red-900/30 p-2 rounded text-red-200">
-                                            ⚠️ <strong>Constraint:</strong> If Infrastructure change involved, standard
-                                            security review (P3) is MANDATORY. No fast-track for INFRA.
+                                            ⚠️ <strong>Constraint:</strong> Infrastructure changes NEVER bypass standard
+                                            security reviews.
                                         </div>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-slate-200">3. Rapid Execution & Deploy</h4>
-                                        <p class="text-sm text-slate-400">Implement fix → Verify → Express PR → Deploy →
-                                            Post-mortem.</p>
+                                        <h4 class="font-bold text-slate-200">3. Delivery Gate</h4>
+                                        <p class="text-sm text-slate-400">Automated verification → Expedited review →
+                                            Deploy.</p>
                                     </div>
                                 </div>
                             </div>
@@ -729,7 +729,7 @@
                                 </div>
                                 <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">Refactoring Decision</h2>
                                 <p class="text-slate-400 max-w-xl">Data-driven refactor vs rebuild analysis with phased
-                                    execution planning.</p>
+                                    execution roadmap.</p>
                             </div>
                         </div>
                         <div id="cy-6" class="cy-container"></div>
@@ -757,17 +757,12 @@
                             </div>
                         </div>
 
-                        <div class="space-y-2">
-                            <h4 class="font-bold text-slate-200 text-sm">The Process</h4>
-                            <ol class="list-decimal list-inside text-sm text-slate-400 space-y-1">
-                                <li>Run <code class="text-orange-400">/rebuild-vs-refactor</code> to generate scorecard.
-                                </li>
-                                <li><strong>Refactor Path:</strong> Use <code
-                                        class="text-orange-400">/refactoring-architect</code> to plan component
-                                    extraction.</li>
-                                <li><strong>Rebuild Path:</strong> Treat as Greenfields project with <code
-                                        class="text-orange-400">/bulkhead</code>.</li>
-                            </ol>
+                        <div class="space-y-4">
+                            <h4 class="font-bold text-slate-200 text-sm">Initiation</h4>
+                            <p class="text-sm text-slate-400">
+                                Run <code class="text-orange-400">/bulkhead</code> and select <strong>Plan
+                                    modernization</strong> to generate a comprehensive scorecard.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -817,16 +812,16 @@
                                 </div>
                                 <div class="flex-1 space-y-3">
                                     <button
-                                        class="w-full text-left bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors border border-slate-700 block">
-                                        <div class="text-xs text-slate-500 uppercase">Step 1</div>
-                                        <div class="font-bold text-white">/spec-modernization</div>
-                                        <div class="text-xs text-slate-400">Define the master plan</div>
+                                        class="w-full text-left bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors border border-slate-700 block cursor-default">
+                                        <div class="text-xs text-slate-500 uppercase">Initialization</div>
+                                        <div class="font-bold text-white">Master Plan</div>
+                                        <div class="text-xs text-slate-400">Define the roadmap via /bulkhead</div>
                                     </button>
                                     <button
-                                        class="w-full text-left bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors border border-slate-700 block">
-                                        <div class="text-xs text-slate-500 uppercase">Step 2</div>
-                                        <div class="font-bold text-white">/phase-epic-orchestrator</div>
-                                        <div class="text-xs text-slate-400">Manage phases & gates</div>
+                                        class="w-full text-left bg-slate-800 hover:bg-slate-700 p-3 rounded-lg transition-colors border border-slate-700 block cursor-default">
+                                        <div class="text-xs text-slate-500 uppercase">Orchestration</div>
+                                        <div class="font-bold text-white">Epic Manager</div>
+                                        <div class="text-xs text-slate-400">Manage phases via /bulkhead menu</div>
                                     </button>
                                 </div>
                             </div>
@@ -856,8 +851,8 @@
                                 <span class="text-slate-600">→</span>
                                 <code class="px-2 py-1 bg-green-500/20 text-green-400 rounded">07-verify.json</code>
                             </div>
-                            <p class="text-xs text-slate-500 mt-3">Each epic generates these artifacts. Status tracked
-                                in <code class="text-orange-400">project-progress.json</code></p>
+                            <p class="text-xs text-slate-500 mt-3">Each individual epic generates these artifacts.
+                                Overall status tracked in <code class="text-orange-400">project-progress.json</code></p>
                         </div>
                     </div>
                 </div>
@@ -869,50 +864,39 @@
     <!-- Quick Reference -->
     <section class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl font-bold text-white mb-8 text-center">Workflow Quick Reference</h2>
+            <h2 class="text-2xl font-bold text-white mb-8 text-center">Unified Entry Point</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="glass-card p-5 rounded-xl border-l-4 border-l-blue-500">
                     <h3 class="font-bold text-white mb-3 flex items-center gap-2">
-                        <span class="text-blue-400">●</span> Core Workflows
+                        <span class="text-blue-400">●</span> Smart Router
                     </h3>
                     <ul class="space-y-2 text-sm text-slate-400">
                         <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/bulkhead</code>
-                            Orchestrator</li>
-                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/phase-status</code>
-                            Dashboard</li>
-                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/phase-checkpoint</code>
-                            Validate</li>
+                            Central Hub & Routing</li>
+                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/bulkhead status</code>
+                            Visual Dashboard</li>
+                        <li><code class="text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">/bulkhead continue</code>
+                            Smart Resumption</li>
                     </ul>
                 </div>
                 <div class="glass-card p-5 rounded-xl border-l-4 border-l-green-500">
                     <h3 class="font-bold text-white mb-3 flex items-center gap-2">
-                        <span class="text-green-400">●</span> Integrations
+                        <span class="text-green-400">●</span> Common Workflows
                     </h3>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><code
-                                class="text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">/int-github-project</code>
-                        </li>
-                        <li><code class="text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">/int-pr-manager</code>
-                        </li>
-                        <li><code
-                                class="text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">/int-update-changelog</code>
-                        </li>
+                        <li><strong>Start new SDLC</strong> (Primary flow)</li>
+                        <li><strong>Plan modernization</strong> (Refactoring)</li>
+                        <li><strong>Continue current work</strong> (Resumption)</li>
                     </ul>
                 </div>
                 <div class="glass-card p-5 rounded-xl border-l-4 border-l-purple-500">
                     <h3 class="font-bold text-white mb-3 flex items-center gap-2">
-                        <span class="text-purple-400">●</span> Specialized
+                        <span class="text-purple-400">●</span> Utility Tools
                     </h3>
                     <ul class="space-y-2 text-sm text-slate-400">
-                        <li><code
-                                class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">/spec-code-review</code>
-                        </li>
-                        <li><code
-                                class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">/spec-modernization</code>
-                        </li>
-                        <li><code
-                                class="text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded">/phase-epic-orchestrator</code>
-                        </li>
+                        <li><strong>Quick code review</strong> (One-off reviews)</li>
+                        <li><strong>Security Audit</strong> (Infra/Logic checks)</li>
+                        <li><strong>PR Management</strong> (Automation)</li>
                     </ul>
                 </div>
             </div>
@@ -927,7 +911,7 @@
                     class="h-8 w-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
                     BH
                 </div>
-                <span class="font-bold text-lg text-white">Bulkhead <span class="text-orange-400">v2.2</span></span>
+                <span class="font-bold text-lg text-white">Bulkhead <span class="text-orange-400">v2.3.0</span></span>
             </div>
             <p class="text-sm text-slate-500">AI Governance Framework</p>
         </div>

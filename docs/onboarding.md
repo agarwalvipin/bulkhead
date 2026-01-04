@@ -105,43 +105,16 @@ git commit -m "feat: add Bulkhead governance framework"
 /bulkhead
 ```
 
-### Available Slash Commands
+### Available Commands
 
-**Orchestrator:**
 | Command | Purpose |
 |---------|---------|
-| `/bulkhead` | Smart menu based on project state |
-| `/bulkhead start <phase>` | Start a specific phase |
-| `/bulkhead continue` | Continue to next phase |
-| `/bulkhead status` | View governance dashboard |
+| `/bulkhead` | **Primary Entry Point**. Detects project state and shows context-aware options. |
+| `/bulkhead status` | View the current governance dashboard and project status. |
+| `/bulkhead continue` | Intelligently resume the next logical step in your workflow. |
 
-**Core SDLC (in `core/`):**
-| Command | Purpose |
-|---------|---------|
-| `/phase-0-triage` | Classify change as MAJOR/MINOR |
-| `/phase-1-context` through `/phase-7-verify` | SDLC phases |
-| `/phase-status` | Read-only status dashboard |
-| `/phase-checkpoint` | Validate artifacts before execution |
-
-**Integrations (in `integrations/`):**
-| Command | Purpose |
-|---------|---------|
-| `/github-project` | GitHub Project/Epic/Story management |
-| `/pr-manager` | Create and manage PRs |
-| `/changelog` | Update CHANGELOG and bump version |
-| `/feedback-loop` | Capture learnings |
-
-**Specialized (in `specialized/`):**
-| Command | Purpose |
-|---------|---------|
-| `/code-review` | Review a PR or branch |
-| `/promote` | Upgrade from sandbox to standard rigor |
-
-**Orchestrators (in `orchestrators/`):**
-| Command | Purpose |
-|---------|---------|
-| `/modernization` | Rebuild vs refactor analysis |
-| `/epic-orchestrator` | Manage multi-epic projects |
+> [!NOTE]
+> Bulkhead is designed as an integrated system. Instead of remembering dozens of individual slash commands, you only need to use `/bulkhead`. The system will guide you through the 8-phase SDLC, security audits, and deployment workflows based on your current project state.
 
 ---
 

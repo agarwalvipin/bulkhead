@@ -62,16 +62,11 @@
             <section class="mb-12">
                 <h2 class="text-xl font-bold text-orange-400 mb-4">Quick Start</h2>
                 <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50">
-                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># 1. Start Standard Flow</span>
-<span class="text-orange-400">/bulkhead start</span>
-
-<span class="text-slate-500"># 2. Planning</span>
-<span class="text-orange-400">/phase-epic-orchestrator start P1</span>
-<span class="text-orange-400">/int-github-project create-epic "New Feature"</span>
-
-<span class="text-slate-500"># 3. Execution</span>
-<span class="text-orange-400">/phase-6-execute</span></code></pre>
+                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># Just start here - the orchestrator handles everything</span>
+<span class="text-orange-400">/bulkhead</span></code></pre>
                 </div>
+                <p class="text-slate-400 mt-4 text-sm">The smart orchestrator will detect your project state and guide
+                    you through the appropriate phase.</p>
             </section>
 
             <section class="mb-12">
@@ -83,19 +78,12 @@
                             class="flex-shrink-0 w-8 h-8 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center font-bold">
                             1</div>
                         <div>
-                            <h3 class="font-bold text-slate-200">Governance Gates (Phases 0-4)</h3>
-                            <p class="text-sm text-slate-400 mb-2">Establish viability and safety before coding.</p>
+                            <h3 class="font-bold text-slate-200">Start Project</h3>
+                            <p class="text-sm text-slate-400 mb-2">Initialize the workflow.</p>
                             <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
-                                <li><strong>Triage:</strong> Worth the cost? (<code
-                                        class="text-orange-400">/phase-0-triage</code>)</li>
-                                <li><strong>Context:</strong> Blast radius? (<code
-                                        class="text-orange-400">/phase-1-context</code>)</li>
-                                <li><strong>Design:</strong> Architecture? (<code
-                                        class="text-orange-400">/phase-2-design</code>)</li>
-                                <li><strong>Security:</strong> Threats? (<code
-                                        class="text-orange-400">/phase-3-security</code>)</li>
-                                <li><strong>Decision:</strong> Go/No-Go? (<code
-                                        class="text-orange-400">/phase-4-decision</code>)</li>
+                                <li>Run <code class="text-orange-400">/bulkhead</code></li>
+                                <li>Select <strong>[1] Start new SDLC workflow</strong> (if starting fresh)</li>
+                                <li>Or <strong>[1] Continue to Phase &lt;N+1&gt;</strong> (if work in progress)</li>
                             </ul>
                         </div>
                     </div>
@@ -105,13 +93,19 @@
                             class="flex-shrink-0 w-8 h-8 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center font-bold">
                             2</div>
                         <div>
-                            <h3 class="font-bold text-slate-200">Planning & Tracking</h3>
-                            <p class="text-sm text-slate-400 mb-2">Break down tasks and checkpoint.</p>
+                            <h3 class="font-bold text-slate-200">Follow the Flow</h3>
+                            <p class="text-sm text-slate-400 mb-2">Complete the governance phases artifacts.</p>
                             <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
-                                <li>Generate tasks (<code class="text-orange-400">/phase-5-plan</code>)</li>
-                                <li>Sync to GitHub (<code class="text-orange-400">/int-github-project</code>)</li>
-                                <li>Verify artifacts (<code class="text-orange-400">/phase-checkpoint</code>)</li>
+                                <li><strong>Triage:</strong> 00-triage.json</li>
+                                <li><strong>Context:</strong> 01-context.json</li>
+                                <li><strong>Design:</strong> 02-design.json</li>
+                                <li><strong>Security:</strong> 03-security.json</li>
+                                <li><strong>Decision:</strong> 04-decision.md (Human Gate)</li>
                             </ul>
+                            <div class="mt-2 text-xs bg-slate-800/50 p-2 rounded border border-slate-700">
+                                💡 <strong>Pro Tip:</strong> After completing each phase artifact, just type <code
+                                    class="text-orange-400">/bulkhead</code> again.
+                            </div>
                         </div>
                     </div>
 
@@ -121,11 +115,12 @@
                             3</div>
                         <div>
                             <h3 class="font-bold text-slate-200">Execution & Verification</h3>
-                            <p class="text-sm text-slate-400 mb-2">Code, test, and merge.</p>
+                            <p class="text-sm text-slate-400 mb-2">Code, test, and finish.</p>
                             <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
-                                <li>Implement feature (<code class="text-orange-400">/phase-6-execute</code>)</li>
-                                <li>Run tests (<code class="text-orange-400">/phase-7-verify</code>)</li>
-                                <li>Create PR (<code class="text-orange-400">/int-pr-manager</code>)</li>
+                                <li>Select <strong>[1] Continue</strong> to ensure you are on the correct branch</li>
+                                <li>Implement feature and update 06-report.md</li>
+                                <li>Run tests and update 07-verify.md</li>
+                                <li>Run <code class="text-orange-400">/bulkhead</code> to see Post-Completion Menu</li>
                             </ul>
                         </div>
                     </div>

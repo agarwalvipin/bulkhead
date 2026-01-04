@@ -62,19 +62,11 @@
             <section class="mb-12">
                 <h2 class="text-xl font-bold text-orange-400 mb-4">Quick Start</h2>
                 <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50">
-                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># 1. Analyze existing system</span>
-<span class="text-orange-400">/spec-modernization</span>
-
-<span class="text-slate-500"># 2. Decide path</span>
-<span class="text-orange-400">/rebuild-vs-refactor</span>
-
-<span class="text-slate-500"># 3. Execute choice</span>
-<span class="text-slate-500"># Path A: Rebuild</span>
-<span class="text-orange-400">/bulkhead start</span>
-
-<span class="text-slate-500"># Path B: Refactor</span>
-<span class="text-orange-400">/refactoring-architect</span></code></pre>
+                    <pre class="text-sm text-slate-300 overflow-x-auto"><code><span class="text-slate-500"># Start modernization workflow</span>
+<span class="text-orange-400">/bulkhead</span></code></pre>
                 </div>
+                <p class="text-slate-400 mt-4 text-sm">Select <strong>[2] Plan large modernization project</strong> from
+                    the Start Menu.</p>
             </section>
 
             <section class="mb-12">
@@ -87,13 +79,17 @@
                             1</div>
                         <div>
                             <h3 class="font-bold text-slate-200">Analysis Phase</h3>
-                            <p class="text-sm text-slate-400 mb-2">Understand before you act.</p>
+                            <p class="text-sm text-slate-400 mb-2">Understand the current state.</p>
                             <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
-                                <li><strong>Scan:</strong> Identify components (<code
-                                        class="text-orange-400">/spec-modernization</code>)</li>
-                                <li><strong>Measure:</strong> Tech debt & complexity (<code
-                                        class="text-orange-400">/rebuild-vs-refactor</code>)</li>
-                                <li><strong>Decide:</strong> Generate Scorecard for Rebuild vs Refactor.</li>
+                                <li>The workflow scans codebase to generate <code
+                                        class="text-orange-400">modernization-plan.json</code></li>
+                                <li><strong>Decision Matrix:</strong> Evaluates Rebuild vs Refactor based on:
+                                    <ul class="pl-5 mt-1 list-disc text-slate-600">
+                                        <li>Tech Debt metrics</li>
+                                        <li>Complexity scores</li>
+                                        <li>Test coverage</li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -104,18 +100,41 @@
                             2</div>
                         <div>
                             <h3 class="font-bold text-slate-200">Execution Paths</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                <div class="p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
-                                    <h4 class="font-bold text-green-400 text-sm">Path A: Rebuild</h4>
-                                    <p class="text-xs text-slate-400 mt-1">Greenfields approach.</p>
-                                    <code class="text-xs block mt-2 text-orange-400">/bulkhead start</code>
+                            <div class="mt-3 grid md:grid-cols-2 gap-4">
+                                <div class="bg-slate-800/30 p-4 rounded-lg border border-slate-700/50">
+                                    <h4 class="font-bold text-green-400 mb-2">Path A: Rebuild</h4>
+                                    <p class="text-xs text-slate-400 mb-2">Greenfield replacement.</p>
+                                    <ol class="list-decimal list-inside text-xs text-slate-500 space-y-1">
+                                        <li>Run <code class="text-orange-400">/bulkhead</code></li>
+                                        <li>Select <strong>[1] Start new SDLC workflow</strong></li>
+                                        <li>Follow standard 8-phase SDLC</li>
+                                    </ol>
                                 </div>
-                                <div class="p-3 bg-slate-900/40 rounded-lg border border-slate-700/50">
-                                    <h4 class="font-bold text-amber-400 text-sm">Path B: Refactor</h4>
-                                    <p class="text-xs text-slate-400 mt-1">Strangler Fig pattern.</p>
-                                    <code class="text-xs block mt-2 text-orange-400">/refactoring-architect</code>
+                                <div class="bg-slate-800/30 p-4 rounded-lg border border-slate-700/50">
+                                    <h4 class="font-bold text-blue-400 mb-2">Path B: Refactor</h4>
+                                    <p class="text-xs text-slate-400 mb-2">Strangler Fig pattern.</p>
+                                    <ol class="list-decimal list-inside text-xs text-slate-500 space-y-1">
+                                        <li>Run <code class="text-orange-400">/bulkhead</code></li>
+                                        <li>Select <strong>[2] Continue current epic</strong></li>
+                                        <li>Extract component & route traffic</li>
+                                    </ol>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <div
+                            class="flex-shrink-0 w-8 h-8 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center font-bold">
+                            3</div>
+                        <div>
+                            <h3 class="font-bold text-slate-200">Validation</h3>
+                            <p class="text-sm text-slate-400 mb-2">Ensure parity.</p>
+                            <ul class="list-disc list-inside text-sm text-slate-500 space-y-1">
+                                <li><strong>Parity Testing:</strong> Run shadow traffic</li>
+                                <li><strong>Cutover:</strong> Switch primary traffic</li>
+                                <li><strong>Cleanup:</strong> Delete legacy code</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

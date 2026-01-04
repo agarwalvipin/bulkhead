@@ -8,28 +8,25 @@ A developer needs to secure a public API. They want to use standard OAuth2 passw
 
 ## How to Use This Example
 
-This example demonstrates the complete Bulkhead 8-phase workflow. To recreate this in your own project:
+To recreate this in your own project:
 
-```bash
-# Start with the smart orchestrator
-/bulkhead
+1. **Start the change**:
+   ```bash
+   /bulkhead
+   ```
+   *Select [1] Start new SDLC*
 
-# Or go directly to triage
-/phase-0-triage
-```
+2. **Progress through phases**:
+   ```bash
+   /bulkhead continue
+   ```
+   *The system will guide you through Triage, Design, Security, and Verification.*
 
-After Phase 7 verification, use the integration workflows:
-
-```bash
-# Create a PR for your changes
-/pr-manager create
-
-# Update the changelog
-/changelog
-
-# Capture learnings for future reference
-/feedback-loop
-```
+3. **Complete the delivery**:
+   ```bash
+   /bulkhead
+   ```
+   *Select from the Post-Completion menu to create PRs, update changesets, and capture feedback.*
 
 ## Artifacts Walkthrough
 
@@ -44,23 +41,14 @@ After Phase 7 verification, use the integration workflows:
 | 6 | [06-report.md](./architecture/06-report.md) | Execution log with commits |
 | 7 | [07-verify.md](./architecture/07-verify.md) | Proof that tests passed |
 
-## Workflow Commands Used
-
-| Category | Command | Notes |
-|----------|---------|-------|
-| **Orchestrator** | `/bulkhead` | Smart menu shows context-aware options |
-| **Core SDLC** | `/phase-0-triage` through `/phase-7-verify` | In `core/` folder |
-| **Integrations** | `/pr-manager`, `/changelog` | In `integrations/` folder |
-
 ## Key Takeaways
 
-1. **MAJOR changes** (security, schema) go through full 8-phase governance
-2. **Human Gate** at Phase 4 requires explicit approval signature
-3. **Double-Write Rule**: Each phase produces `.md` (human) + `.json` (machine) artifacts
-4. **Post-completion**: Use integration workflows for PR and changelog
+1. **MAJOR changes** (security, schema) go through full 8-phase governance.
+2. **Human Gate** at Phase 4 requires explicit approval signature.
+3. **Double-Write Rule**: Each phase produces `.md` (human) + `.json` (machine) artifacts.
+4. **Unified entry point**: Use `/bulkhead` for routing, status, and delivery automation.
 
-## Related Workflows
+---
 
-- `/orchestrators/modernization` - For large-scale refactoring projects
-- `/orchestrators/epic-orchestrator` - For multi-epic phased development
-- `/specialized/code-review` - For standalone code review sessions
+> [!TIP]
+> This example project shows the **Standard** rigor profile. For simpler projects, the **Sandbox** profile allows for faster delivery with fewer mandatory gates.

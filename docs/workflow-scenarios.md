@@ -1,6 +1,6 @@
 # Bulkhead Workflow Scenarios - Flow Diagrams
 
-This document provides visual flow diagrams for various scenarios demonstrating how Bulkhead workflows can be used together.
+This document provides visual flow diagrams for various scenarios demonstrating how Bulkhead governance works. All interactions start with the `/bulkhead` smart router.
 
 ---
 
@@ -8,45 +8,45 @@ This document provides visual flow diagrams for various scenarios demonstrating 
 
 ```mermaid
 graph TD
-    Start([New Feature Request]) --> Bulkhead["/bulkhead&#10;Orchestrator Entry"]
+    Start([New Feature Request]) --> Bulkhead["Bulkhead Orchestrator"]
     
-    Bulkhead --> P0["/phase-0-triage&#10;Economic Control"]
+    Bulkhead --> P0["Phase 0: Triage"]
     P0 --> P0Decision{Worth&#10;investing?}
     P0Decision -->|No| Reject([Document & Reject])
-    P0Decision -->|Yes| P1["/phase-1-context&#10;Blast Radius"]
+    P0Decision -->|Yes| P1["Phase 1: Context"]
     
     P1 --> P1Doc["Document scope,&#10;dependencies, impact"]
-    P1Doc --> P2["/phase-2-design&#10;Architectural Analysis"]
+    P1Doc --> P2["Phase 2: Design"]
     
-    P2 --> P2Review["/architect-review&#10;Evaluate Design"]
+    P2 --> P2Review["Architecture Review"]
     P2Review --> P2Decision{Design&#10;approved?}
     P2Decision -->|Issues Found| P2
-    P2Decision -->|Approved| P3["/phase-3-security&#10;Threat Modeling"]
+    P2Decision -->|Approved| P3["Phase 3: Security"]
     
-    P3 --> Sec["/security-architect&#10;Security Review"]
+    P3 --> Sec["Security Audit"]
     Sec --> P3Decision{Security&#10;risks OK?}
     P3Decision -->|Unacceptable| P2
-    P3Decision -->|Mitigated| P4["/phase-4-decision&#10;Decision Gate"]
+    P3Decision -->|Mitigated| P4["Phase 4: Decision"]
     
     P4 --> P4Decision{Proceed?}
     P4Decision -->|No| Stop([Stop Development])
-    P4Decision -->|Yes| P5["/phase-5-plan&#10;Orchestration"]
+    P4Decision -->|Yes| P5["Phase 5: Plan"]
     
-    P5 --> GitProject["/int-github-project&#10;Create Epic & Stories"]
-    GitProject --> Checkpoint["/phase-checkpoint&#10;Validate Artifacts"]
+    P5 --> GitProject["Project Tracking&#10;(Sync GitHub)"]
+    GitProject --> Checkpoint["Governance Checkpoint"]
     
     Checkpoint --> CheckOK{All artifacts&#10;complete?}
     CheckOK -->|Missing| P5
-    CheckOK -->|Complete| P6["/phase-6-execute&#10;Coding"]
+    CheckOK -->|Complete| P6["Phase 6: Execute"]
     
-    P6 --> Code[Write Code]
-    Code --> P7["/phase-7-verify&#10;Quality Gate"]
+    P6 --> Code[Implement Design]
+    Code --> P7["Phase 7: Verify"]
     
-    P7 --> Tests["Run Tests&#10;& Verification"]
-    Tests --> CodeRev["/code-review&#10;Review Changes"]
+    P7 --> Tests["Quality Gate&#10;(Run Tests)"]
+    Tests --> CodeRev["Code Review"]
     CodeRev --> P7Decision{Quality&#10;passed?}
     P7Decision -->|Issues| P6
-    P7Decision -->|Passed| Changelog["/int-update-changelog&#10;Update CHANGELOG"]
+    P7Decision -->|Passed| Changelog["Update Changelog"]
     
     Changelog --> Done([Merge & Deploy])
     
@@ -63,10 +63,10 @@ graph TD
 ```
 
 ### Step-by-Step Guide
-1. **Governance Gates (Phases 0-4)**: Establish economic viability (`/phase-0-triage`), impact (`/phase-1-context`), design (`/phase-2-design`), and security (`/phase-3-security`). Finally, get approval at the Decision Gate (`/phase-4-decision`).
-2. **Planning**: Use `/phase-5-plan` to break down tasks and `/int-github-project` to sync them to the project board.
-3. **Execution**: Write code in Phase 6 (`/phase-6-execute`), then verify against acceptance criteria in Phase 7 (`/phase-7-verify`).
-4. **Completion**: Update changelog (`/int-update-changelog`) and merge.
+1. **Governance Gates (Phases 0-4)**: Use `/bulkhead` to initiate. Establish economic viability, impact, design, and security. Finally, obtain sign-off at the Decision Gate.
+2. **Planning**: Use `/bulkhead` (Project Menu) to break down tasks and sync them to your project board.
+3. **Execution**: Implement the design in Phase 6, then verify against acceptance criteria in Phase 7 using the `/bulkhead` execution flows.
+4. **Completion**: Use the `/bulkhead` Post-Completion menu to update the changelog and prepare the PR.
 
 ---
 
@@ -74,29 +74,29 @@ graph TD
 
 ```mermaid
 graph TD
-    Start(["Legacy System&#10;Needs Update"]) --> Status["/phase-status&#10;Check Current State"]
+    Start(["Legacy System&#10;Needs Update"]) --> Status["Check Governance State"]
     
-    Status --> SpecMod["/spec-modernization&#10;Evaluate System"]
+    Status --> SpecMod["Modernization Analysis"]
     
-    SpecMod --> Analysis["Analyze:&#10;- Technical debt&#10;- Test coverage&#10;- Business logic&#10;- Dependencies"]
+    SpecMod --> Analysis["Analyze technical debt,&#10;coverage, and biz logic"]
     
-    Analysis --> RebuildRefactor["/rebuild-vs-refactor&#10;Decision Analysis"]
+    Analysis --> RebuildRefactor["Decision Matrix"]
     
-    RebuildRefactor --> Metrics["Calculate:&#10;- Refactor cost&#10;- Rebuild cost&#10;- Risk scores&#10;- Timeline estimates"]
+    RebuildRefactor --> Metrics["Calculate cost,&#10;risk, and timeline"]
     
     Metrics --> Decision{Decision?}
     
-    Decision -->|REFACTOR| RefactorPath[Refactoring Path]
+    Decision -->|REFACTOR| RefactorPath[Refactor Path]
     Decision -->|REBUILD| RebuildPath[Rebuild Path]
     
-    RefactorPath --> RefArch["/refactoring-architect&#10;Component Analysis"]
-    RefArch --> RefPlan["Generate:&#10;- Component extraction&#10;- Tech stack survey&#10;- Phased plan"]
-    RefPlan --> BulkheadRefactor["/bulkhead&#10;Start Refactor SDLC"]
+    RefactorPath --> RefArch["Refactor Architecture"]
+    RefArch --> RefPlan["Phased extraction plan"]
+    RefPlan --> BulkheadRefactor["Bulkhead Orchestrator"]
     
-    RebuildPath --> BulkheadRebuild["/bulkhead&#10;Start Rebuild SDLC"]
+    RebuildPath --> BulkheadRebuild["Bulkhead Orchestrator"]
     
-    BulkheadRefactor --> Phases1["Execute Phases 0-7&#10;for each component"]
-    BulkheadRebuild --> Phases2["Execute Phases 0-7&#10;for new system"]
+    BulkheadRefactor --> Phases1["Phased Execution&#10;(SDLC 0-7)"]
+    BulkheadRebuild --> Phases2["Full SDLC Flow&#10;(New System)"]
     
     Phases1 --> Complete([Modernization Complete])
     Phases2 --> Complete
@@ -105,12 +105,14 @@ graph TD
     style RebuildRefactor fill:#FF9800
     style RefArch fill:#673AB7
     style Decision fill:#FF5722
+    style BulkheadRefactor fill:#4CAF50
+    style BulkheadRebuild fill:#4CAF50
 ```
 
 ### Legacy Modernization Flow
-1. **Analysis**: Run `/spec-modernization` to assess the system. Then use `/rebuild-vs-refactor` to analytically compare the cost and risk of refactoring vs rebuilding.
-2. **Refactor Path**: Use `/refactoring-architect` to plan component extraction and execute via Phased Refactoring.
-3. **Rebuild Path**: Treat as a standard "Greenfields" project using `/bulkhead start`.
+1. **Analysis**: Use the Modernization workflow to assess the system and analytically compare the cost and risk of refactoring vs rebuilding.
+2. **Refactor Path**: Use the Refactoring tools to plan component extraction and execute via phased governance.
+3. **Rebuild Path**: Treat as a standard "Greenfields" project using the `/bulkhead` start menu.
 
 ---
 
@@ -118,42 +120,42 @@ graph TD
 
 ```mermaid
 graph TD
-    Start(["Infrastructure&#10;Change Request"]) --> Check["Check INFRA-3:&#10;Decision record&#10;required?"]
+    Start(["Infrastructure&#10;Change Request"]) --> Check["Check INFRA-3:&#10;Decision required"]
     
-    Check --> P0["/phase-0-triage&#10;Economic Control"]
+    Check --> P0["Phase 0: Triage"]
     
     P0 --> P0Check{Approved?}
     P0Check -->|No| Stop([Stop])
-    P0Check -->|Yes| P1["/phase-1-context&#10;Blast Radius"]
+    P0Check -->|Yes| P1["Phase 1: Context"]
     
-    P1 --> BlastRadius["Identify:&#10;- Network exposure&#10;- Service dependencies&#10;- Data flow changes"]
+    P1 --> BlastRadius["Identify Network&#10;exposure/exposure"]
     
-    BlastRadius --> P2["/phase-2-design&#10;Architectural Analysis"]
+    BlastRadius --> P2["Phase 2: Design"]
     
-    P2 --> ArchReview["/architect-review&#10;Infrastructure Design"]
+    P2 --> ArchReview["Architecture Review"]
     
     ArchReview --> InfraCheck{"INFRA-1&#10;All explicit?"}
     InfraCheck -->|Defaults Found| P2
-    InfraCheck -->|All Explicit| P3["/phase-3-security&#10;Threat Modeling"]
+    InfraCheck -->|All Explicit| P3["Phase 3: Security"]
     
-    P3 --> SecArch["/security-architect&#10;Security Analysis"]
+    P3 --> SecArch["Security Review"]
     
-    SecArch --> ThreatModel["Document:&#10;- Attack surface&#10;- Secret handling&#10;- Network exposure&#10;INFRA-2 Required"]
+    SecArch --> ThreatModel["STRIDE modeling&#10;(INFRA-2)"]
     
     ThreatModel --> SecCheck{"INFRA-5&#10;Network change?"}
-    SecCheck -->|Yes| DeepReview["Deep Security Review:&#10;- Ports & ingress&#10;- DNS & proxies&#10;- Policy enforcement"]
+    SecCheck -->|Yes| DeepReview["Deep Network Review&#10;(Ingress/Egress)"]
     SecCheck -->|No| SecretCheck
     
     DeepReview --> SecretCheck{"INFRA-4&#10;Secrets OK?"}
     SecretCheck -->|Inline Found| P3
-    SecretCheck -->|Properly Managed| P4["/phase-4-decision&#10;Decision Gate"]
+    SecretCheck -->|Properly Managed| P4["Phase 4: Decision"]
     
-    P4 --> CreateDecision["Create&#10;04-decision-record.md"]
+    P4 --> CreateDecision["Document Decision&#10;(04-decision.md)"]
     CreateDecision --> P4Approve{Approved?}
     P4Approve -->|No| Stop2([Stop])
-    P4Approve -->|Yes| Proceed["Proceed to&#10;Phase 5-7"]
+    P4Approve -->|Yes| Proceed["Proceed to Execution"]
     
-    Proceed --> Deploy([Deploy Infrastructure])
+    Proceed --> Deploy([Apply Plan])
     
     style P3 fill:#F44336
     style SecArch fill:#F44336
@@ -164,12 +166,12 @@ graph TD
 ### Security-First Protocol (INFRA Rules)
 **Approvals Required**: Security Architect, Infrastructure Lead.
 
-1. **INFRA-1 (No Defaults)**: All ports, networks, and creds must be explicit in `02-design.json`.
-2. **INFRA-2 (Threat Model)**: `03-security.json` is mandatory.
-3. **INFRA-3 (Decision Record)**: `04-decision-record.md` required before any provisioning.
+1. **INFRA-1 (No Defaults)**: All ports, networks, and creds must be explicit in design documents.
+2. **INFRA-2 (Threat Model)**: Dedicated security artifact (`03-security.json`) is mandatory.
+3. **INFRA-3 (Decision Record)**: Signed record required before any provisioning.
 4. **INFRA-5 (Network)**: No fast-tracking for network changes.
 
-**Workflow**: `/phase-3-security` -> `/security-architect` -> `/phase-4-decision`.
+**Workflow**: All security checks are integrated into the standard `/bulkhead` flow for Major/Critical changes.
 
 ---
 
@@ -177,32 +179,32 @@ graph TD
 
 ```mermaid
 graph TD
-    Start(["Developer Ready&#10;to Work"]) --> Status["/phase-status&#10;Check Dashboard"]
+    Start(["Developer Ready&#10;to Work"]) --> Status["Check Status"]
     
     Status --> StatusCheck{"Current&#10;Phase?"}
     
-    StatusCheck -->|No Active Work| NewWork["/bulkhead&#10;Start New Work"]
-    StatusCheck -->|In Planning| Planning["Continue Planning&#10;Phases 0-4"]
-    StatusCheck -->|In Execution| Execution["Continue Execution&#10;Phases 5-7"]
-    StatusCheck -->|In Review| Review["Address Review&#10;Comments"]
+    StatusCheck -->|None| NewWork["Start New Work"]
+    StatusCheck -->|Planning| Planning["Continue Planning"]
+    StatusCheck -->|Execution| Execution["Continue Execution"]
+    StatusCheck -->|Review| Review["Address Feedback"]
     
-    NewWork --> FullCycle["Execute Full&#10;SDLC Cycle"]
+    NewWork --> FullCycle["Execute SDLC Flow"]
     
-    Planning --> UpdateArtifacts["Update Architecture&#10;Artifacts"]
-    UpdateArtifacts --> PlanningReview["/architect-review or&#10;/security-architect"]
-    PlanningReview --> CheckPoint1["/phase-checkpoint&#10;Ready for execution?"]
+    Planning --> UpdateArtifacts["Update Artifacts"]
+    UpdateArtifacts --> PlanningReview["Integrated Review"]
+    PlanningReview --> CheckPoint1["Governance Checkpoint"]
     CheckPoint1 --> Proceed1{Complete?}
     Proceed1 -->|No| Planning
-    Proceed1 -->|Yes| ToExecution[Move to Execution]
+    Proceed1 -->|Yes| ToExecution[Execution]
     
-    Execution --> GitSync["/int-github-project&#10;Update Epic Status"]
+    Execution --> GitSync["Update Project Status"]
     GitSync --> WriteCode[Implement Features]
-    WriteCode --> Verify["/phase-7-verify&#10;Run Tests"]
+    WriteCode --> Verify["Run Verifications"]
     Verify --> VerifyOK{All Pass?}
     VerifyOK -->|No| Execution
-    VerifyOK -->|Yes| CreatePR[Create Pull Request]
+    VerifyOK -->|Yes| CreatePR[Create PR]
     
-    CreatePR --> CodeReviewFlow["/code-review&#10;Review PR"]
+    CreatePR --> CodeReviewFlow["Review Process"]
     
     Review --> AddressComments[Fix Issues]
     AddressComments --> Reverify[Re-verify]
@@ -212,7 +214,7 @@ graph TD
     UpdatePR --> CodeReviewFlow
     
     ReviewDecision -->|Changes Requested| Review
-    ReviewDecision -->|Approved| UpdateLog["/int-update-changelog&#10;Document Changes"]
+    ReviewDecision -->|Approved| UpdateLog["Update Changelog"]
     
     UpdateLog --> Merge([Merge to Main])
     ToExecution --> Execution
@@ -225,9 +227,9 @@ graph TD
 ```
 
 ### Daily Developer Workflow
-1. **Morning**: Check `/phase-status` dashboard.
-2. **Coding**: Run `/bulkhead continue` to restore context (branch, phase, active task).
-3. **Review**: Use `/int-pr-manager` to create PRs and `gh` to update status.
+1. **Morning**: Check current project status via `/bulkhead status`.
+2. **Coding**: Use `/bulkhead continue` to restore context (branch, phase, active task) and resume implementation.
+3. **Review**: Use the integrated delivery tools to create PRs and manage the merge process.
 
 ---
 
@@ -239,68 +241,66 @@ graph TD
     Start --> Team2[Team 2: Feature B]
     Start --> Team3[Team 3: Security Audit]
     
-    Team1 --> B1["/bulkhead&#10;Feature A SDLC"]
-    Team2 --> B2["/bulkhead&#10;Feature B SDLC"]
-    Team3 --> SecOnly["/security-architect&#10;Audit Existing Code"]
+    Team1 --> B1["Bulkhead SDLC Flow"]
+    Team2 --> B2["Bulkhead SDLC Flow"]
+    Team3 --> SecOnly["Integrated Security Audit"]
     
-    B1 --> GP1["/int-github-project&#10;Epic: Feature A"]
-    B2 --> GP2["/int-github-project&#10;Epic: Feature B"]
+    B1 --> GP1["Project Board: A"]
+    B2 --> GP2["Project Board: B"]
     
-    GP1 --> Branch1["Branch:&#10;feature/feature-a"]
-    GP2 --> Branch2["Branch:&#10;feature/feature-b"]
+    GP1 --> Branch1["Branch Strategy"]
+    GP2 --> Branch2["Branch Strategy"]
     
-    Branch1 --> Execute1["Phases 0-7&#10;Feature A"]
-    Branch2 --> Execute2["Phases 0-7&#10;Feature B"]
-    SecOnly --> SecReport["Security Report&#10;& Recommendations"]
+    Branch1 --> Execute1["Isolated SDLC"]
+    Branch2 --> Execute2["Isolated SDLC"]
+    SecOnly --> SecReport["Audit Findings"]
     
     Execute1 --> PR1[PR: Feature A]
     Execute2 --> PR2[PR: Feature B]
-    SecReport --> SecIssues["Create Security&#10;Issues/Epics"]
+    SecReport --> SecIssues["Backlog Items"]
     
-    PR1 --> CR1["/code-review&#10;Review Feature A"]
-    PR2 --> CR2["/code-review&#10;Review Feature B"]
+    PR1 --> CR1["Code Review"]
+    PR2 --> CR2["Code Review"]
     
     SecIssues --> PriorityCheck{Critical?}
-    PriorityCheck -->|Yes| HotfixBulkhead["/bulkhead&#10;Security Hotfix"]
-    PriorityCheck -->|No| Backlog[Add to Backlog]
+    PriorityCheck -->|Yes| HotfixBulkhead["Emergency Workflow"]
+    PriorityCheck -->|No| Backlog[Normal Backlog]
     
     CR1 --> Merge1{Conflicts?}
     CR2 --> Merge2{Conflicts?}
     
-    Merge1 -->|No| M1[Merge Feature A]
-    Merge2 -->|No| M2[Merge Feature B]
-    Merge1 -->|Yes| Resolve1[Resolve Conflicts]
-    Merge2 -->|Yes| Resolve2[Resolve Conflicts]
+    Merge1 -->|No| M1[Merge A]
+    Merge2 -->|No| M2[Merge B]
+    Merge1 -->|Yes| Resolve1[Resolve]
+    Merge2 -->|Yes| Resolve2[Resolve]
     
     Resolve1 --> CR1
     Resolve2 --> CR2
     
     HotfixBulkhead --> HotfixPR[Hotfix PR]
-    HotfixPR --> CRSec["/code-review&#10;Review Hotfix"]
-    CRSec --> MergeSec[Merge Security Fix]
+    HotfixPR --> CRSec["Security Review"]
+    CRSec --> MergeSec[Merge Fix]
     
-    M1 --> CL1["/int-update-changelog"]
-    M2 --> CL2["/int-update-changelog"]
-    MergeSec --> CL3["/int-update-changelog"]
+    M1 --> CL1[Update Changelog]
+    M2 --> CL1
+    MergeSec --> CL1
     
     CL1 --> Done([Release])
-    CL2 --> Done
-    CL3 --> Done
     Backlog --> Done
     
     style Done fill:#4CAF50
 ```
 
 ### Parallel Work Management
-Orchestrates multiple teams (Feature A, Feature B, Audit) simultaneously.
+Orchestrates multiple teams working on features and audits simultaneously.
 
-- **Feature Teams**: Each runs an isolated SDLC using `/int-github-project` to track separate epics/branches.
-- **Security Team**: Runs `/security-architect` in parallel to inject issues into the backlog.
-- **Merge Strategy**: Frequent `/code-review` and automated changelog handling to ensure a clean release history.
+- **Isolation**: Each team runs an isolated SDLC using the orchestrator to track separate epics/branches.
+- **Security**: Audits run in parallel, injecting critical findings directly into the project backlog.
+- **Merge**: Automated conflict detection and changelog handling ensure a clean unified history.
 
 ---
 
-## Scenario 6: Emergency Response
+## Scenario 6: Emergency Response (Hotfix)
 
 ```mermaid
 graph TD
@@ -309,39 +309,39 @@ graph TD
     Severity -->|P0 - Critical| Emergency[Emergency Response]
     Severity -->|P1-P2| Standard[Standard Process]
     
-    Emergency --> HotfixBranch["Create hotfix branch&#10;from main"]
-    HotfixBranch --> FastTrack["Condensed bulkhead:&#10;Combined P0-P1-P2"]
+    Emergency --> HotfixBranch["Create hotfix branch"]
+    HotfixBranch --> FastTrack["Condensed SDLC Pass"]
     
-    FastTrack --> QuickDesign["Quick Design&#10;& Security Check"]
-    QuickDesign --> InfraCheck{"Infrastructure&#10;change?"}
+    FastTrack --> QuickDesign["Quick Design review"]
+    QuickDesign --> InfraCheck{"Infra involved?"}
     
-    InfraCheck -->|Yes| InfraRules["INFRA-5:&#10;NO FAST-TRACK&#10;Security Required"]
-    InfraCheck -->|No| P3Fast["Fast P3:&#10;Security Review"]
+    InfraCheck -->|Yes| InfraRules["INFRA-5 Rules Applied"]
+    InfraCheck -->|No| P3Fast["Expedited P3 review"]
     
-    InfraRules --> FullSec["/security-architect&#10;Full Security Review"]
-    FullSec --> P4Gate["/phase-4-decision&#10;Decision Gate"]
+    InfraRules --> FullSec["Security Review"]
+    FullSec --> P4Gate["Decision Gate"]
     
     P3Fast --> SecOK{"Security&#10;OK?"}
     SecOK -->|No| FullSec
     SecOK -->|Yes| P4Gate
     
     P4Gate --> Approve{Approved?}
-    Approve -->|No| Stop([Stop & Reassess])
-    Approve -->|Yes| QuickImpl[Quick Implementation]
+    Approve -->|No| Stop([Stop])
+    Approve -->|Yes| QuickImpl[Implementation]
     
-    QuickImpl --> TestHotfix["/phase-7-verify&#10;Verify Hotfix"]
+    QuickImpl --> TestHotfix["Fast Verification"]
     TestHotfix --> TestOK{Tests Pass?}
     TestOK -->|No| QuickImpl
-    TestOK -->|Yes| ExpressReview[Express Code Review]
+    TestOK -->|Yes| ExpressReview[Expedited Review]
     
     ExpressReview --> Deploy([Deploy Hotfix])
     
-    Standard --> BulkheadStd["/bulkhead&#10;Standard SDLC"]
+    Standard --> BulkheadStd["Standard Workflow"]
     BulkheadStd --> NormalDeploy([Normal Deployment])
     
-    Deploy --> Postmortem["Document in&#10;.bulkhead/architecture/"]
-    Postmortem --> ChangelogHotfix["/int-update-changelog"]
-    ChangelogHotfix --> Monitor([Monitor & Close])
+    Deploy --> Postmortem["Capture Learnings"]
+    Postmortem --> ChangelogHotfix["Notify Stakeholders"]
+    ChangelogHotfix --> Monitor([Monitor])
     
     style Emergency fill:#F44336
     style InfraRules fill:#FF5722
@@ -349,12 +349,12 @@ graph TD
 ```
 
 ### Emergency Hotfix Protocol (P0)
-**Goal**: Rapid fix while maintaining safety.
+**Goal**: Rapid resolution while maintaining critical safety rails.
 
-1. **Fast-Track Triage**: Determine severity. If P0, enter emergency mode.
-2. **Condensed Governance**: Combine Phases 0-2 into a single pass.
-   > **⚠️ CRITICAL**: If Infrastructure changes are involved (INFRA-5), you **CANNOT** fast-track security. Standard P3 review is mandatory.
-3. **Rapid Execution**: Implement -> Verify -> Express Review -> Deploy -> Post-mortem.
+1. **Fast-Track Entry**: Use `/bulkhead` and select the **CRITICAL** classification to unlock the emergency path.
+2. **Condensed Governance**: Phases 0-2 are evaluated in a single context pass.
+   > **⚠️ WARNING**: Infrastructure changes (INFRA-5) **NEVER** skip security reviews, even in emergencies.
+3. **Delivery**: Automated verification and expedited human review before deployment.
 
 ---
 
@@ -362,48 +362,48 @@ graph TD
 
 ```mermaid
 graph TD
-    Start(["Legacy System&#10;with Issues"]) --> Initial[Initial Assessment]
+    Start(["Legacy Issues"]) --> Initial[Initial Assessment]
     
-    Initial --> SpecMod["/spec-modernization&#10;Comprehensive Evaluation"]
+    Initial --> SpecMod["Modernization Analysis"]
     
-    SpecMod --> Gather["Gather Data:&#10;- Code metrics&#10;- Test coverage&#10;- Dependencies&#10;- Team knowledge"]
+    SpecMod --> Gather["Gather structural data"]
     
-    Gather --> RvR["/rebuild-vs-refactor&#10;Decision Analysis"]
+    Gather --> RvR["Decision Matrix"]
     
-    RvR --> Metrics[Calculate Metrics]
+    RvR --> Metrics[Metric Calculation]
     
-    Metrics --> TechDebt["Technical Debt Score&#10;0-10"]
-    Metrics --> TestCov["Test Coverage&#10;percentage"]
-    Metrics --> BizLogic["Business Logic&#10;Understanding&#10;0-10"]
-    Metrics --> RefactorCost["Refactor Cost&#10;Estimate"]
-    Metrics --> RebuildCost["Rebuild Cost&#10;Estimate"]
+    Metrics --> TechDebt["Tech Debt Score"]
+    Metrics --> TestCov["Safety %"]
+    Metrics --> BizLogic["Logic Clarity"]
+    Metrics --> RefactorCost["Refactor Estimate"]
+    Metrics --> RebuildCost["Rebuild Estimate"]
     
-    TechDebt --> Decision{"Decision&#10;Algorithm"}
+    TechDebt --> Decision{"Decision&#10;Logic"}
     TestCov --> Decision
     BizLogic --> Decision
     RefactorCost --> Decision
     RebuildCost --> Decision
     
-    Decision -->|REFACTOR| RefactorDecision["Document:&#10;REFACTOR chosen"]
-    Decision -->|REBUILD| RebuildDecision["Document:&#10;REBUILD chosen"]
+    Decision -->|REFACTOR| RefactorDecision["Refactor Decision"]
+    Decision -->|REBUILD| RebuildDecision["Rebuild Decision"]
     
-    RefactorDecision --> RefArch["/refactoring-architect&#10;Plan Refactor"]
+    RefactorDecision --> RefArch["Refactor Planning"]
     
-    RefArch --> ComponentAnalysis[Component Analysis]
-    ComponentAnalysis --> ExtractComps[Extract Components]
-    ExtractComps --> TechSurvey["Survey Modern&#10;Tech Stack"]
-    TechSurvey --> PhasedPlan["Generate Phased&#10;Refactor Plan"]
+    RefArch --> ComponentAnalysis[Component mapping]
+    ComponentAnalysis --> ExtractComps[Define extractions]
+    ExtractComps --> TechSurvey["Survey targets"]
+    TechSurvey --> PhasedPlan["Phased Roadmap"]
     
-    PhasedPlan --> PhaseLoop[For Each Phase]
+    PhasedPlan --> PhaseLoop[Loop each Phase]
     
-    PhaseLoop --> PhaseBulkhead["/bulkhead&#10;Execute Phase"]
-    PhaseBulkhead --> PhaseComplete{"More&#10;Phases?"}
+    PhaseLoop --> PhaseBulkhead["Bulkhead Execution"]
+    PhaseBulkhead --> PhaseComplete{"More?"}
     PhaseComplete -->|Yes| PhaseLoop
-    PhaseComplete -->|No| RefactorDone([Refactor Complete])
+    PhaseComplete -->|No| RefactorDone([Complete])
     
     RebuildDecision --> NewDesign[Design New System]
-    NewDesign --> BulkheadNew["/bulkhead&#10;Build New System"]
-    BulkheadNew --> RebuildComplete([Rebuild Complete])
+    NewDesign --> BulkheadNew["Build New System"]
+    BulkheadNew --> RebuildComplete([Complete])
     
     style SpecMod fill:#673AB7
     style RvR fill:#FF9800
@@ -414,11 +414,9 @@ graph TD
 ### Refactoring Decision Matrix
 Data-driven approach to architectural changes.
 
-1. **Calculate Metrics**: Use `/rebuild-vs-refactor` to score Technical Debt, Test Coverage, and Complexity.
-2. **Cost Analysis**: Compare Refactor Effort vs Rebuild Capital.
-3. **Execution**:
-   - **Refactor**: Plan component extraction with `/refactoring-architect`.
-   - **Rebuild**: Start fresh with `/bulkhead`.
+1. **Calculate Metrics**: Compare Technical Debt and Safety scores.
+2. **Cost Analysis**: Weigh Refactor Effort against Rebuild Capital.
+3. **Execution**: Both paths lead to standard `/bulkhead` SDLC governance to ensure the transformation is documented and verified.
 
 ---
 
@@ -426,78 +424,48 @@ Data-driven approach to architectural changes.
 
 ```mermaid
 graph TD
-    Start([Modernization Project]) --> SpecMod["/spec-modernization\nMaster Plan"]
-    SpecMod --> Init["/phase-epic-orchestrator\nInit Project"]
+    Start([Modernization Project]) --> SpecMod["Master Plan"]
+    SpecMod --> Init["Initialize Orchestration"]
     
     Init --> PhaseLoop[Phase Loop]
-    PhaseLoop --> PStart["/phase-epic-orchestrator\nStart Phase Px"]
+    PhaseLoop --> PStart["Start Phase Px"]
     
     PStart --> EpicLoop[Epic Loop]
-    EpicLoop --> EStart["/phase-epic-orchestrator\nStart Epic Ex.y"]
+    EpicLoop --> EStart["Start Epic Ex.y"]
     
-    EStart --> SDLC["/bulkhead\nRun Full SDLC"]
+    EStart --> SDLC["Governance SDLC"]
     SDLC --> EComplete{Epic Done?}
     EComplete -->|No| SDLC
-    EComplete -->|Yes| NextEpic["/phase-epic-orchestrator\nnext"]
+    EComplete -->|Yes| NextEpic["Register Completion"]
     
     NextEpic --> EpicLoop
-    EpicLoop --> PhaseGate["/phase-checkpoint\nPhase Complete?"]
+    EpicLoop --> PhaseGate["Phase Review"]
     
     PhaseGate -->|No| EpicLoop
-    PhaseGate -->|Yes| NextPhase["Start Next Phase"]
+    PhaseGate -->|Yes| NextPhase["Advance Phase"]
     NextPhase --> PhaseLoop
     
     style SpecMod fill:#673AB7
-    style Init fill:#673AB7
     style SDLC fill:#4CAF50
 ```
 
 ### Large Codebase Flow
-Designed for enterprise modernization projects with nested hierarchy.
+Designed for modernization projects with a nested hierarchy.
 
 1. **Hierarchy**: Project -> Phase -> Epic -> SDLC.
-2. **Planning**: Use `/spec-modernization` to create the master plan.
-3. **Orchestration**: Use `/phase-epic-orchestrator` to manage phase transitions and gates.
-4. **Execution**: Each Epic runs a full 0-7 SDLC.
-
-[Full Guide: Large Codebase Refactoring](refactoring-guide.html)
+2. **Orchestration**: Centrally manages dependencies and phase-level gates.
+3. **Execution**: Each individual epic follows the full standard governance flow.
 
 ---
 
-## Quick Reference: Workflow Types
+## Quick Reference: Core Concepts
 
-### Core Workflows
-- 🚀 `/bulkhead` - Main orchestrator, entry point for all work
-- 📊 `/phase-status` - Dashboard, check current state (read-only)
-- ✅ `/phase-checkpoint` - Validate before execution
-- 📝 `/phase-0-triage` through `/phase-7-verify` - Individual phases
+### Governance States
+- **Planning**: Phases 0-4 (Design, Security, Approval)
+- **Execution**: Phases 5-7 (Implementation, Verification)
+- **Delivery**: Post-Phase 7 (PR, Changelog, Learnings)
 
-### Integration Workflows  
-- 📋 `/int-github-project` - Project management integration
-- 📜 `/int-update-changelog` - Documentation updates
-
-### Specialized Workflows
-- 🏗️ `/architect-review` - Architecture evaluation
-- 🔒 `/security-architect` - Security analysis
-- 🔄 `/rebuild-vs-refactor` - Modernization decision
-- 🎯 `/refactoring-architect` - Refactor planning
-- 🔧 `/spec-modernization` - Comprehensive legacy evaluation
-- 👁️ `/code-review` - Code review process
-
----
-
-## Governance Rules Summary
-
-> [!IMPORTANT]
-> **AI Governance Rules**
-> 1. No code until Phase 4
-> 2. Always check `.bulkhead/architecture/` folder for current state
-> 3. Validate outputs against `schemas/` before presenting
-
-> [!CAUTION]
-> **Infrastructure Override Rules (INFRA-1 to INFRA-5)**
-> - No defaults - all explicit
-> - Threat model required
-> - No auto-provisioning without approved decision record
-> - Secrets discipline - no inline secrets
-> - Network changes are security-sensitive - no fast-tracking
+### Critical Rules
+- **AI Governance**: No coding until Phase 4 (Approved Decision Record).
+- **INFRA Overrides**: Infrastructure changes trigger stricter security requirements.
+- **Traceability**: All actions logged in `audit.log` and architecture artifacts.
