@@ -27,9 +27,36 @@ def get_test_files(subdir):
             yield f, base_path / f
 
 
+def get_example_files():
+    """Yields (filename, full_path) for all json files in examples/python-fastapi-jwt/architecture"""
+    base_path = (
+        Path(__file__).parent.parent
+        / "examples"
+        / "python-fastapi-jwt"
+        / "architecture"
+    )
+    if not base_path.exists():
+        return
+
+    for f in os.listdir(base_path):
+        if f.endswith(".json"):
+            yield f, base_path / f
+
+
 @pytest.mark.parametrize("filename,filepath", get_test_files("valid"))
 def test_valid_schemas(load_schema, filename, filepath):
     """Test that valid examples pass schema validation"""
+    validate_file(load_schema, filename, filepath)
+
+
+@pytest.mark.parametrize("filename,filepath", get_example_files())
+def test_example_project_artifacts(load_schema, filename, filepath):
+    """Test that the python-fastapi-jwt example artifacts pass schema validation"""
+    validate_file(load_schema, filename, filepath)
+
+
+def validate_file(load_schema, filename, filepath):
+    """Helper to validate a file against its mapped schema"""
     # Determine which schema to use based on filename prefix
     schema_file = None
     for prefix, schema in SCHEMA_MAPPING.items():
@@ -47,7 +74,7 @@ def test_valid_schemas(load_schema, filename, filepath):
     try:
         validate(instance=instance, schema=schema)
     except ValidationError as e:
-        pytest.fail(f"Valid file {filename} failed validation: {e.message}")
+        pytest.fail(f"File {filename} failed validation: {e.message}")
 
 
 @pytest.mark.parametrize("filename,filepath", get_test_files("invalid"))

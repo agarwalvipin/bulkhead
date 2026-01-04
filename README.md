@@ -3,7 +3,6 @@
 ![Version](https://img.shields.io/badge/version-2.4.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Tests](https://github.com/agarwalvipin/bulkhead/actions/workflows/tests.yml/badge.svg)](https://github.com/agarwalvipin/bulkhead/actions/workflows/tests.yml)
-[![Schemas](https://github.com/agarwalvipin/bulkhead/actions/workflows/validate-schemas.yml/badge.svg)](https://github.com/agarwalvipin/bulkhead/actions/workflows/validate-schemas.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
