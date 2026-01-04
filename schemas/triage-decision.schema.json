@@ -2,7 +2,7 @@
   "$id": "https://sdlc.ai/schemas/triage-decision.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Triage Decision",
-  "description": "Output of the Phase 0 complexity analysis.",
+  "description": "Output of the Phase 0 complexity analysis logic.",
   "type": "object",
   "additionalProperties": false,
   "required": [
