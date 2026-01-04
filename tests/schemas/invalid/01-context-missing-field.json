@@ -1,0 +1,9 @@
+{
+    "ticket_id": "JIRA-1234",
+    "read_only": [
+        "src/utils/"
+    ],
+    "read_write": [
+        "src/api/"
+    ]
+}

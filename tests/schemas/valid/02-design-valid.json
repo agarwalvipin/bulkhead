@@ -1,0 +1,26 @@
+{
+    "phase": "design",
+    "architectural_changes": [
+        {
+            "component": "auth-service",
+            "change_type": "MODIFY",
+            "description": "Add JWT validation logic"
+        }
+    ],
+    "component_impact": [
+        "user-service",
+        "frontend"
+    ],
+    "alternatives_considered": [
+        {
+            "name": "Session Auth",
+            "pros": [
+                "Simple"
+            ],
+            "cons": [
+                "Not stateless"
+            ],
+            "selected": false
+        }
+    ]
+}

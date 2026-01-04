@@ -1,0 +1,15 @@
+{
+    "phase": "security",
+    "risk_score": "HIGH",
+    "threat_model": [
+        {
+            "threat": "Token spoofing",
+            "mitigation": "Signature verification",
+            "status": "MITIGATED"
+        }
+    ],
+    "auth_review": {
+        "new_permissions": true,
+        "sensitive_data_exposure": false
+    }
+}

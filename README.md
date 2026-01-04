@@ -339,6 +339,25 @@ The update script will:
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
+## 🧪 Testing
+
+Bulkhead includes an automated test suite to validate JSON schemas and ensure ensuring governance logic correctness.
+
+### Running Tests
+
+```bash
+# Run the full test suite
+./run_tests.sh
+```
+
+This will:
+1. Create a local python virtual environment
+2. Install dependencies (`pytest`, `jsonschema`)
+3. Validate all schema definitions against test data in `tests/schemas/`
+
+You can add your own test cases by adding JSON files to `tests/schemas/valid/` or `tests/schemas/invalid/`.
+
+
 ## ❓ FAQ
 
 <details>
