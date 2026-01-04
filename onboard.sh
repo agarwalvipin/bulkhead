@@ -232,6 +232,13 @@ fi
 echo ""
 echo "📂 Structure created:"
 echo "   .agent/              → Workflows & rules"
+echo "   ├── workflows/"
+echo "   │   ├── bulkhead.md  → Smart orchestrator (start here)"
+echo "   │   ├── core/        → 8-phase SDLC workflows"
+echo "   │   ├── orchestrators/   → Large project management"
+echo "   │   ├── integrations/    → GitHub, PR, changelog"
+echo "   │   └── specialized/     → Reviews, refactoring, promote"
+echo "   └── rules/"
 echo "   .bulkhead/"
 echo "   ├── architecture/    → Governance artifacts"
 echo "   ├── governance/      → Philosophy docs"
@@ -249,7 +256,8 @@ else
     echo "  2. git add .agent .bulkhead .pre-commit-config.yaml .github"
 fi
 echo "  4. git commit -m 'feat: add Bulkhead governance framework v$VERSION'"
-echo "  5. Run /phase-0-triage to start your first governed change"
+echo "  5. Run /bulkhead to see the workflow menu"
 echo ""
 echo "To update Bulkhead in the future, run:"
 echo "  .bulkhead/update.sh"
+

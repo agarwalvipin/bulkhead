@@ -1,8 +1,8 @@
 ---
 description: Manages PR creation and merge with user confirmation prompts. Never auto-merges without user consent.
-prerequisites: [phase-7-verify complete]
+prerequisites: [core/phase-7-verify complete]
 routes_to:
-  - int-update-changelog
+  - integrations/changelog
 outputs:
   human: PR created and merged with user confirmation
 ---
@@ -24,9 +24,9 @@ outputs:
 ## Usage
 
 ```bash
-/int-pr-manager create    # Create PR with confirmation
-/int-pr-manager merge     # Merge PR with confirmation
-/int-pr-manager status    # Check open PRs
+/pr-manager create    # Create PR with confirmation
+/pr-manager merge     # Merge PR with confirmation
+/pr-manager status    # Check open PRs
 ```
 
 ---
@@ -113,7 +113,7 @@ gh pr create \
 PR #123: [Title]
 URL: https://github.com/user/repo/pull/123
 
-Next: Wait for review, then run `/int-pr-manager merge`
+Next: Wait for review, then run `/pr-manager merge`
 ```
 
 ---
@@ -163,7 +163,7 @@ If user confirms:
 // turbo
 ```bash
 # Update changelog
-# (Invoke /int-update-changelog)
+# (Invoke /integrations/changelog)
 
 # Merge PR
 gh pr merge --squash --delete-branch
@@ -174,7 +174,7 @@ echo "✅ PR merged successfully"
 
 ### Step 5: Post-Merge Cleanup
 
-1. Run `/int-update-changelog` if not already done
+1. Run `/integrations/changelog` if not already done
 2. Tag release if rigor profile requires
 3. Archive artifacts (move to `.bulkhead/archive/`)
 4. Reset `current_phase` marker

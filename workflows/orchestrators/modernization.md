@@ -2,7 +2,7 @@
 description: Evaluates legacy systems, recommends REFACTOR vs REBUILD, then produces a phased modernization plan. Consolidates decision-making and planning into a single workflow.
 prerequisites: []
 routes_to:
-  - phase-5-plan
+  - core/phase-5-plan
 outputs:
   human: .bulkhead/architecture/modernization-plan.md
   machine: .bulkhead/architecture/modernization-plan.json

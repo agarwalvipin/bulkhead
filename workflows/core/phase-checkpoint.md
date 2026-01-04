@@ -1,9 +1,9 @@
 ---
 description: Validates that all required Bulkhead artifacts exist and are complete before proceeding to Phase 6 Execution.
 prerequisites:
-  - phase-4-decision
+  - core/phase-4-decision
 routes_to:
-  - phase-6-execute
+  - core/phase-6-execute
 ---
 
 # Phase Checkpoint Workflow
@@ -46,7 +46,7 @@ if [[ "$RIGOR" == "sandbox" ]]; then
     for blocked in $BLOCKED_BRANCHES; do
         if [[ "$BRANCH" == "$blocked" || "$BRANCH" == release/* ]]; then
             echo "❌ SANDBOX VIOLATION: Cannot merge to $BRANCH"
-            echo "   Run /bulkhead promote to upgrade to standard rigor first"
+            echo "   Run /specialized/promote to upgrade to standard rigor first"
             exit 1
         fi
     done

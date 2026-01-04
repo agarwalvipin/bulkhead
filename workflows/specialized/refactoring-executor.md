@@ -1,9 +1,9 @@
 ---
-description: Executes phased refactoring plan from /spec-modernization with automated checkpoints and progress tracking
+description: Executes phased refactoring plan from /orchestrators/modernization with automated checkpoints and progress tracking
 prerequisites: [modernization-plan.json]
 routes_to:
   - bulkhead
-  - int-pr-manager
+  - integrations/pr-manager
 outputs:
   human: .bulkhead/architecture/refactor-progress.md
   machine: .bulkhead/architecture/refactor-progress.json
@@ -11,7 +11,7 @@ outputs:
 
 # Refactoring Executor Workflow
 
-**Goal:** Execute a phased refactoring plan created by `/spec-modernization`, running full governance for each component.
+**Goal:** Execute a phased refactoring plan created by `/orchestrators/modernization`, running full governance for each component.
 
 ---
 
@@ -69,13 +69,13 @@ Loop through `phases` in the modernization plan:
    ```
 
 2. **For Each Task in Phase**:
-   - Create epic via `/int-github-project create-epic`
+   - Create epic via `/integrations/github-project create-epic`
    - Run `/bulkhead start 0` for this epic
    - **Classification Check**:
      - If MINOR → Auto-bypass Phase 4
      - If MAJOR/CRITICAL → Require Phase 4 signature
    - Complete SDLC (Phase 0-7)
-   - Run `/int-pr-manager` (prompt user for PR/merge)
+   - Run `/integrations/pr-manager` (prompt user for PR/merge)
    - Update progress tracker
 
 3. **Phase Checkpoint**
@@ -203,7 +203,7 @@ fi
 
 To resume:
 ```
-/spec-refactoring-executor resume
+/refactoring-executor resume
 ```
 
 ---
