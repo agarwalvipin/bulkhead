@@ -84,7 +84,11 @@ git commit -m "feat: add Bulkhead governance framework"
 | Directory | Purpose |
 |-----------|---------|
 | `.agent/rules/` | Rules the AI follows (always active) |
-| `.agent/workflows/` | Slash commands (`/phase-0-triage`, etc.) |
+| `.agent/workflows/` | Slash commands (see below) |
+| `.agent/workflows/core/` | 8-phase SDLC workflows |
+| `.agent/workflows/orchestrators/` | Large project management |
+| `.agent/workflows/integrations/` | GitHub, PR, changelog |
+| `.agent/workflows/specialized/` | Reviews, refactoring, promote |
 | `.bulkhead/schemas/` | JSON Schema validation for artifacts |
 | `.bulkhead/templates/` | Blank templates for each phase |
 | `.bulkhead/governance/` | Core philosophy documentation |
@@ -97,33 +101,47 @@ git commit -m "feat: add Bulkhead governance framework"
 ### Start a New Change
 
 ```bash
-# Copy the triage template
-cp .bulkhead/templates/00-triage.template.md .bulkhead/architecture/00-triage.md
-
-# Ask Antigravity to classify the change
-/phase-0-triage
+# Ask Antigravity to show the workflow menu
+/bulkhead
 ```
 
 ### Available Slash Commands
 
+**Orchestrator:**
 | Command | Purpose |
 |---------|---------|
-| `/bulkhead` | Unified orchestrator (start, continue, status) |
+| `/bulkhead` | Smart menu based on project state |
+| `/bulkhead start <phase>` | Start a specific phase |
+| `/bulkhead continue` | Continue to next phase |
+| `/bulkhead status` | View governance dashboard |
+
+**Core SDLC (in `core/`):**
+| Command | Purpose |
+|---------|---------|
 | `/phase-0-triage` | Classify change as MAJOR/MINOR |
-| `/phase-1-context` | Define blast radius |
-| `/phase-2-design` | Propose architecture |
-| `/phase-3-security` | Threat model |
-| `/phase-4-decision` | Human approval gate |
-| `/phase-5-plan` | Create execution plan |
-| `/phase-6-execute` | Implement the plan |
-| `/phase-7-verify` | Final QA gate |
-| `/phase-status` | View current governance status |
+| `/phase-1-context` through `/phase-7-verify` | SDLC phases |
+| `/phase-status` | Read-only status dashboard |
 | `/phase-checkpoint` | Validate artifacts before execution |
-| `/bulkhead-promote` | Upgrade from sandbox to standard rigor |
-| `/spec-code-review` | Review a PR or branch |
-| `/spec-modernization` | Rebuild vs refactor analysis |
-| `/int-github-project` | GitHub Project/Epic/Story management |
-| `/int-update-changelog` | Update CHANGELOG and bump version |
+
+**Integrations (in `integrations/`):**
+| Command | Purpose |
+|---------|---------|
+| `/github-project` | GitHub Project/Epic/Story management |
+| `/pr-manager` | Create and manage PRs |
+| `/changelog` | Update CHANGELOG and bump version |
+| `/feedback-loop` | Capture learnings |
+
+**Specialized (in `specialized/`):**
+| Command | Purpose |
+|---------|---------|
+| `/code-review` | Review a PR or branch |
+| `/promote` | Upgrade from sandbox to standard rigor |
+
+**Orchestrators (in `orchestrators/`):**
+| Command | Purpose |
+|---------|---------|
+| `/modernization` | Rebuild vs refactor analysis |
+| `/epic-orchestrator` | Manage multi-epic projects |
 
 ---
 

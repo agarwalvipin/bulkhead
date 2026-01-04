@@ -1,0 +1,101 @@
+{
+    "version": "2.3.0",
+    "description": "Workflow folder reorganization - moves flat workflows into logical categories",
+    "operations": [
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-0-triage.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-1-context.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-2-design.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-3-security.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-4-decision.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-5-plan.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-6-execute.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-7-verify.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-checkpoint.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-status.md",
+            "reason": "Moved to .agent/workflows/core/"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/phase-epic-orchestrator.md",
+            "reason": "Renamed and moved to .agent/workflows/orchestrators/epic-orchestrator.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/spec-modernization.md",
+            "reason": "Renamed and moved to .agent/workflows/orchestrators/modernization.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/int-github-project.md",
+            "reason": "Renamed and moved to .agent/workflows/integrations/github-project.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/int-pr-manager.md",
+            "reason": "Renamed and moved to .agent/workflows/integrations/pr-manager.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/int-update-changelog.md",
+            "reason": "Renamed and moved to .agent/workflows/integrations/changelog.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/int-feedback-loop.md",
+            "reason": "Renamed and moved to .agent/workflows/integrations/feedback-loop.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/spec-code-review.md",
+            "reason": "Renamed and moved to .agent/workflows/specialized/code-review.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/spec-refactoring-executor.md",
+            "reason": "Renamed and moved to .agent/workflows/specialized/refactoring-executor.md"
+        },
+        {
+            "action": "delete",
+            "path": ".agent/workflows/bulkhead-promote.md",
+            "reason": "Renamed and moved to .agent/workflows/specialized/promote.md"
+        }
+    ]
+}

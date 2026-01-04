@@ -1,6 +1,6 @@
 # Bulkhead
 
-![Version](https://img.shields.io/badge/version-2.2.0-blue)
+![Version](https://img.shields.io/badge/version-2.3.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **AI-Assisted Software Development Life Cycle (Governance System)**
@@ -30,19 +30,22 @@ This repository hosts **Bulkhead**, a mature governance framework designed to en
 
 ## 🔧 Workflows
 
-Workflows are organized in `.agent/workflows/`:
+Workflows are organized in `.agent/workflows/` with logical categories:
 
-| Prefix | Purpose | Workflows |
-|--------|---------|-----------|
-| *(none)* | Orchestration | `/bulkhead` (unified entry point) |
-| `phase-` | 8-phase SDLC | `/phase-0-triage` through `/phase-7-verify`, `/phase-status`, `/phase-checkpoint` |
-| `spec-` | Specialized | `/spec-code-review`, `/spec-modernization` |
-| `int-` | Integrations | `/int-github-project`, `/int-update-changelog` |
+| Category | Path | Workflows |
+|----------|------|-----------|
+| **Orchestrator** | `bulkhead.md` | Smart entry point with state detection |
+| **Core SDLC** | `core/` | `phase-0-triage` → `phase-7-verify`, `phase-status`, `phase-checkpoint` |
+| **Orchestrators** | `orchestrators/` | `epic-orchestrator`, `modernization` |
+| **Integrations** | `integrations/` | `github-project`, `pr-manager`, `changelog`, `feedback-loop` |
+| **Specialized** | `specialized/` | `code-review`, `refactoring-executor`, `promote` |
 
 **Usage:** 
-- **Orchestrator:** `/bulkhead start <phase>`, `/bulkhead continue`, `/bulkhead status`
+- **Smart menu:** `/bulkhead` (shows context-aware options based on project state)
+- **Orchestrator commands:** `/bulkhead start <phase>`, `/bulkhead continue`, `/bulkhead status`
 - **Direct phase:** `/phase-0-triage`, `/phase-status`
-- **Specialized:** `/spec-code-review security`, `/spec-modernization`
+- **Integrations:** `/pr-manager`, `/github-project`
+- **Specialized:** `/code-review security`, `/modernization`
 
 ## ⚡ 8-Phase Workflow
 
@@ -118,6 +121,11 @@ rigor_profile: standard  # sandbox | standard | maximum
 ```
 .
 ├── workflows/              # Workflow definitions (copied to .agent/ in targets)
+│   ├── bulkhead.md         # Smart orchestrator (start here)
+│   ├── core/               # 8-phase SDLC workflows
+│   ├── orchestrators/      # Large project management
+│   ├── integrations/       # GitHub, PR, changelog
+│   └── specialized/        # Reviews, refactoring, promote
 ├── rules/                  # Governance rules (copied to .agent/ in targets)
 ├── schemas/                # JSON Schemas for validation
 ├── templates/              # Blank templates for new tasks
@@ -137,7 +145,12 @@ rigor_profile: standard  # sandbox | standard | maximum
 ```
 your-project/
 ├── .agent/                 # Workflows & rules (Antigravity convention)
-│   ├── workflows/          # Phase workflows
+│   ├── workflows/
+│   │   ├── bulkhead.md     # Smart orchestrator
+│   │   ├── core/           # Phase workflows
+│   │   ├── orchestrators/  # Epic & modernization
+│   │   ├── integrations/   # GitHub, PR, changelog
+│   │   └── specialized/    # Reviews, promote
 │   └── rules/              # Governance rules
 ├── .bulkhead/
 │   ├── architecture/       # Your governance artifacts

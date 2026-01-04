@@ -5,6 +5,26 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-01-04
+
+### Added
+- **Workflow folder organization** - Workflows now organized into logical categories:
+  - `core/` - 8-phase SDLC workflows (phase-0 through phase-7, checkpoint, status)
+  - `orchestrators/` - Large project management (epic-orchestrator, modernization)
+  - `integrations/` - External tools (github-project, pr-manager, changelog, feedback-loop)
+  - `specialized/` - Focused workflows (code-review, refactoring-executor, promote)
+- **`_index.md` files** for each category with documentation and workflow listings
+- **Enhanced `bulkhead.md` orchestrator** with state detection and context-aware menus
+- **Migration file** `migrations/2.3.0.json` to clean up old flat workflows during updates
+
+### Changed
+- Simplified workflow command names (e.g., `/int-pr-manager` → `/pr-manager`)
+- Updated all cross-references in workflows to use new folder paths
+- Updated `onboard.sh` output to show new folder structure
+- `bulkhead.md` now shows interactive menu based on project state
+
+---
+
 ## [2.2.0] - 2026-01-04
 
 ### Added

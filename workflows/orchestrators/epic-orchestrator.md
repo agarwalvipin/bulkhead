@@ -3,8 +3,8 @@ description: Orchestrates large codebase development with multiple epics per pha
 prerequisites: [modernization-plan.json OR manual phase definition]
 routes_to:
   - bulkhead
-  - int-github-project
-  - int-pr-manager
+  - integrations/github-project
+  - integrations/pr-manager
 outputs:
   human: .bulkhead/architecture/project-progress.md
   machine: .bulkhead/architecture/project-progress.json
@@ -54,12 +54,12 @@ Project
 ## Usage
 
 ```bash
-/phase-epic-orchestrator init        # Initialize from modernization plan
-/phase-epic-orchestrator status      # Show project progress
-/phase-epic-orchestrator start P1    # Start a phase
-/phase-epic-orchestrator epic E1.1   # Start specific epic
-/phase-epic-orchestrator complete    # Mark current epic complete
-/phase-epic-orchestrator next        # Move to next epic/phase
+/epic-orchestrator init        # Initialize from modernization plan
+/epic-orchestrator status      # Show project progress
+/epic-orchestrator start P1    # Start a phase
+/epic-orchestrator epic E1.1   # Start specific epic
+/epic-orchestrator complete    # Mark current epic complete
+/epic-orchestrator next        # Move to next epic/phase
 ```
 
 ---
@@ -170,7 +170,7 @@ mv tmp.json .bulkhead/architecture/project-progress.json
 
 For each epic in phase:
 ```bash
-/int-github-project create-epic "P1-E1.1: Database Migration"
+/integrations/github-project create-epic "P1-E1.1: Database Migration"
 ```
 
 ### Step 4: Start First Epic
@@ -279,7 +279,7 @@ If user selects `pause`:
 ⏸️ Project paused after P1
 
 To resume later:
-/phase-epic-orchestrator start P2
+/epic-orchestrator start P2
 
 Progress saved to:
 .bulkhead/architecture/project-progress.json
@@ -356,7 +356,7 @@ Recent Activity:
 
 ## Integration
 
-### With `/int-github-project`
+### With `/integrations/github-project`
 - Create GitHub Project for the modernization
 - Each phase = Milestone
 - Each epic = Issue with labels
@@ -365,7 +365,7 @@ Recent Activity:
 - Each epic runs full `/bulkhead` SDLC
 - Artifacts stored in `phases/Px/Ex.x/`
 
-### With `/int-pr-manager`
+### With `/integrations/pr-manager`
 - Prompt user for each epic's PR
 - Prompt user for merge
 
