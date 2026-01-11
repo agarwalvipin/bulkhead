@@ -20,10 +20,9 @@ The User must explicitly approve the plan.
 - **Modify**: Request changes to Design/Security if needed (Backtrack to Phase 2).
 - **Sign**: Provide an explicit "signature" string (e.g., "APPROVED-v1").
 
-### 3. Execution (Double-Write)
-Generate the following artifacts in `.bulkhead/architecture/`:
+### 3. Execution (Rigor-Conditional)
 
-#### A. Human-Readable: `.bulkhead/architecture/04-decision.md`
+#### A. Human-Readable (ALWAYS): `.bulkhead/architecture/04-decision.md`
 ```markdown
 # Phase 4: Decision Record
 
@@ -39,12 +38,15 @@ The design uses standard libraries and mitigates all identified risks.
 - Must add a rate limiter as discussed.
 ```
 
-#### B. Machine-Enforceable: `.bulkhead/architecture/04-decision.json`
-*Must validate against `schemas/decision-record.schema.json`*
+#### B. Machine-Enforceable (standard/maximum only): `.bulkhead/architecture/04-decision.json`
+
+> **Skip if `RIGOR=sandbox`**
+
+*Validates against `schemas/decision-record.schema.json`*
 ```json
 {
     "phase": "decision",
-    "decision": "REBUILD", 
+    "decision": "APPROVED",
     "rationale": "Design looks solid.",
     "human_signature": "APPROVED-VIPIN-2024",
     "date": "2024-01-01"

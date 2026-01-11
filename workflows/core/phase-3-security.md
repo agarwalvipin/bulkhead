@@ -8,6 +8,23 @@ description: Phase 3 Security (Threat Modeling).
 
 ## Protocol
 
+### 0. Load Security Practices
+
+// turbo
+```bash
+# Load security best practices for threat modeling
+# Relevant skill:
+# - practices/security.md - OWASP Top 10, auth patterns, secrets management
+
+echo "🔒 Loading security practices for threat modeling..."
+
+# This skill provides:
+# - OWASP Top 10 quick reference
+# - Authentication best practices
+# - Secrets management patterns
+# - Input validation strategies
+```
+
 ### 1. Threat Modeling (STRIDE)
 Analyze the `02-design.md` against the STRIDE model:
 - **S**poofing: Can someone impersonate a user?
@@ -20,10 +37,9 @@ Analyze the `02-design.md` against the STRIDE model:
 ### 2. Risk Assessment
 Assign a risk level (LOW, MEDIUM, HIGH, CRITICAL) based on likelihood and impact.
 
-### 3. Execution (Double-Write)
-Generate the following artifacts in `.bulkhead/architecture/`:
+### 3. Execution (Rigor-Conditional)
 
-#### A. Human-Readable: `.bulkhead/architecture/03-security.md`
+#### A. Human-Readable (ALWAYS): `.bulkhead/architecture/03-security.md`
 ```markdown
 # Phase 3: Security Report
 
@@ -41,8 +57,11 @@ Generate the following artifacts in `.bulkhead/architecture/`:
 - [x] Auth checks on all endpoints
 ```
 
-#### B. Machine-Enforceable: `.bulkhead/architecture/03-security.json`
-*Must validate against `schemas/security-report.schema.json`*
+#### B. Machine-Enforceable (standard/maximum only): `.bulkhead/architecture/03-security.json`
+
+> **Skip if `RIGOR=sandbox`**
+
+*Validates against `schemas/security-report.schema.json`*
 ```json
 {
     "phase": "security",

@@ -13,10 +13,9 @@ Convert the architecture into granular tasks.
 - **Criteria**: Each task should be atomic (one commit), testable, and have clear acceptance criteria.
 - **Order**: Dependencies first (e.g., Database migrations before API endpoints).
 
-### 2. Execution (Double-Write)
-Generate the following artifacts in `.bulkhead/architecture/`:
+### 2. Execution (Rigor-Conditional)
 
-#### A. Human-Readable: `.bulkhead/architecture/05-plan.md`
+#### A. Human-Readable (ALWAYS): `.bulkhead/architecture/05-plan.md`
 ```markdown
 # Phase 5: Execution Plan
 
@@ -30,8 +29,11 @@ Generate the following artifacts in `.bulkhead/architecture/`:
 - [ ] Implement `POST /login`
 ```
 
-#### B. Machine-Enforceable: `.bulkhead/architecture/05-plan.json`
-*Must validate against `schemas/execution-plan.schema.json`*
+#### B. Machine-Enforceable (standard/maximum only): `.bulkhead/architecture/05-plan.json`
+
+> **Skip if `RIGOR=sandbox`**
+
+*Validates against `schemas/execution-plan.schema.json`*
 ```json
 {
   "version": "1.0",

@@ -36,7 +36,7 @@ BULKHEAD_DIR="$TARGET_DIR/.bulkhead"
 mkdir -p "$BULKHEAD_DIR"
 
 # Components to copy into .bulkhead/
-COMPONENTS=("schemas" "templates" "governance")
+COMPONENTS=("schemas" "templates" "governance" "skills")
 
 # Mergeable files - files that projects commonly customize
 MERGEABLE_FILES=(".pre-commit-config.yaml")
@@ -243,6 +243,7 @@ echo "   .bulkhead/"
 echo "   ├── architecture/    → Governance artifacts"
 echo "   ├── governance/      → Philosophy docs"
 echo "   ├── schemas/         → JSON Schemas"
+echo "   ├── skills/          → Domain expertise modules"
 echo "   ├── templates/       → Phase templates"
 echo "   ├── config.yaml      → Rigor configuration"
 echo "   └── manifest.json    → Version tracking"

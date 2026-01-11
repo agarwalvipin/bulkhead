@@ -48,6 +48,7 @@ cp -r rules /path/to/your/project/.agent/
 
 # Bulkhead components
 cp -r schemas /path/to/your/project/.bulkhead/
+cp -r skills /path/to/your/project/.bulkhead/
 cp -r templates /path/to/your/project/.bulkhead/
 cp -r governance /path/to/your/project/.bulkhead/
 mkdir -p /path/to/your/project/.bulkhead/architecture
@@ -90,6 +91,7 @@ git commit -m "feat: add Bulkhead governance framework"
 | `.agent/workflows/integrations/` | GitHub, PR, changelog |
 | `.agent/workflows/specialized/` | Reviews, refactoring, promote |
 | `.bulkhead/schemas/` | JSON Schema validation for artifacts |
+| `.bulkhead/skills/` | Domain expertise modules (languages, frameworks, etc.) |
 | `.bulkhead/templates/` | Blank templates for each phase |
 | `.bulkhead/governance/` | Core philosophy documentation |
 | `.bulkhead/architecture/` | Where your governance artifacts live |

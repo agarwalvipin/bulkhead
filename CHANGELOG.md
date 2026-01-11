@@ -5,6 +5,47 @@ All notable changes to Bulkhead will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2026-01-11
+
+### Added
+- **Skills System** - Domain expertise modules for context-aware AI assistance
+  - New `skills/` directory with 5 categories: `languages/`, `frameworks/`, `architecture/`, `domains/`, `practices/`
+  - 18 comprehensive skills covering Python, Go, TypeScript, FastAPI, Django, Next.js, microservices, event-driven architecture, API design, fintech, e-commerce, healthcare, security, testing, and performance
+  - Auto-loading based on project context (e.g., `pyproject.toml` → Python skill)
+  - `/bulkhead skills` command to list and load skills
+  - YAML frontmatter format for skill metadata and auto-load rules
+  - Skills integration in Phase 2 (Design), Phase 3 (Security), Phase 6 (Execute), and Phase 7 (Verify)
+- **Skills Documentation**
+  - New `docs/skills.html` - Styled HTML documentation page
+  - Skills section in `docs/index.html` dashboard with categories, auto-loading, and usage
+  - Skills Guide link in README documentation section
+- **Conditional JSON Artifact Generation**
+  - Rigor-aware artifact generation across all phases (0-5)
+  - `sandbox` rigor: Markdown only, JSON artifacts skipped
+  - `standard` rigor: Both Markdown and JSON artifacts produced
+  - `maximum` rigor: Both artifacts with enforced schema validation
+  - Rigor profile table added to `bulkhead.md` for quick reference
+- **Phase 0 Artifact Cleanup**
+  - Automatic archiving of previous artifacts before new triage
+  - Timestamped backups in `.bulkhead/archive/`
+  - Audit log preservation in append mode
+- **Enhanced Rules**
+  - Comprehensive updates to `ai-governance-rules.md`, `global-rules.md`, and `workspace-rules.md`
+  - New `bulkhead-repo-rules.md` for repository-specific constraints
+- **Onboarding Integration**
+  - `onboard.sh` now copies `skills/` to target projects
+  - Updated structure printout to show skills directory
+
+### Changed
+- Updated README with Skills section and comprehensive project structure diagrams
+- Updated `docs/onboarding.md` to include skills in "What Gets Added" table
+- Added Skills link to dashboard navigation
+- Streamlined `bulkhead.md` orchestrator with improved state detection
+- All phase workflows (0-5) now use rigor-conditional artifact generation
+- Phase 0 now includes artifact cleanup and archiving step
+
+---
+
 ## [2.4.0] - 2026-01-04
 
 ### Added

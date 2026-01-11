@@ -8,6 +8,23 @@ description: Phase 7 Verification (Quality Gate).
 
 ## Protocol
 
+### 0. Load Testing Practices
+
+// turbo
+```bash
+# Load testing strategies for verification
+# Relevant skill:
+# - practices/testing.md - Unit, integration, E2E testing patterns
+
+echo "✅ Loading testing practices for verification..."
+
+# This skill provides:
+# - Testing pyramid guidance
+# - Coverage targets
+# - Test organization patterns
+# - Common testing anti-patterns
+```
+
 ### 1. Verification
 Run the acceptance criteria defined in `05-plan.json`.
 - **Automated Tests**: Run `npm test`, `pytest`, etc.
