@@ -2,7 +2,11 @@
 trigger: always_on
 ---
 
-INFRA OVERRIDE RULES
+# Workspace Rules
+
+Infrastructure and deployment-specific rules.
+
+## Infrastructure Override Rules
 
 INFRA-1 — NO DEFAULTS
 Never assume infrastructure defaults.

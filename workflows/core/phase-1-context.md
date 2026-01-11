@@ -21,10 +21,9 @@ Classify files into permission tiers:
 - **Read-Only**: Context files you need to understand but NOT touch.
 - **Forbidden**: Sensitive files (secrets, unrelated logic) that are off-limits.
 
-### 3. Execution (Double-Write)
-Generate the following artifacts in `.bulkhead/architecture/`:
+### 3. Execution (Rigor-Conditional)
 
-#### A. Human-Readable: `.bulkhead/architecture/01-context.md`
+#### A. Human-Readable (ALWAYS): `.bulkhead/architecture/01-context.md`
 ```markdown
 # Phase 1: Context
 
@@ -42,8 +41,11 @@ Generate the following artifacts in `.bulkhead/architecture/`:
 - Cannot change database connection logic.
 ```
 
-#### B. Machine-Enforceable: `.bulkhead/architecture/01-context.json`
-*Must validate against `schemas/context-spec.schema.json`*
+#### B. Machine-Enforceable (standard/maximum only): `.bulkhead/architecture/01-context.json`
+
+> **Skip if `RIGOR=sandbox`**
+
+*Validates against `schemas/context-spec.schema.json`*
 ```json
 {
   "ticket_id": "REQ-123",

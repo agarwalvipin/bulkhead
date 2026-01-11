@@ -8,6 +8,28 @@ description: Phase 6 Execution (Coding).
 
 ## Protocol
 
+### 0. Load Implementation Skills
+
+// turbo
+```bash
+# Auto-load language and framework skills based on project
+/bulkhead skills
+
+# Common skills that may load:
+# - languages/python.md - If pyproject.toml detected
+# - frameworks/fastapi.md - If fastapi in dependencies
+# - languages/typescript.md - If tsconfig.json detected
+# - frameworks/nextjs.md - If next.config.js detected
+
+echo "💻 Auto-loaded implementation skills based on your project..."
+
+# Skills provide:
+# - Language-specific patterns and idioms
+# - Framework conventions and best practices
+# - Code examples for common scenarios
+# - Anti-patterns to avoid
+```
+
 ### 1. Initialization
 - Reading `.bulkhead/architecture/05-plan.json`.
 - Restricting context to `.bulkhead/architecture/01-context.json` (Read-Write files).

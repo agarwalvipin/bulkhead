@@ -16,6 +16,7 @@ Smart entry point to the Bulkhead workflow ecosystem. Detects project state and 
 | `/bulkhead start <phase>` | Start/restart a specific phase |
 | `/bulkhead continue` | Continue to next phase |
 | `/bulkhead status` | Show governance dashboard |
+| `/bulkhead skills` | List/load domain expertise skills |
 
 ---
 
@@ -58,147 +59,20 @@ echo "ARTIFACT_COUNT: $ARTIFACTS"
 
 ### Step 2: Display Context-Aware Menu
 
-Based on detected state, present the appropriate options:
+Display menu based on state. Status bar shows: `Phase <N> | Rigor: <profile> | Artifacts: <count>`
 
----
+**Menu Options by State:**
 
-#### If NOT_INITIALIZED:
-
-```
-╔══════════════════════════════════════════════════════════════╗
-║                    🛡️ Bulkhead Orchestrator                   ║
-╠══════════════════════════════════════════════════════════════╣
-║ Status: Not initialized                                      ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║ 🆕 Get Started                                               ║
-║    [1] Start new SDLC workflow                               ║
-║        → /core/phase-0-triage                                ║
-║                                                              ║
-║    [2] Plan large modernization project                      ║
-║        → /orchestrators/modernization                        ║
-║                                                              ║
-║    [3] Quick code review (standalone)                        ║
-║        → /specialized/code-review                            ║
-║                                                              ║
-║ 📚 Learn More                                                ║
-║    [4] View workflow categories                              ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-
-Enter choice [1-4]:
-```
-
----
-
-#### If Mid-SDLC (Phase 0-6):
-
-```
-╔══════════════════════════════════════════════════════════════╗
-║                    🛡️ Bulkhead Orchestrator                   ║
-╠══════════════════════════════════════════════════════════════╣
-║ Current: Phase <N> | Rigor: <rigor> | Artifacts: <count>     ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║ 📍 Continue Current Work                                     ║
-║    [1] Continue to Phase <N+1>                               ║
-║        → /bulkhead continue                                  ║
-║                                                              ║
-║    [2] View status dashboard                                 ║
-║        → /core/phase-status                                  ║
-║                                                              ║
-║    [3] Validate checkpoint                                   ║
-║        → /core/phase-checkpoint                              ║
-║                                                              ║
-║ 🔧 Utilities                                                 ║
-║    [4] Code review → /specialized/code-review                ║
-║    [5] Promote rigor → /specialized/promote                  ║
-║                                                              ║
-║ 🔗 Integrations                                              ║
-║    [6] GitHub project → /integrations/github-project         ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-
-Enter choice [1-6]:
-```
-
----
-
-#### If Post-Phase 7 (Verification Complete):
-
-```
-╔══════════════════════════════════════════════════════════════╗
-║                    🛡️ Bulkhead Orchestrator                   ║
-╠══════════════════════════════════════════════════════════════╣
-║ Status: Phase 7 Complete ✅ | Ready for merge                ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║ 🚀 Complete This Work                                        ║
-║    [1] Create/manage PR                                      ║
-║        → /integrations/pr-manager                            ║
-║                                                              ║
-║    [2] Update changelog                                      ║
-║        → /integrations/changelog                             ║
-║                                                              ║
-║    [3] Capture learnings                                     ║
-║        → /integrations/feedback-loop                         ║
-║                                                              ║
-║ 🆕 Start New Work                                            ║
-║    [4] Start new SDLC workflow                               ║
-║        → /core/phase-0-triage                                ║
-║                                                              ║
-║    [5] Continue epic orchestrator                            ║
-║        → /orchestrators/epic-orchestrator                    ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-
-Enter choice [1-5]:
-```
-
----
-
-#### If Large Project (Epic Orchestrator Active):
-
-```
-╔══════════════════════════════════════════════════════════════╗
-║                    🛡️ Bulkhead Orchestrator                   ║
-╠══════════════════════════════════════════════════════════════╣
-║ Project: <name> | Phase: <P#> | Epic: <E#> | Progress: <X%>  ║
-╠══════════════════════════════════════════════════════════════╣
-║                                                              ║
-║ 📍 Project Management                                        ║
-║    [1] View project status                                   ║
-║        → /orchestrators/epic-orchestrator status             ║
-║                                                              ║
-║    [2] Continue current epic                                 ║
-║        → /bulkhead continue                                  ║
-║                                                              ║
-║    [3] Start next epic                                       ║
-║        → /orchestrators/epic-orchestrator next               ║
-║                                                              ║
-║ 🔗 Integrations                                              ║
-║    [4] GitHub project → /integrations/github-project         ║
-║    [5] PR manager → /integrations/pr-manager                 ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-
-Enter choice [1-5]:
-```
-
----
+| State | Options |
+|-------|---------|
+| **NOT_INITIALIZED** | `[1]` Start SDLC → `/core/phase-0-triage`<br>`[2]` Modernization → `/orchestrators/modernization`<br>`[3]` Code review → `/specialized/code-review` |
+| **Mid-SDLC (P0-6)** | `[1]` Continue → `/bulkhead continue`<br>`[2]` Status → `/core/phase-status`<br>`[3]` Checkpoint → `/core/phase-checkpoint`<br>`[4]` Code review<br>`[5]` Promote rigor<br>`[6]` GitHub project |
+| **Post-Phase 7** | `[1]` PR → `/integrations/pr-manager`<br>`[2]` Changelog → `/integrations/changelog`<br>`[3]` Learnings → `/integrations/feedback-loop`<br>`[4]` New SDLC<br>`[5]` Epic orchestrator |
+| **Epic Active** | `[1]` Project status<br>`[2]` Continue epic<br>`[3]` Next epic<br>`[4]` GitHub project<br>`[5]` PR manager |
 
 ### Step 3: Route to Selected Workflow
 
-Based on user selection, invoke the appropriate workflow:
-
-```bash
-case $CHOICE in
-    1) # Invoke workflow based on context
-       ;;
-    *) echo "Invalid choice"
-       ;;
-esac
-```
+Invoke the workflow corresponding to user selection.
 
 ---
 
@@ -210,8 +84,6 @@ esac
 | **Orchestrators** | `/orchestrators/` | Large project management |
 | **Integrations** | `/integrations/` | External tool connections |
 | **Specialized** | `/specialized/` | Focused single-purpose workflows |
-
-Run `/bulkhead categories` to list all available workflows.
 
 ---
 
@@ -268,24 +140,53 @@ Display governance dashboard: Invoke `/core/phase-status`
 
 ### `/bulkhead categories`
 
-List all workflow categories and their contents:
+List all workflows (see categories table above for details).
 
-```
-📚 Bulkhead Workflow Categories
+### `/bulkhead skills`
 
-/core/ - Core SDLC (10 workflows)
-  phase-0-triage, phase-1-context, phase-2-design, phase-3-security,
-  phase-4-decision, phase-5-plan, phase-6-execute, phase-7-verify,
-  phase-checkpoint, phase-status
+List and load domain expertise skills:
 
-/orchestrators/ - Large Projects (2 workflows)
-  epic-orchestrator, modernization
+// turbo
+```bash
+# Detect and display available skills
+echo "🧠 Bulkhead Skills"
+echo ""
 
-/integrations/ - External Tools (4 workflows)
-  github-project, pr-manager, changelog, feedback-loop
+# Auto-detected skills based on project
+LOADED=""
+if [ -f "pyproject.toml" ] || [ -f "requirements.txt" ]; then
+    LOADED="$LOADED languages/python.md"
+fi
+if grep -q "fastapi" pyproject.toml requirements.txt 2>/dev/null; then
+    LOADED="$LOADED frameworks/fastapi.md"
+fi
+if [ -f "tsconfig.json" ]; then
+    LOADED="$LOADED languages/typescript.md"
+fi
 
-/specialized/ - Focused Tasks (3 workflows)
-  code-review, refactoring-executor, promote
+if [ -n "$LOADED" ]; then
+    echo "📍 Auto-loaded for this project:"
+    for skill in $LOADED; do
+        echo "   ✓ $skill"
+    done
+    echo ""
+fi
+
+echo "📚 Available Skills:"
+echo ""
+echo "  languages/     python, typescript, go"
+echo "  frameworks/    fastapi, nextjs, django"
+echo "  architecture/  microservices, event-driven, api-design"
+echo "  domains/       fintech, healthcare, e-commerce"
+echo "  practices/     testing, security, performance"
+echo ""
+echo \"Usage: /bulkhead skill <name>  → Load specific skill\"
+echo \"\"
+echo \"📍 Phase Integration:\"
+echo \"   • Phase 2 (Design) → architecture/* skills\"
+echo \"   • Phase 3 (Security) → practices/security.md\"
+echo \"   • Phase 6 (Execute) → Auto-load languages/* & frameworks/*\"
+echo \"   • Phase 7 (Verify) → practices/testing.md\"
 ```
 
 ---
@@ -298,6 +199,14 @@ Respects `.bulkhead/config.yaml`:
 version: "2.0"
 rigor_profile: standard  # sandbox | standard | maximum
 ```
+
+### Rigor Profile: Artifact Rules
+
+| Rigor | MD Artifacts | JSON Artifacts | Schema Validation |
+|-------|--------------|----------------|-------------------|
+| `sandbox` | ✅ Always | ❌ Skipped | ❌ Skipped |
+| `standard` | ✅ Always | ✅ Produced | ⚠️ Recommended |
+| `maximum` | ✅ Always | ✅ Produced | ✅ Enforced |
 
 ---
 

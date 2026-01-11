@@ -1,6 +1,6 @@
 # Bulkhead
 
-![Version](https://img.shields.io/badge/version-2.4.0-blue)
+![Version](https://img.shields.io/badge/version-2.5.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Tests](https://github.com/agarwalvipin/bulkhead/actions/workflows/tests.yml/badge.svg)](https://github.com/agarwalvipin/bulkhead/actions/workflows/tests.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
@@ -143,6 +143,7 @@ The framework adapts to your needs—you only do the governance that matches the
 ## 📚 Documentation
 - **Getting Started Tutorial**: [docs/tutorials/01-getting-started.md](docs/tutorials/01-getting-started.md) 🌟
 - **Core Governance**: [FLOW_AND_GOVERNANCE.md](governance/FLOW_AND_GOVERNANCE.md)
+- **Skills Guide**: [docs/skills.md](docs/skills.md) 🧠
 - **Onboarding Guide**: [docs/onboarding.md](docs/onboarding.md)
 - **Schemas**: [schemas/](schemas/)
 - **Templates**: [templates/](templates/)
@@ -167,6 +168,36 @@ Workflows are organized in `.agent/workflows/` with logical categories:
 
 > [!IMPORTANT]
 > Always prefer `/bulkhead` over direct commands. The smart router ensures you are in the correct state and have all necessary context before proceeding.
+
+## 🧠 Skills
+
+**Skills** are domain expertise modules that provide contextual knowledge during workflows. Unlike workflows (HOW to do) and rules (constraints), skills provide **WHAT to know** about specific domains.
+
+### Categories
+
+| Category | Examples | Purpose |
+|----------|----------|---------|
+| `languages/` | `python.md`, `typescript.md` | Language patterns & idioms |
+| `frameworks/` | `fastapi.md`, `nextjs.md` | Framework conventions |
+| `architecture/` | `microservices.md`, `api-design.md` | Architectural patterns |
+| `domains/` | `fintech.md`, `healthcare.md` | Business domain expertise |
+| `practices/` | `security.md`, `testing.md` | Cross-cutting best practices |
+
+### Auto-Loading
+
+Skills automatically load based on project context:
+- Python project (`pyproject.toml`) → `languages/python.md`
+- FastAPI in dependencies → `frameworks/fastapi.md`
+- Phase 3 (Security) → `practices/security.md`
+
+### Usage
+
+```bash
+/bulkhead skills           # List available skills
+/bulkhead skill python     # Load specific skill
+```
+
+📖 See [skills/_index.md](skills/_index.md) for full documentation.
 
 ## ⚡ 8-Phase Workflow
 
@@ -248,6 +279,12 @@ rigor_profile: standard  # sandbox | standard | maximum
 │   ├── integrations/       # GitHub, PR, changelog
 │   └── specialized/        # Reviews, refactoring, promote
 ├── rules/                  # Governance rules (copied to .agent/ in targets)
+├── skills/                 # Domain expertise modules
+│   ├── languages/          # Python, TypeScript, Go
+│   ├── frameworks/         # FastAPI, Next.js, Django
+│   ├── architecture/       # Microservices, API design
+│   ├── domains/            # Fintech, Healthcare
+│   └── practices/          # Security, Testing
 ├── schemas/                # JSON Schemas for validation
 ├── templates/              # Blank templates for new tasks
 ├── governance/             # Core rules and philosophy
@@ -277,6 +314,7 @@ your-project/
 │   ├── architecture/       # Your governance artifacts
 │   ├── governance/         # Philosophy docs
 │   ├── schemas/            # JSON Schemas
+│   ├── skills/             # Domain expertise modules
 │   ├── templates/          # Phase templates
 │   ├── migrations/         # Version migrations
 │   ├── manifest.json       # Version tracking

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills System - Bulkhead Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sticky top-0 z-50 glass-card border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-8 w-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                    BH</div>
+                <span class="font-bold text-lg">Bulkhead <span class="text-orange-400">Skills</span></span>
+            </div>
+            <a href="index.html" class="text-sm font-medium text-slate-400 hover:text-orange-400 transition-colors">←
+                Back to
+                Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <!-- Hero -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-white mb-4">🧠 Domain Expertise Skills</h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto">Contextual knowledge modules that provide
+                <strong class="text-white">what to know</strong> about specific domains, languages, and frameworks.
+            </p>
+        </div>
+
+        <!-- Comparison -->
+        <div class="glass-card rounded-2xl p-6 mb-12">
+            <h2 class="text-lg font-bold text-orange-400 mb-4">How Skills Fit In</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
+                    <div class="text-2xl mb-2">📝</div>
+                    <h3 class="font-bold text-slate-200">workflows/</h3>
+                    <p class="text-sm text-slate-400">Step-by-step processes</p>
+                    <p class="text-xs text-blue-400 mt-2">HOW to do things</p>
+                </div>
+                <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
+                    <div class="text-2xl mb-2">⚖️</div>
+                    <h3 class="font-bold text-slate-200">rules/</h3>
+                    <p class="text-sm text-slate-400">Constraints & governance</p>
+                    <p class="text-xs text-yellow-400 mt-2">WHAT to always/never do</p>
+                </div>
+                <div class="bg-orange-500/10 rounded-xl p-4 border border-orange-500/30">
+                    <div class="text-2xl mb-2">🧠</div>
+                    <h3 class="font-bold text-white">skills/</h3>
+                    <p class="text-sm text-slate-300">Domain expertise</p>
+                    <p class="text-xs text-orange-400 mt-2">WHAT to know</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <h2 class="text-2xl font-bold text-white mb-6">Skill Categories</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Languages -->
+            <div class="glass-card rounded-2xl p-6 skill-card transition-all">
+                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 text-2xl">💻</div>
+                <h3 class="text-xl font-bold text-white mb-2">Languages</h3>
+                <p class="text-sm text-slate-400 mb-4">Language-specific patterns, typing, async patterns</p>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-blue-400">python.md</code>
+                        <span class="text-xs text-slate-500">Typing, async, patterns</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-blue-400">typescript.md</code>
+                        <span class="text-xs text-slate-500">Types, generics</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-blue-400">go.md</code>
+                        <span class="text-xs text-slate-500">Idioms, concurrency</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frameworks -->
+            <div class="glass-card rounded-2xl p-6 skill-card transition-all">
+                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 text-2xl">🚀
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Frameworks</h3>
+                <p class="text-sm text-slate-400 mb-4">Framework conventions, APIs, best practices</p>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-green-400">fastapi.md</code>
+                        <span class="text-xs text-slate-500">DI, routing, async</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-green-400">nextjs.md</code>
+                        <span class="text-xs text-slate-500">RSC, routing, SSR</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-green-400">django.md</code>
+                        <span class="text-xs text-slate-500">ORM, views, middleware</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture -->
+            <div class="glass-card rounded-2xl p-6 skill-card transition-all">
+                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 text-2xl">🏗️
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Architecture</h3>
+                <p class="text-sm text-slate-400 mb-4">Architectural patterns and design decisions</p>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-purple-400">microservices.md</code>
+                        <span class="text-xs text-slate-500">Boundaries, comms</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-purple-400">event-driven.md</code>
+                        <span class="text-xs text-slate-500">Events, CQRS, sagas</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-purple-400">api-design.md</code>
+                        <span class="text-xs text-slate-500">REST, GraphQL</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Domains -->
+            <div class="glass-card rounded-2xl p-6 skill-card transition-all">
+                <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center mb-4 text-2xl">🏦
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Domains</h3>
+                <p class="text-sm text-slate-400 mb-4">Business domain expertise and compliance</p>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-amber-400">fintech.md</code>
+                        <span class="text-xs text-slate-500">Trading, payments</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-amber-400">healthcare.md</code>
+                        <span class="text-xs text-slate-500">HIPAA, PHI</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-amber-400">e-commerce.md</code>
+                        <span class="text-xs text-slate-500">Payments, inventory</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Practices -->
+            <div class="glass-card rounded-2xl p-6 skill-card transition-all">
+                <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center mb-4 text-2xl">🛡️
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Practices</h3>
+                <p class="text-sm text-slate-400 mb-4">Cross-cutting best practices</p>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-red-400">security.md</code>
+                        <span class="text-xs text-slate-500">OWASP, auth, secrets</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-red-400">testing.md</code>
+                        <span class="text-xs text-slate-500">Unit, integration, E2E</span>
+                    </div>
+                    <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                        <code class="text-sm text-red-400">performance.md</code>
+                        <span class="text-xs text-slate-500">Profiling, caching</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auto-Loading & Usage -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <!-- Auto-Loading -->
+            <div class="glass-card rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-orange-400 mb-4">⚡ Auto-Loading</h2>
+                <p class="text-sm text-slate-400 mb-4">Skills automatically load based on project context:</p>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-4 p-3 bg-slate-900/50 rounded-xl">
+                        <code class="text-sm text-pink-400 flex-shrink-0">pyproject.toml</code>
+                        <span class="text-slate-500">→</span>
+                        <code class="text-sm text-blue-400">languages/python.md</code>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-900/50 rounded-xl">
+                        <code class="text-sm text-pink-400 flex-shrink-0">fastapi in deps</code>
+                        <span class="text-slate-500">→</span>
+                        <code class="text-sm text-green-400">frameworks/fastapi.md</code>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-900/50 rounded-xl">
+                        <code class="text-sm text-pink-400 flex-shrink-0">tsconfig.json</code>
+                        <span class="text-slate-500">→</span>
+                        <code class="text-sm text-blue-400">languages/typescript.md</code>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 bg-slate-900/50 rounded-xl">
+                        <code class="text-sm text-pink-400 flex-shrink-0">Phase 3 active</code>
+                        <span class="text-slate-500">→</span>
+                        <code class="text-sm text-red-400">practices/security.md</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage -->
+            <div class="glass-card rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-orange-400 mb-4">💻 Usage Commands</h2>
+                <div class="space-y-4">
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-700/50">
+                        <code class="text-green-400 font-mono">/bulkhead skills</code>
+                        <p class="text-slate-400 text-sm mt-2">List all available skills + auto-detected ones for your
+                            project</p>
+                    </div>
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-700/50">
+                        <code class="text-green-400 font-mono">/bulkhead skill python</code>
+                        <p class="text-slate-400 text-sm mt-2">Load Python patterns, typing, and async best practices
+                        </p>
+                    </div>
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-slate-700/50">
+                        <code class="text-green-400 font-mono">/bulkhead skill security</code>
+                        <p class="text-slate-400 text-sm mt-2">Load OWASP guidelines and security best practices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase Integration -->
+        <div class="glass-card rounded-2xl p-6 mb-12">
+            <h2 class="text-xl font-bold text-orange-400 mb-4">📍 Phase Integration</h2>
+            <p class="text-sm text-slate-400 mb-4">Skills are automatically considered during relevant phases:</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs uppercase bg-slate-900/50 text-slate-400">
+                        <tr>
+                            <th class="px-4 py-3">Phase</th>
+                            <th class="px-4 py-3">Relevant Skills</th>
+                            <th class="px-4 py-3">Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50">
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-blue-400">Phase 2: Design</td>
+                            <td class="px-4 py-3"><code class="text-purple-400">architecture/*</code></td>
+                            <td class="px-4 py-3 text-slate-400">Architectural patterns for system design</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-blue-400">Phase 3: Security</td>
+                            <td class="px-4 py-3"><code class="text-red-400">practices/security.md</code></td>
+                            <td class="px-4 py-3 text-slate-400">OWASP, threat modeling guidance</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-green-400">Phase 6: Execute</td>
+                            <td class="px-4 py-3"><code class="text-blue-400">languages/*</code>, <code
+                                    class="text-green-400">frameworks/*</code></td>
+                            <td class="px-4 py-3 text-slate-400">Implementation patterns and conventions</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 font-medium text-green-400">Phase 7: Verify</td>
+                            <td class="px-4 py-3"><code class="text-red-400">practices/testing.md</code></td>
+                            <td class="px-4 py-3 text-slate-400">Testing strategies and validation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Skill File Format -->
+        <div class="glass-card rounded-2xl p-6 mb-12">
+            <h2 class="text-xl font-bold text-orange-400 mb-4">📄 Skill File Format</h2>
+            <p class="text-sm text-slate-400 mb-4">Each skill file uses YAML frontmatter for metadata:</p>
+            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/50 overflow-x-auto">
+                <pre class="text-sm text-slate-300"><code><span class="text-slate-500">---</span>
+<span class="text-blue-400">description:</span> <span class="text-green-400">Python patterns, typing, async</span>
+<span class="text-blue-400">category:</span> <span class="text-green-400">languages</span>
+<span class="text-blue-400">auto_load:</span>
+  - <span class="text-blue-400">when:</span> <span class="text-green-400">"pyproject.toml"</span>
+    <span class="text-blue-400">in:</span> <span class="text-green-400">["files"]</span>
+<span class="text-blue-400">related_skills:</span>
+  - <span class="text-green-400">practices/testing.md</span>
+<span class="text-slate-500">---</span>
+
+<span class="text-orange-400"># Python</span>
+
+<span class="text-slate-500">## Overview</span>
+Brief introduction...
+
+<span class="text-slate-500">## Key Patterns</span>
+Best practices...
+
+<span class="text-slate-500">## Anti-patterns</span>
+What to avoid...
+
+<span class="text-slate-500">## Code Examples</span>
+Practical samples...
+
+<span class="text-slate-500">## References</span>
+External links...</code></pre>
+            </div>
+        </div>
+
+        <!-- Create Custom Skills -->
+        <div class="glass-card rounded-2xl p-6">
+            <h2 class="text-xl font-bold text-orange-400 mb-4">🛠️ Creating Custom Skills</h2>
+            <div class="space-y-6">
+                <div class="flex gap-4">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center font-bold">
+                        1</div>
+                    <div>
+                        <h3 class="font-bold text-slate-200">Create the file</h3>
+                        <p class="text-sm text-slate-400">Add a <code class="text-orange-400">.md</code> file in the
+                            appropriate category.</p>
+                        <code
+                            class="block mt-2 text-sm bg-slate-900/50 px-3 py-2 rounded text-green-400">.bulkhead/skills/frameworks/react.md</code>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 bg-purple-500/20 text-purple-400 rounded-full flex items-center justify-center font-bold">
+                        2</div>
+                    <div>
+                        <h3 class="font-bold text-slate-200">Add YAML frontmatter</h3>
+                        <p class="text-sm text-slate-400">Include <code class="text-orange-400">description</code>,
+                            <code class="text-orange-400">category</code>, and optionally <code
+                                class="text-orange-400">auto_load</code> rules.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center font-bold">
+                        3</div>
+                    <div>
+                        <h3 class="font-bold text-slate-200">Document the expertise</h3>
+                        <p class="text-sm text-slate-400">Add Overview, Key Patterns, Anti-patterns, Code Examples, and
+                            References sections.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div
+                        class="flex-shrink-0 w-8 h-8 bg-orange-500/20 text-orange-400 rounded-full flex items-center justify-center font-bold">
+                        4</div>
+                    <div>
+                        <h3 class="font-bold text-slate-200">Update the category index</h3>
+                        <p class="text-sm text-slate-400">Add your skill to the category's <code
+                                class="text-orange-400">_index.md</code> file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-slate-700/50 mt-12">
+        <div class="max-w-6xl mx-auto px-4 py-8 text-center text-sm text-slate-500">
+            <a href="index.html" class="text-orange-400 hover:text-orange-300">← Back to Dashboard</a>
+            <span class="mx-4">•</span>
+            <a href="https://github.com/agarwalvipin/bulkhead" class="hover:text-slate-300">GitHub</a>
+        </div>
+    </footer>
+</body>
+
+</html>

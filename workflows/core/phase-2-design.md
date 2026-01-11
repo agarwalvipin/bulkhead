@@ -8,15 +8,32 @@ description: Phase 2 Design (Architectural Analysis).
 
 ## Protocol
 
+### 0. Load Architecture Skills
+
+// turbo
+```bash
+# Load architectural patterns to inform design decisions
+# Relevant skills:
+# - architecture/microservices.md - Service boundaries & communication
+# - architecture/event-driven.md - Events, CQRS, sagas
+# - architecture/api-design.md - REST, GraphQL, versioning
+
+echo "💡 Loading architecture skills for design phase..."
+
+# Skills provide:
+# - Proven architectural patterns
+# - Trade-off analysis frameworks
+# - Anti-patterns to avoid
+```
+
 ### 1. Solutioning
 - **Draft Options**: Consider at least 2 approaches (e.g., "Inline Logic" vs "New Service").
 - **Analyze Impact**: How does this affect performance, maintainability, and security?
 - **Select Winner**: Choose the best approach based on project goals.
 
-### 2. Execution (Double-Write)
-Generate the following artifacts in `.bulkhead/architecture/`:
+### 2. Execution (Rigor-Conditional)
 
-#### A. Human-Readable: `.bulkhead/architecture/02-design.md`
+#### A. Human-Readable (ALWAYS): `.bulkhead/architecture/02-design.md`
 ```markdown
 # Phase 2: Design
 
@@ -36,8 +53,11 @@ graph TD
     A[User] --> B[API]
 ```
 
-#### B. Machine-Enforceable: `.bulkhead/architecture/02-design.json`
-*Must validate against `schemas/design-spec.schema.json`*
+#### B. Machine-Enforceable (standard/maximum only): `.bulkhead/architecture/02-design.json`
+
+> **Skip if `RIGOR=sandbox`**
+
+*Validates against `schemas/design-spec.schema.json`*
 ```json
 {
     "phase": "design",
